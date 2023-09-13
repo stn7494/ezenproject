@@ -34,7 +34,7 @@
                         <th:block th:with="user=${user}">
                             <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
                             <li class="nav-item active" th:if="${user} != null"><a class="nav-link" href="#!">로그아웃</a></li>
-                            <li class="nav-item active" th:if="${user} == null"><a class="nav-link" href="#!">로그인</a></li>
+                            <li class="nav-item active" th:if="${user} == null"><a class="nav-link" href="/login">로그인</a></li>
                             <li class="nav-item active" th:text="${user}"></li>
                         </th:block>
                     </ul>

@@ -1,14 +1,13 @@
-package ez.en.order;
+package ez.en.procurement.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class orderController {
+public class procurementController {
 
-    @GetMapping("/order/index")
+    @GetMapping("/procurement/index")
     public void index(){
 
     }
-
 }
