@@ -1,12 +1,12 @@
-package ez.en.procurement.controller;
+package ez.en.support.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class procurementController {
+public class SupportController {
 
-    @GetMapping("/procurement/index")
+    @GetMapping("/support/index")
     public void index(){
 
     }
