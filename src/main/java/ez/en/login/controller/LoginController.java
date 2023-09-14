@@ -11,4 +11,9 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/list")
+    public void list() {
+
+    }
+
 }
