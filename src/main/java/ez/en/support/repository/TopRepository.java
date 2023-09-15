@@ -8,6 +8,4 @@ public interface TopRepository extends JpaRepository<Top, String> {
 
     @Query(value = "select * from top where tcode = :keyword", nativeQuery = true)
     Top selectOne(String keyword);
-
-
 }
