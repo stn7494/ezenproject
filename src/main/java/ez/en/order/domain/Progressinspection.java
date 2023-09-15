@@ -4,7 +4,6 @@ import ez.en.login.domain.Login;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -19,7 +18,7 @@ public class Progressinspection {
     private int pino;
 
     @Column
-    private LocalDateTime pidate;
+    private String pidate;
 
     @Column
     private String piper;
