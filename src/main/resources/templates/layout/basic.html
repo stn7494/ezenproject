@@ -11,6 +11,7 @@
     <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 <div class="d-flex" id="wrapper">
@@ -18,9 +19,21 @@
     <div class="border-end bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/index">발주관리</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/support/index">조달관리</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/stock/index">자재관리</a>
+            <!--1= 발주
+                2= 조달
+                3= 자재-->
+            <th:block th:with="user=${session.user}">
+            <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '1'}">
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/index">발주관리</a>
+<!--            <th:block th:if="${session.user.get(0).getRole() == 2}">-->
+            </th:block>
+                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '2'}">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/support/index">조달관리</a>
+                </th:block>
+                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '3'}">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/stock/index">자재관리</a>
+                </th:block>
+            </th:block>
         </div>
     </div>
     <!-- Page content wrapper-->
@@ -33,9 +46,9 @@
                     <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                         <th:block th:with="user=${session.user}">
                             <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item active" th:if="${user} != null"><a class="nav-link" href="#!">로그아웃</a></li>
+                            <li class="nav-item active" th:if="${user} != null"><a class="nav-link" href="/logout">로그아웃</a></li>
                             <li class="nav-item active" th:if="${user} == null"><a class="nav-link" href="/login">로그인</a></li>
-                            <li class="nav-item active" th:text="${user}"></li>
+                            <li class="nav-item active" th:if="${user} != null" th:text="${user.get(0).getLogin().getName()}"></li>
                         </th:block>
                     </ul>
                 </div>
@@ -58,7 +71,10 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script th:src="@{/js/script.js}"></script>
+<script th:src="@{/js/script.js}">
+
+
+</script>
 
 <th:block layout:fragment="script">
 
