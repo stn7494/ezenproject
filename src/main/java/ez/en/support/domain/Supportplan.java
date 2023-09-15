@@ -18,19 +18,19 @@ public class Supportplan {
     private int spno;
 
     @Column
-    private LocalDateTime spdate;
+    private String spdate;
 
     @Column
     private int spcount;
 
     @Column
-    private LocalDateTime spdelidate;
+    private String spdelidate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pno")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mcode")
     private Middle middle;
 

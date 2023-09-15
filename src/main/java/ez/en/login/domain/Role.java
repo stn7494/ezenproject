@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString
 public class Role {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
     private Login login;
 

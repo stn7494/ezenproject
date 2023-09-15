@@ -26,7 +26,7 @@ public class Stockin {
     private LocalDateTime siidate;
 
     @Column
-    private String siiper;
+    private String siicontent;
 
     @ManyToOne
     @JoinColumn(name = "ono")

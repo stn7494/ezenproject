@@ -21,7 +21,7 @@ public class Contract {
     private String ccode;
 
     @Column
-    private LocalDateTime cdate;
+    private String cdate;
 
     @Column
     private int cprice;
@@ -32,11 +32,11 @@ public class Contract {
     @Column
     private String cstate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptno")
     private Partner partner;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pno")
     private Product product;
 

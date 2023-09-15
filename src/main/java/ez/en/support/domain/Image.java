@@ -22,7 +22,7 @@ public class Image {
     @Column
     private String ipath;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pno")
     private Product product;
 

@@ -28,7 +28,7 @@ public class Product extends BaseEntity{
     @Column
     private String pnote;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mcode")
     private Middle middle;
 
