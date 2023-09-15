@@ -8,7 +8,15 @@ public class StockController {
 
 
 
-    @GetMapping("/stock/index")
-    public void index(){
+    @GetMapping("/stock/stockList")
+    public void stockList(){
+    }
+
+    @GetMapping("/stock/orderList")
+    public void orderList(){
+    }
+
+    @GetMapping("/stock/ioList")
+    public void ioList(){
     }
 }
