@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @ToString
-public class Progressinspection {
+public class ProgressInspection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
