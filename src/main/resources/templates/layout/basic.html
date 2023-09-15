@@ -20,7 +20,14 @@
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/index">발주관리</a>
             <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/support/index">조달관리</a>
-            <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/stock/index">자재관리</a>
+            <div class ="dropdown"> <!--자재관리드롭다운-->
+            <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle" href="/stock/stockList" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">자재관리</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="/stock/stockList">자재목록</a></li>
+                    <li><a class="dropdown-item" href="/stock/orderList">발주목록</a></li>
+                    <li><a class="dropdown-item" href="/stock/ioList">입고/출고내역</a></li>
+                </ul>
+            </div> <!--드롭다운끝-->
         </div>
     </div>
     <!-- Page content wrapper-->
