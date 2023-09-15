@@ -26,11 +26,11 @@ public class Supportplan {
     @Column
     private LocalDateTime spdelidate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pno")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mcode")
     private Middle middle;
 
