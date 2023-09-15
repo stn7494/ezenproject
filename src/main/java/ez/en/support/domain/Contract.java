@@ -21,7 +21,7 @@ public class Contract {
     private String ccode;
 
     @Column
-    private LocalDateTime cdate;
+    private String cdate;
 
     @Column
     private int cprice;
