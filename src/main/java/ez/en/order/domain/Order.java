@@ -6,7 +6,6 @@ import ez.en.support.domain.Supportplan;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
@@ -27,10 +26,10 @@ public class Order {
     private int ocount;
 
     @Column
-    private LocalDateTime odate;
+    private String odate;
 
     @Column
-    private LocalDateTime odelidate;
+    private String odelidate;
 
     @Column
     private String odetail;
