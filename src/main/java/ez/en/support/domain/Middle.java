@@ -18,7 +18,7 @@ public class Middle {
     @Column
     private String mname;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tcode")
     private Top top;
 }

@@ -32,11 +32,11 @@ public class Contract {
     @Column
     private String cstate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ptno")
     private Partner partner;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pno")
     private Product product;
 
