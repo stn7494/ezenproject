@@ -1,5 +1,6 @@
 package ez.en;
 
+import ez.en.support.repository.SupportplanRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,10 @@ public class DataSourceTests {
 
     @Autowired
     private DataSource dataSource;
+
+
+    @Autowired
+    private SupportplanRepository supportplanRepository;
 
     @Test
     public void testConnection() throws SQLException {

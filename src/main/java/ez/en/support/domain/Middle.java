@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
+@ToString(exclude = "top")
 public class Middle {
 
     @Id
