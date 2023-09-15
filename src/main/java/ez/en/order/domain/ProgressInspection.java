@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @ToString
+@Table(name = "progressinspection")
 public class ProgressInspection {
 
     @Id

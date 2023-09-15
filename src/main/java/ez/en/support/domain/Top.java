@@ -2,9 +2,7 @@ package ez.en.support.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @AllArgsConstructor
@@ -19,5 +17,6 @@ public class Top {
 
     @Column
     private String tname;
+
 
 }
