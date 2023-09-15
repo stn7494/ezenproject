@@ -35,6 +35,9 @@ public class Order {
     @Column
     private String odetail;
 
+    @Column
+    private String ostate;
+
     @ManyToOne
     @JoinColumn(name = "cno")
     private Contract contract;
@@ -43,9 +46,6 @@ public class Order {
     @JoinColumn(name = "spno")
     private Supportplan supportplan;
 
-    @ManyToOne
-    @JoinColumn(name = "oscode")
-    private Orderstate orderstate;
 
     @ManyToOne
     @JoinColumn(name = "email")
