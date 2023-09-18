@@ -17,11 +17,11 @@
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
     <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+        <div class="sidebar-heading border-bottom bg-light">구매관리시스템</div>
         <div class="list-group list-group-flush">
             <th:block th:with="user=${session.user}">
             <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '1'}">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/index">발주관리</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/list">발주관리</a>
             </th:block>
                 <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '2'}">
                     <div class ="dropdown"> <!--자재관리드롭다운-->
@@ -42,6 +42,9 @@
                             <li><a class="dropdown-item" href="/stock/ioList">입고/출고내역</a></li>
                         </ul>
                     </div> <!--드롭다운끝-->
+                </th:block>
+                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '4'}">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/authorization">권한 설정</a>
                 </th:block>
             </th:block>
         </div>
@@ -82,7 +85,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script th:src="@{/js/scripts.js}">
-
 
 </script>
 

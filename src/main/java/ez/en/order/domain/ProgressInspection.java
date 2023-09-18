@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
+@ToString(exclude = {"login", "orders"})
 @Table(name = "progressinspection")
 public class ProgressInspection {
 
@@ -24,12 +24,12 @@ public class ProgressInspection {
     @Column
     private String piper;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
     private Login login;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ono")
-    private Order order;
+    private Orders orders;
 
 }

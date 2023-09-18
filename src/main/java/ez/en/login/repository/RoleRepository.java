@@ -12,4 +12,5 @@ public interface RoleRepository extends JpaRepository<Role, String> {
 
     @Query(value = "select r from Role r join fetch r.login where r.login.email = :email and r.login.pw = :pw")
     List<Role> findAllWithLogin(@Param("email")String email, @Param("pw")String pw);
+
 }
