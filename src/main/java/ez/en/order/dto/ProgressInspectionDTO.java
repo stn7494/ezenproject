@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 
 @Data
 @Builder
@@ -18,4 +17,8 @@ public class ProgressInspectionDTO {
     private String pidate;
 
     private String piper;
+
+    private int ono;
+
+    private String email;
 }

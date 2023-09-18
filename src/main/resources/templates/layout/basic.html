@@ -21,7 +21,7 @@
         <div class="list-group list-group-flush">
             <th:block th:with="user=${session.user}">
             <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '1'}">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/index">발주관리</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/list">발주관리</a>
             </th:block>
                 <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '2'}">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/support/index">조달관리</a>
@@ -77,10 +77,7 @@
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
-<script th:src="@{/js/script.js}">
-
-
-</script>
+<script th:src="@{/js/script.js}"></script>
 
 <th:block layout:fragment="script">
 

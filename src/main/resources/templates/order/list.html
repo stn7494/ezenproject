@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>LIST</title>
+</head>
+<div layout:fragment="content">
+
+    <div class="row mt-3">
+        <form action="/order/list" method="get">
+            <div class="col">
+                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <select class="form-select" name="type">
+                            <option value="">---</option>
+                            <option value="p" th:selected="${pageRequestDTO.type=='p'}">제품명</option>
+                            <option value="t" th:selected="${pageRequestDTO.type=='t'}">업체명</option>
+                        </select>
+                    </div>
+                    <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary searchBtn" type="submit">검색</button>
+                        <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">발주 목록</h5>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">발주 번호</th>
+                            <th scope="col">발주 코드</th>
+                            <th scope="col">제품명</th>
+                            <th scope="col">발주 수량</th>
+                            <th scope="col">업체명</th>
+                            <th scope="col">발주 등록일</th>
+                            <th scope="col">납기 마감일</th>
+                            <th scope="col">발주 상태</th>
+                        </tr>
+                        </thead>
+
+                        <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                        <tr th:each="dto:${responseDTO.dtoList}">
+                            <td>[[${dto.ono}]]</td>
+                            <td>
+                                <a th:href="|@{/order/detail(ono=${dto.ono})}&${link}|" class="text-decoration-none">[[${dto.ocode}]]</a>
+                            </td>
+                            <td>[[${dto.pname}]]</td>
+                            <td>[[${dto.ocount}]]</td>
+                            <td>[[${dto.ptname}]]</td>
+                            <td>[[${dto.odate}]]</td>
+                            <td>[[${dto.odelidate}]]</td>
+                            <td>[[${dto.ostate}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="float-end">
+                        <ul class="pagination flex-wrap">
+
+                            <li class="page-item" th:if="${responseDTO.prev}">
+                                <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                            </li>
+
+                            <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
+                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                </li>
+                            </th:block>
+
+                            <li class="page-item" th:if="${responseDTO.next}">
+                                <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script layout:fragment="script" th:inline="javascript">
+
+    document.querySelector(".pagination").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        const target =e.target
+        if(target.tagName !== 'A'){
+            return
+        }
+        const num=target.getAttribute("data-num")
+        const formObj=document.querySelector("form")
+        formObj.innerHTML+=`<input type='hidden' name='page' value='${num}'>`
+        formObj.submit();
+    }, false)
+
+
+    document.querySelector(".clearBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        self.location="/order/list"
+    }, false)
+
+</script>
+
+
+</html>

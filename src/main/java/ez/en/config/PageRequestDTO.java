@@ -27,6 +27,8 @@ public class PageRequestDTO {
 
     private String keyword;
 
+    private String sort;
+
     private String link;
 
     public String getLink(){
@@ -48,8 +50,12 @@ public class PageRequestDTO {
                 } catch (UnsupportedEncodingException e) {
                     throw new RuntimeException(e);
                 }
-
             }
+
+            if(sort != null){
+                builder.append("&sort=" + sort);
+            }
+
             link = builder.toString();
         }
         return link;
