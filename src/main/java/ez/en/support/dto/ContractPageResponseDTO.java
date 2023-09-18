@@ -1,6 +1,5 @@
-package ez.en.config;
+package ez.en.support.dto;
 
-import ez.en.support.dto.ContractPageRequestDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -9,7 +8,7 @@ import java.util.List;
 
 @Getter
 @ToString
-public class PageResponseDTO<E> {
+public class ContractPageResponseDTO<E> {
 
     private int page;
     private int size;
@@ -26,7 +25,7 @@ public class PageResponseDTO<E> {
     private List<E> dtoList;
 
     @Builder(builderMethodName = "withAll")
-    public PageResponseDTO(ContractPageRequestDTO pageRequestDTO, List<E> dtoList, int total){
+    public ContractPageResponseDTO(ContractPageRequestDTO pageRequestDTO, List<E> dtoList, int total){
 
         if(total <= 0){
             return;

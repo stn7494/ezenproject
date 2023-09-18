@@ -11,4 +11,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "select p from Product p join fetch p.middle")
     List<Product> joinList();
 
+
+
+
 }
