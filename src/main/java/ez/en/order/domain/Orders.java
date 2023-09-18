@@ -12,8 +12,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
-public class Order {
+@ToString(exclude = {"contract", "supportplan", "login"})
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,16 +37,38 @@ public class Order {
     @Column
     private String ostate;
 
-    @ManyToOne
+    @Column
+    private String ccode;
+
+    @Column
+    private String pname;
+
+    @Column
+    private String ptname;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cno")
     private Contract contract;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "spno")
     private Supportplan supportplan;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
     private Login login;
+
+
+
+//    발주 상태 수정 메소드
+    public void changeState(String ostate){
+        this.ostate = ostate;
+    }
+
+//    발주 상세 내용 수정 메소드
+    public void changeDetail(String odetail){
+        this.odetail = odetail;
+    }
+
+
 }

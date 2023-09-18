@@ -27,5 +27,17 @@ public class OrderDTO {
 
     private String ostate;
 
+    private int cno;
+
+    private int spno;
+
+    private String email;
+
+    private String ptname;
+
+    private String pname;
+
+    private String ccode;
+
 
 }
