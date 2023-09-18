@@ -32,4 +32,11 @@ public class Product extends BaseEntity{
     @JoinColumn(name = "mcode")
     private Middle middle;
 
+    //수정항목 설정!
+    public void productchange(String pname, String pcontent, String pnote) {
+        this.pname = pname;
+        this.pcontent = pcontent;
+        this.pnote = pnote;
+    }
+
 }
