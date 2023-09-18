@@ -57,5 +57,9 @@ public class LoginController {
         return mav;
         }
     }
+    @GetMapping("/fileupload")
+    public void file() {
+
+    }
 
 }
