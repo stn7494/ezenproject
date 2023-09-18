@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div layout:fragment="content">
+
+  <div class="row-mt-3">
+    <div class="col">
+      <div class="card">
+
+        <div class="card-header">
+          <h5>파일업로드 테스트</h5>
+        </div>
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data" action="/upload">
+            <table>
+              <tr>
+                <td>단일 파일 업로드</td>
+                <td><input type="file" name="file"/></td>
+              </tr>
+              <tr>
+                <td>다중 파일 업로드</td>
+                <td><input type="file" name="files"/></td>
+
+                <td><input type="submit" value="Upload"/></td>
+              </tr>
+            </table>
+          </form>
+          <h2></h2>
+        </div>      <!-- * card-body끝 *-->
+        <div>
+          <ul>
+            <li th:each="file:${files}">
+              <a th:href="${file}" th:text="${file}"/>
+            </li>
+          </ul>
+        </div>
+      </div>      <!-- * card 끝 *-->
+    </div>      <!-- * col 끝 * -->
+  </div>
+
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+</script>
+<body>
+
+</body>
+</html>
