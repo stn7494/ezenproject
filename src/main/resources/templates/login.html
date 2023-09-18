@@ -15,11 +15,11 @@
                 <div class="card-header">
                     <h5>로그인</h5>
                 </div>
-                <form action="/login" method="post">
+                <form action="/login" method="post" id="info">
                 <div class="card-body">
-                    아이디:<input type="text" name="id"><br>
-                    비밀번호:<input type="password" name="pw">
-                    <button type="submit">로그인</button>
+                    아이디:<input type="text" name="email" id="email"><br>
+                    비밀번호:<input type="password" name="pw" id="pw">
+                    <button type="submit" id="login">로그인</button>
                 </div>      <!-- * card-body끝 *-->
                 </form>
             </div>      <!-- * card 끝 *-->
@@ -28,6 +28,7 @@
 
 </div>
 <script layout:fragment="script" th:inline="javascript">
+
 
 </script>
 <body>

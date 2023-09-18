@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
+@ToString(exclude = {"partner", "product"})
 public class Contract {
 
     @Id

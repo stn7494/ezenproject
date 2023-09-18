@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
+@ToString(exclude = "middle")
 public class Product extends BaseEntity{
 
     @Id
