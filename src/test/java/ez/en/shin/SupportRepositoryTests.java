@@ -1,17 +1,20 @@
 package ez.en.shin;
 
-import ez.en.support.domain.Middle;
-import ez.en.support.domain.Product;
-import ez.en.support.domain.Supportplan;
-import ez.en.support.domain.Top;
-import ez.en.support.repository.MiddleRepository;
-import ez.en.support.repository.ProductRepository;
-import ez.en.support.repository.SupportplanRepository;
-import ez.en.support.repository.TopRepository;
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
+import ez.en.support.domain.*;
+import ez.en.support.dto.ContractPageRequestDTO;
+import ez.en.support.repository.*;
+import ez.en.support.repository.search.ContractSearchImpl;
+import ez.en.support.service.ContractServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -29,26 +32,54 @@ public class SupportRepositoryTests {
     private TopRepository topRepository;
 
     @Autowired
+    private PartnerRepository partnerRepository;
+
+    @Autowired
     private MiddleRepository middleRepository;
+
+    @Autowired
+    private ContractRepository contractRepository;
+
+    @Autowired
+    private ContractSearchImpl search;
+
+    @Autowired
+    private ContractServiceImpl service;
+
     @Test
     public void insert(){
 
-//        List<Product> list = productRepository.findAll();
-//        List<Product> list = productRepository.joinList();
+        Pageable pageable = PageRequest.of(0,10,Sort.by("cno").descending());
 
-        List<Middle> list = middleRepository.category("T01");
+        Page<Contract> result = search.search(null,null, null ,pageable);
 
-        for (Middle middle:list
-             ) {
-            log.info("카테고리 목록 : " + middle);
-        }
-//        for (Product product:list
-//             ) {
-//            log.info("조회된 상품 : " + product.getMiddle().getTop().getTname());
-//        }
+        List<Contract> list = result.getContent();
 
-        Supportplan supportplan = Supportplan.builder()
+        log.info(list.get(0).getPartner());
+        log.info(list.get(0).getProduct());
+
+        ContractPageRequestDTO pageRequestDTO = ContractPageRequestDTO.builder()
+                .keyword(null)
+                .type(null)
                 .build();
+        PageResponseDTO<Contract> responseDTO = search.list(pageRequestDTO);
+
+        List<Contract> list1 = responseDTO.getDtoList();
+        log.info(list1);
+
+
+
+    }
+    @Test
+    public void list(){
+        ContractPageRequestDTO pageRequestDTO = ContractPageRequestDTO.builder()
+                .keyword(null)
+                .type(null)
+                .build();
+        PageResponseDTO<Contract> responseDTO = service.list(pageRequestDTO);
+        List<Contract> list1 = responseDTO.getDtoList();
+        log.info(list1.get(0).getPartner());
+        log.info(list1.get(0).getProduct());
 
     }
 
