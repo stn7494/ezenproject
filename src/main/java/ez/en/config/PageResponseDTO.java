@@ -26,7 +26,7 @@ public class PageResponseDTO<E> {
     private List<E> dtoList;
 
     @Builder(builderMethodName = "withAll")
-    public PageResponseDTO(ContractPageRequestDTO pageRequestDTO, List<E> dtoList, int total){
+    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<E> dtoList, int total){
 
         if(total <= 0){
             return;

@@ -1,7 +1,7 @@
 package ez.en.stock.domain;
 
 import ez.en.login.domain.Login;
-import ez.en.order.domain.Order;
+import ez.en.order.domain.Orders;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,7 +30,7 @@ public class Stockin {
 
     @ManyToOne
     @JoinColumn(name = "ono")
-    private Order order;
+    private Orders order;
 
     @ManyToOne
     @JoinColumn(name = "email")

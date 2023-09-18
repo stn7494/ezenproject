@@ -3,6 +3,7 @@ package ez.en.support.service;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
 import ez.en.support.dto.ContractPageRequestDTO;
+import ez.en.support.dto.ContractPageResponseDTO;
 import ez.en.support.repository.ContractRepository;
 import ez.en.support.repository.search.ContractSearchImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class ContractServiceImpl implements ContractService {
 
 
     @Override
-    public PageResponseDTO<Contract> list(ContractPageRequestDTO pageRequestDTO) {
+    public ContractPageResponseDTO<Contract> list(ContractPageRequestDTO pageRequestDTO) {
 
         String keyword = pageRequestDTO.getKeyword();
 
@@ -36,7 +37,7 @@ public class ContractServiceImpl implements ContractService {
         Page<Contract> result = search.search(keyword,type,state,pageable);
 
         List<Contract> list = result.getContent();
-        return PageResponseDTO.<Contract>withAll()
+        return ContractPageResponseDTO.<Contract>withAll()
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(list)
                 .total((int)result.getTotalElements())

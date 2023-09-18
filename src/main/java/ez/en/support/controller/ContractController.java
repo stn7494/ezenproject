@@ -4,6 +4,7 @@ import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
 import ez.en.support.dto.ContractPageRequestDTO;
+import ez.en.support.dto.ContractPageResponseDTO;
 import ez.en.support.service.ContractServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ContractController {
         log.info(pageRequestDTO.getKeyword());
         log.info(pageRequestDTO.getType());
 
-        PageResponseDTO<Contract> responseDTO = service.list(pageRequestDTO);
+        ContractPageResponseDTO<Contract> responseDTO = service.list(pageRequestDTO);
 
         mav.addObject("responseDTO", responseDTO);
 
