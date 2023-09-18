@@ -11,7 +11,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoggerInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns("/css/**", "/images/**", "/js/**","/login","/");
+                .addPathPatterns("/asd")
+                .excludePathPatterns("/css/**", "/images/**", "/js/**","/login","/","/fileupload");
     }
 }

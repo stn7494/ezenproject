@@ -16,35 +16,20 @@
           <h5>파일업로드 테스트</h5>
         </div>
         <div class="card-body">
-          <form method="post" enctype="multipart/form-data" action="/upload">
-            <table>
-              <tr>
-                <td>단일 파일 업로드</td>
-                <td><input type="file" name="file"/></td>
-              </tr>
-              <tr>
-                <td>다중 파일 업로드</td>
-                <td><input type="file" name="files"/></td>
-
-                <td><input type="submit" value="Upload"/></td>
-              </tr>
-            </table>
+          <h3>단일 파일 업로드</h3>
+          <form action="/upload" method="post">
+            <input name="uploadFiles" type="file" multiple/>
+            <button type="submit">업로드</button>
           </form>
           <h2></h2>
         </div>      <!-- * card-body끝 *-->
-        <div>
-          <ul>
-            <li th:each="file:${files}">
-              <a th:href="${file}" th:text="${file}"/>
-            </li>
-          </ul>
         </div>
       </div>      <!-- * card 끝 *-->
     </div>      <!-- * col 끝 * -->
   </div>
 
-</div>
 <script layout:fragment="script" th:inline="javascript">
+
 
 </script>
 <body>
