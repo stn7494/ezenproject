@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>조달-품목관리</title>
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+        <div class="list-group list-group-flush">
+            <th:block th:with="user=${session.user}">
+            <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '1'}">
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/index">발주관리</a>
+            </th:block>
+                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '2'}">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/support/index">조달관리</a>
+                </th:block>
+                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '3'}">
+                    <div class ="dropdown"> <!--자재관리드롭다운-->
+                      <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle" href="/stock/stockList" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">자재관리</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="/stock/stockList">자재목록</a></li>
+                            <li><a class="dropdown-item" href="/stock/orderList">발주목록</a></li>
+                            <li><a class="dropdown-item" href="/stock/ioList">입고/출고내역</a></li>
+                        </ul>
+                    </div> <!--드롭다운끝-->
+                </th:block>
+            </th:block>
+        </div>
+    </div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <th:block th:with="user=${session.user}">
+                            <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
+                            <li class="nav-item active" th:if="${user} != null"><a class="nav-link" href="/logout">로그아웃</a></li>
+                            <li class="nav-item active" th:if="${user} == null"><a class="nav-link" href="/login">로그인</a></li>
+                            <li class="nav-item active" th:if="${user} != null" th:text="${user.get(0).getLogin().getName()}"></li>
+                        </th:block>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- 여기부터 화면 처리!!!!!!!-->
+        <div class="container-fluid" layout:fragment="content">
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card">
+
+                        <div class="card-header">
+                            조달관리 - 품목페이지
+                        </div>
+                        <div class="card-header">
+                            검색
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">품목관리 리스트</h5>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">글번호</th>
+                                    <th scope="col">품목코드</th>
+                                    <th scope="col">품목이름</th>
+                                    <th scope="col">품목비고</th>
+                                    <th scope="col">품목분류1(대분류)</th>
+                                    <th scope="col">품목분류2(중분류)</th>
+                                    <th scope="col">품목등록날짜</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="dto:${responseDTO.dtoList}">
+                                    <th scope="row">[[${dto.pno}]]</th>
+                                    <td>[[${dto.pcode}]]</td>
+                                    <td>[[${dto.pname}]]</td>
+                                    <td>[[${dto.pnote}]]</td>
+                                    <td>[[${dto.topDTO.tname}]]</td>
+                                    <td>[[${dto.middleDTO.mname}]]</td>
+                                    <td>[[${#temporals.format(dto.pdate, 'yyyy-MM-dd')}]]</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="float-end">
+                                <ul class="pagination flex-wrap">
+
+                                    <li class="page-item" th:if="${responseDTO.prev}">
+                                        <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                                    </li>
+
+                                    <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                        <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+                                    <li class="page-item" th:if="${responseDTO.next}">
+                                        <a class="page-link" th:data-num="${responseDTO.end + 1}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!--end card body-->
+                    </div><!--end card-->
+                </div><!--end col-->
+            </div><!--end row-->
+        </div><!--화면보여주는곳 끝-->
+
+
+    </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script th:src="@{/js/script.js}">
+
+
+</script>
+
+<th:block layout:fragment="script">
+
+</th:block>
+</body>
+</html>

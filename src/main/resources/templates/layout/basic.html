@@ -17,7 +17,7 @@
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
     <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
+        <div class="sidebar-heading border-bottom bg-light">구매관리시스템</div>
         <div class="list-group list-group-flush">
             <th:block th:with="user=${session.user}">
             <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '1'}">
@@ -35,6 +35,9 @@
                             <li><a class="dropdown-item" href="/stock/ioList">입고/출고내역</a></li>
                         </ul>
                     </div> <!--드롭다운끝-->
+                </th:block>
+                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '4'}">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/authorization">권한 설정</a>
                 </th:block>
             </th:block>
         </div>
