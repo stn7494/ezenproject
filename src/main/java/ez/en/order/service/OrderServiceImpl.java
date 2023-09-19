@@ -2,9 +2,14 @@ package ez.en.order.service;
 
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
+import ez.en.login.domain.Login;
 import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
+import ez.en.order.dto.PopContractDTO;
 import ez.en.order.repository.OrderRepository;
+import ez.en.support.domain.Contract;
+import ez.en.support.domain.Supportplan;
+import ez.en.support.repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -22,14 +27,23 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
+    private final ContractRepository contractRepository;
     private final ModelMapper modelMapper;
 
     @Override
     public int register(OrderDTO orderDTO) {
+        orderDTO = OrderDTO.builder()
+                .contract(Contract.builder().cno(orderDTO.getCno()).build())
+                .supportplan(Supportplan.builder().spno(orderDTO.getSpno()).build())
+                .login(Login.builder().email(orderDTO.getEmail()).build())
+                .build();
         Orders orders = modelMapper.map(orderDTO, Orders.class);
+//        Orders orders = dtoToEntity(orderDTO);
         log.info("service register orders : "+ orders);
         int ono = orderRepository.save(orders).getOno();
         return ono;
+
+
     }
 
     @Override
@@ -51,6 +65,7 @@ public class OrderServiceImpl implements OrderService{
         List<OrderDTO> dtoList = result.getContent().stream()
                 .map(orders -> modelMapper.map(orders, OrderDTO.class))
                 .collect(Collectors.toList());
+
         return PageResponseDTO.<OrderDTO>withAll()
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(dtoList)
@@ -65,4 +80,11 @@ public class OrderServiceImpl implements OrderService{
         OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
         return orderDTO;
     }
+
+    @Override
+    public List<PopContractDTO> popContractList(String pcode) {
+
+        return null;
+    }
+
 }

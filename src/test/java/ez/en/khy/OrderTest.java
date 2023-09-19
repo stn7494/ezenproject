@@ -2,10 +2,12 @@ package ez.en.khy;
 
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
-import ez.en.order.domain.Orders;
+import ez.en.login.domain.Login;
 import ez.en.order.dto.OrderDTO;
 import ez.en.order.repository.OrderRepository;
 import ez.en.order.service.OrderService;
+import ez.en.support.domain.Contract;
+import ez.en.support.domain.Supportplan;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +32,13 @@ public class OrderTest {
     public void orderRegisterTest(){
         OrderDTO orderDTO = OrderDTO.builder()
                 .odate(LocalDate.now().toString())
-                .odelidate(LocalDate.now().toString())
                 .ocode("O"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddmmssSS")))
                 .ocount(40)
-                .ostate("발주신청")
-                .odetail("order register test 7")
-                .ccode("C20230915T1P3M21TD0233")
-                .pname("testpname3")
-                .ptname("testptname3")
-                .cno(1)
-                .spno(1)
-                .email("user01@naver.com")
+                .ostate("발주확인")
+                .odetail("order register test 11")
+                .contract(Contract.builder().cno(7).build())
+                .supportplan(Supportplan.builder().spno(1).build())
+                .login(Login.builder().email("user01@naver.com").build())
                 .build();
         log.info("====== orderDTO : "+orderDTO);
         int result = orderService.register(orderDTO);

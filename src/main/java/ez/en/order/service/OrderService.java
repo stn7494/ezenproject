@@ -4,6 +4,11 @@ import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
+import ez.en.order.dto.PopContractDTO;
+import ez.en.support.domain.Contract;
+import ez.en.support.dto.SupportDTO;
+
+import java.util.List;
 
 
 public interface OrderService {
@@ -15,6 +20,11 @@ public interface OrderService {
     PageResponseDTO<OrderDTO> orderList(PageRequestDTO pageRequestDTO, String sort);
 
     OrderDTO detail(int ono);
+
+    List<PopContractDTO> popContractList(String pcode);
+
+
+
 
 
 
@@ -39,13 +49,14 @@ public interface OrderService {
 
 //    default Orders dtoToEntity(OrderDTO orderDTO){
 //        Orders orders = Orders.builder()
-//                .ono(orderDTO.getOno())
 //                .ocode(orderDTO.getOcode())
 //                .ocount(orderDTO.getOcount())
 //                .odate(orderDTO.getOdate())
-//                .odelidate(orderDTO.getOdelidate())
 //                .odetail(orderDTO.getOdetail())
 //                .ostate(orderDTO.getOstate())
+//                .contract(orderDTO.getContract())
+//                .supportplan(orderDTO.getSupportplan())
+//                .login(orderDTO.getLogin())
 //                .build();
 //        return orders;
 //    }
