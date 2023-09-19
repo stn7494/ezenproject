@@ -47,7 +47,7 @@
                         <div class="my-4">
                             <div class="float-end">
                                 <button type="button" class="btn btn-primary listBtn">품목전체보기</button>
-                                <button type="button" class="btn btn-secondary modBtn">품목수정</button>
+                                <button type="button" class="btn btn-secondary modBtn">품목수정완료</button>
                                 <button type="button" class="btn btn-danger removeBtn">품목삭제</button>
                             </div>
                         </div>
@@ -58,6 +58,37 @@
     </div>
 </div>
 <script layout:fragment="script" th:inline="javascript">
+    const link = [[${productPageRequestDTO.getLink()}]]
+    const formObj = document.querySelector("#f1")
+
+    document.querySelector(".listBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = `/support/productList`
+        formObj.method = `get`
+        formObj.submit()
+    }, false)
+
+    document.querySelector(".modBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = `/support/productModify?${link}`
+        formObj.method = `post`
+        formObj.submit()
+    }, false)
+
+    document.querySelector(".removeBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        formObj.action = `/support/productRemove`
+        formObj.method = 'post'
+        formObj.submit()
+    }, false)
+
+
 
 </script>
 <body>

@@ -12,10 +12,9 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h5>품목 [조회]</h5>
+                    <h5>품목 [상세조회]</h5>
                 </div>
                 <div class="card-body">
-                <h2>품목상세보기입니다.</h2>
                     <div class="input-group mb-3">
                         <span class="input-group-text">품목순번</span>
                         <input type="text" class="form-control" th:value="${dto.pno}" readonly>
@@ -50,7 +49,7 @@
                                 <button type="button" class="btn btn-primary">전체목록</button>
                             </a>
                             <a th:href="|@{/support/productModify(pno=${dto.pno})}&${link}|" class="text-decoration-none">
-                                <button type="button" class="btn btn-secondary">품목수정하기</button>
+                                <button type="button" class="btn btn-secondary">품목수정</button>
                             </a>
                         </div>
                     </div>
@@ -61,6 +60,11 @@
     </div>
 </div>
 <script layout:fragment="script" th:inline="javascript">
+
+    var result = [[${result}]]
+    if (result) {
+        alert("품목 수정이 완료되었습니다.")
+    }
 
 </script>
 <body>
