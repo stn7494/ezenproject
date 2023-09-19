@@ -1,11 +1,12 @@
 package ez.en.order.dto;
 
+import ez.en.login.domain.Login;
+import ez.en.support.domain.Contract;
+import ez.en.support.domain.Supportplan;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
 
 @Data
 @Builder
@@ -21,7 +22,7 @@ public class OrderDTO {
 
     private String odate;
 
-    private String odelidate;
+//    private String odelidate;
 
     private String odetail;
 
@@ -33,11 +34,11 @@ public class OrderDTO {
 
     private String email;
 
-    private String ptname;
+    private Contract contract;
 
-    private String pname;
+    private Supportplan supportplan;
 
-    private String ccode;
+    private Login login;
 
 
 }

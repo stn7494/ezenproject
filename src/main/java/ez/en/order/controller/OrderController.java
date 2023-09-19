@@ -4,6 +4,11 @@ import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.order.dto.OrderDTO;
 import ez.en.order.service.OrderService;
+import ez.en.support.domain.Contract;
+import ez.en.support.dto.ContractPageRequestDTO;
+import ez.en.support.dto.ContractPageResponseDTO;
+import ez.en.support.service.ContractService;
+import ez.en.support.service.SupportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -24,6 +29,8 @@ import java.time.format.DateTimeFormatter;
 public class OrderController {
 
     private final OrderService orderService;
+    private final ContractService contractService;
+//    private final SupportService supportService;
 
 //    발주 목록 (선택 정렬 기능 미완성)
     @GetMapping("/order/list")
@@ -51,6 +58,8 @@ public class OrderController {
     @PostMapping("/order/register")
     public String registerPost(OrderDTO orderDTO, RedirectAttributes redirectAttributes){
         orderDTO.setOcode("O"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddmmssSS")));
+        orderDTO.setOstate("발주신청");
+        orderDTO.setOdate(LocalDate.now().toString());
         int ono = orderService.register(orderDTO);
         redirectAttributes.addFlashAttribute("result", "regist");
         return "redirect:/order/list";
@@ -70,6 +79,16 @@ public class OrderController {
         redirectAttributes.addFlashAttribute("result", "modified");
         redirectAttributes.addAttribute("ono", orderDTO.getOno());
         return "redirect:/order/detail";
+
+    }
+
+    @GetMapping("/order/popSplan")
+    public void popSplanGet(){
+    }
+
+    @GetMapping("/order/popContract")
+    public void popContract(PageRequestDTO pageRequestDTO, Model model){
+
 
     }
 

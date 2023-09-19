@@ -28,23 +28,14 @@ public class Orders {
     @Column
     private String odate;
 
-    @Column
-    private String odelidate;
+//    @Column
+//    private String odelidate;
 
     @Column
     private String odetail;
 
     @Column
     private String ostate;
-
-    @Column
-    private String ccode;
-
-    @Column
-    private String pname;
-
-    @Column
-    private String ptname;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cno")
