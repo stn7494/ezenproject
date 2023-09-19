@@ -3,9 +3,10 @@ package ez.en.support.controller;
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
-import ez.en.support.dto.ContractPageRequestDTO;
-import ez.en.support.dto.ContractPageResponseDTO;
+import ez.en.support.domain.Partner;
+import ez.en.support.dto.*;
 import ez.en.support.service.ContractServiceImpl;
+import ez.en.support.service.ProductServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,9 @@ public class ContractController {
 
     @Autowired
     private ContractServiceImpl service;
+
+    @Autowired
+    private ProductServiceImpl productService;
 
     @GetMapping("/list")
     public ModelAndView contractList(ContractPageRequestDTO pageRequestDTO){
@@ -39,8 +43,22 @@ public class ContractController {
         return mav;
     }
 
-    @GetMapping({"/modify","/detail"})
-    public void read(String ccode, ContractPageRequestDTO pageRequestDTO, Model model){
+    @GetMapping("/register")
+    public void register(){
+
+    }
+
+    @GetMapping("/partner")
+    public void partner(PageRequestDTO pageRequestDTO, Model model){
+        PageResponseDTO<Partner> responseDTO = service.list(pageRequestDTO);
+
+        model.addAttribute("responseDTO", responseDTO);
+    }
+
+    @GetMapping("/product")
+    public void product(ProductPageRequestDTO pageRequestDTO, Model model){
+
+//        ProductPageResponseDTO<ProductDTO> responseDTO = service
 
 
     }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+  <meta charset="UTF-8">
+  <title>조달-품목관리</title>
+</head>
+<body>
+    <div class="container-fluid" layout:fragment="content">
+      <div class="row mt-3">
+        <div class="col">
+          <div class="card">
+
+            <div class="card-header">
+              조달관리 - 품목페이지
+            </div>
+            <div class="card-header">
+              검색
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">품목관리 리스트</h5>
+
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">글번호</th>
+                  <th scope="col">품목코드</th>
+                  <th scope="col">품목이름</th>
+                  <th scope="col">품목비고</th>
+                  <th scope="col">품목분류1(대분류)</th>
+                  <th scope="col">품목분류2(중분류)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dto:${responseDTO.dtoList}">
+                  <th onclick="sendValue(this.id)" th:id="${dto.pno}" th:class="${dto.pno}" scope="row">[[${dto.pno}]]</th>
+                  <td th:class="${dto.pno}">[[${dto.pcode}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.pname}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.pnote}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.topDTO.tname}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.middleDTO.mname}]]</td>
+                </tr>
+                </tbody>
+              </table>
+
+              <div class="float-end">
+                <ul class="pagination flex-wrap">
+
+                  <li class="page-item" th:if="${responseDTO.prev}">
+                    <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                  </li>
+
+                  <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                    <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
+                      <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                    </li>
+                  </th:block>
+                  <li class="page-item" th:if="${responseDTO.next}">
+                    <a class="page-link" th:data-num="${responseDTO.end + 1}">Next</a>
+                  </li>
+                </ul>
+              </div>
+            </div><!--end card body-->
+          </div><!--end card-->
+        </div><!--end col-->
+      </div><!--end row-->
+    </div><!--화면보여주는곳 끝-->
+
+
+  </div>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+  function sendValue(e){
+    var date = document.getElementsByClassName(e);
+
+  }
+
+
+</script>
+</body>
+</html>

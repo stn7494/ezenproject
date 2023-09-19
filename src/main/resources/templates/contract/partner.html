@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>계약</title>
+</head>
+<div layout:fragment="content">
+
+    <div class="row-mt-3">
+        <div class="col">
+            <form action="/contract/partner" method="get">
+                <div class="col">
+                    <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select class="form-select" name="type">
+                                <option value="">---</option>
+                                <option value="ptname" th:selected="${pageRequestDTO.type == 'ptname'}">상호</option>
+                                <option value="ptceoname" th:selected="${pageRequestDTO.type == 'ptceoname'}">대표자이름</option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
+                            <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="card">
+
+                <div class="card-header">
+                    <h5>납품업체 검색</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">사업자 등록번호</th>
+                            <th scope="col">상호</th>
+                            <th scope="col">대표자</th>
+                            <th scope="col">주소</th>
+                            <th scope="col">전화번호</th>
+                            <th scope="col">팩스</th>
+                        </tr>
+                        </thead>
+                        <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                        <tr th:each="dto:${responseDTO.dtoList}">
+                            <td th:id="${dto.ptno}" th:class="${dto.ptno}" onclick="sendValue(this.id)" th:text="${dto.ptno}">
+                            </td>
+                            <td th:class="${dto.ptno}" th:text="${dto.ptname}"></td>
+                            <td th:class="${dto.ptno}" th:text="${dto.ptceoname}"></td>
+                            <td th:class="${dto.ptno}" th:text="${dto.ptadd}"></td>
+                            <td th:class="${dto.ptno}" th:text="${dto.ptnum}"></td>
+                            <td th:class="${dto.ptno}" th:text="${dto.ptfax}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="float-end">
+                        <ul style="margin: 0 auto" class="pagination flex-wrap">
+
+                            <li class="page-item" th:if="${responseDTO.prev}">
+                                <a class="page-link" th:data-num="${responseDTO.start -1}">맨앞으로</a>
+                            </li>
+
+                            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                <li th:class="${responseDTO.page == i}?'page-item active':'page-ietn'">
+                                    <a th:class="page-link" th:data-num="${i}" th:text="${i}"></a>
+                                </li>
+                            </th:block>
+
+                            <li th:class="page-item" th:if="${responseDTO.next}">
+                                <a th:class="page-link" th:data-num="${responseDTO.end+1}">다음</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>      <!-- * card-body끝 *-->
+            </div>      <!-- * card 끝 *-->
+        </div>      <!-- * col 끝 * -->
+    </div>
+
+</div>
+<script layout:fragment="script" th:inline="javascript">
+    document.querySelector(".pagination").addEventListener("click", function(e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        const num = target.getAttribute("data-num")
+
+        const formObj = document.querySelector("form")
+
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+
+        formObj.submit();
+    }, false)
+
+    function sendValue(e) {
+        var date = document.getElementsByClassName(e);
+        window.opener.document.getElementById("ptno").value = date[0].innerHTML;
+        window.opener.document.getElementById("ptname").value =  date[1].innerHTML;
+        window.opener.document.getElementById("ptceoname").value = date[2].innerHTML;
+        window.opener.document.getElementById("ptadd").value = date[3].innerHTML;
+        window.opener.document.getElementById("ptnum").value = date[4].innerHTML;
+        window.opener.document.getElementById("ptfax").value = date[5].innerHTML;
+        window.close();
+    }
+</script>
+<body>
+
+</body>
+</html>
