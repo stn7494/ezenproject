@@ -63,7 +63,9 @@
                         </thead>
                         <tbody th:with="link = ${contractPageRequestDTO.getLink()}">
                         <tr th:each="dto:${responseDTO.dtoList}">
-                            <td th:text="${dto.getCcode()}"></td>
+                            <td>
+                                <a th:href="|@{/contract/detail(ccode=${dto.getCcode()})}&${link}|">[[${dto.ccode}]]</a>
+                            </td>
                             <td th:text="${dto.getProduct().getPcode()}"></td>
                             <td th:text="${dto.getProduct().getPname()}"></td>
                             <td th:text="${dto.getCprice()}"></td>
@@ -104,7 +106,7 @@
 <script layout:fragment="script" th:inline="javascript">
 
     $("#btn").click(function(){
-       location.href='/contract/modify';
+       location.href='/contract/register';
     });
 
     document.querySelector(".pagination").addEventListener("click", function(e){

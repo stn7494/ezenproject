@@ -1,6 +1,7 @@
 package ez.en.support.repository;
 
 import ez.en.support.domain.Contract;
+import ez.en.support.dto.ContractDTO;
 import ez.en.support.repository.search.ContractSearch;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ContractRepository extends JpaRepository<Contract, Integer>{
 
@@ -41,4 +43,6 @@ public interface ContractRepository extends JpaRepository<Contract, Integer>{
             "or c.product.pcode = :keyword or c.product.pname = :keyword or c.partner.ptname = :keyword"
             ,countQuery = "select count(c) from Contract c")
     Page<Contract> keywordSearch(String keyword, Pageable pageable);
+
+
 }
