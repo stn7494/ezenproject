@@ -4,6 +4,7 @@ import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.*;
 import ez.en.support.dto.ContractPageRequestDTO;
+import ez.en.support.dto.ContractPageResponseDTO;
 import ez.en.support.repository.*;
 import ez.en.support.repository.search.ContractSearchImpl;
 import ez.en.support.service.ContractServiceImpl;
@@ -62,7 +63,7 @@ public class SupportRepositoryTests {
                 .keyword(null)
                 .type(null)
                 .build();
-        PageResponseDTO<Contract> responseDTO = search.list(pageRequestDTO);
+        ContractPageResponseDTO<Contract> responseDTO = search.list(pageRequestDTO);
 
         List<Contract> list1 = responseDTO.getDtoList();
         log.info(list1);
@@ -76,7 +77,7 @@ public class SupportRepositoryTests {
                 .keyword(null)
                 .type(null)
                 .build();
-        PageResponseDTO<Contract> responseDTO = service.list(pageRequestDTO);
+        ContractPageResponseDTO<Contract> responseDTO = service.list(pageRequestDTO);
         List<Contract> list1 = responseDTO.getDtoList();
         log.info(list1.get(0).getPartner());
         log.info(list1.get(0).getProduct());

@@ -55,6 +55,7 @@ public class ProductServiceTests {
         productService.productmodify(productDTO);
     }
 
+
     @Test
     public void testProductList() {
         ProductPageRequestDTO productPageRequestDTO = ProductPageRequestDTO.builder()
@@ -68,5 +69,7 @@ public class ProductServiceTests {
 
         log.info(responseDTO);
     }
+
+
 
 }

@@ -34,37 +34,35 @@
     </div>
     <!-- Page content wrapper-->
     <div id="page-content-wrapper">
-        <!-- Top navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                        <th:block th:with="user=${session.user}">
-                            <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item active" th:if="${user} != null"><a class="nav-link" href="/logout">로그아웃</a></li>
-                            <li class="nav-item active" th:if="${user} == null"><a class="nav-link" href="/login">로그인</a></li>
-                            <li class="nav-item active" th:if="${user} != null" th:text="${user.get(0).getLogin().getName()}"></li>
-                        </th:block>
-                    </ul>
-                </div>
-            </div>
-        </nav>
         <!-- 여기부터 화면 처리!!!!!!!-->
         <div class="container-fluid" layout:fragment="content">
             <div class="row mt-3">
                 <div class="col">
+                    <form action="/support/productList" method="get">
+                        <div class="col">
+                            <input type="hidden" name="size" th:value="${productPageRequestDTO.size}">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select class="form-select" name="type">
+                                        <option value="">---</option>
+                                        <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
+                                        <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
+                                    </select>
+                                </div>
+                                <input type="text" class="form-control" name="keyword" th:value="${productPageRequestDTO.keyword}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
+                                    <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                     <div class="card">
-
                         <div class="card-header">
                             조달관리 - 품목페이지
                         </div>
-                        <div class="card-header">
-                            검색
-                        </div>
                         <div class="card-body">
                             <h5 class="card-title">품목관리 리스트</h5>
-
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -77,10 +75,12 @@
                                     <th scope="col">품목등록날짜</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody th:with="link=${productPageRequestDTO.getLink()}">
                                 <tr th:each="dto:${responseDTO.dtoList}">
                                     <th scope="row">[[${dto.pno}]]</th>
-                                    <td>[[${dto.pcode}]]</td>
+                                    <td>
+                                        <a th:href="|@{/support/productRead(pno=${dto.pno})}&${link}|">[[${dto.pcode}]]</a>
+                                    </td>
                                     <td>[[${dto.pname}]]</td>
                                     <td>[[${dto.pnote}]]</td>
                                     <td>[[${dto.topDTO.tname}]]</td>
@@ -112,20 +112,32 @@
                 </div><!--end col-->
             </div><!--end row-->
         </div><!--화면보여주는곳 끝-->
-
-
     </div>
 </div>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script th:src="@{/js/script.js}">
-
-
-</script>
-
-<th:block layout:fragment="script">
-
-</th:block>
 </body>
+<script layout:fragment="script" th:inline="javascript">
+
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(target.tagName !== 'A') {
+            return
+        }
+
+        const num = target.getAttribute("data-num")
+        const formObj = document.querySelector("form")
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+        formObj.submit();
+    },false)
+
+    document.querySelector(".clearBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        self.location = '/support/productList'
+    },false)
+</script>
 </html>
