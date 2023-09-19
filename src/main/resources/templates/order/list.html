@@ -4,7 +4,7 @@
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
-    <title>LIST</title>
+    <title>ORDER LIST</title>
 </head>
 <div layout:fragment="content">
 
@@ -46,7 +46,8 @@
                             <th scope="col">발주 번호</th>
                             <th scope="col">발주 코드</th>
                             <th scope="col">제품명</th>
-                            <th scope="col">발주 수량</th>
+                            <th scope="col">수량</th>
+                            <th scope="col">단가</th>
                             <th scope="col">업체명</th>
                             <th scope="col">발주 등록일</th>
                             <th scope="col">납기 마감일</th>
@@ -60,11 +61,12 @@
                             <td>
                                 <a th:href="|@{/order/detail(ono=${dto.ono})}&${link}|" class="text-decoration-none">[[${dto.ocode}]]</a>
                             </td>
-                            <td>[[${dto.pname}]]</td>
+                            <td>[[${dto.getContract().getProduct().getPname()}]]</td>
                             <td>[[${dto.ocount}]]</td>
-                            <td>[[${dto.ptname}]]</td>
+                            <td>[[${dto.getContract().getCprice()}]]</td>
+                            <td>[[${dto.getContract().getPartner().getPtname()}]]</td>
                             <td>[[${dto.odate}]]</td>
-                            <td>[[${dto.odelidate}]]</td>
+                            <td>[[${dto.getSupportplan().getSpdelidate()}]]</td>
                             <td>[[${dto.ostate}]]</td>
                         </tr>
                         </tbody>

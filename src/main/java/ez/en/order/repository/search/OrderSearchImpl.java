@@ -25,10 +25,10 @@ public class OrderSearchImpl extends QuerydslRepositorySupport implements OrderS
             for(String type:types){
                 switch (type){
                     case "p":
-                        booleanBuilder.or(orders.pname.contains(keyword));
+                        booleanBuilder.or(orders.contract.product.pname.contains(keyword));
                         break;
                     case "t":
-                        booleanBuilder.or(orders.ptname.contains(keyword));
+                        booleanBuilder.or(orders.contract.partner.ptname.contains(keyword));
                         break;
                 }
             }

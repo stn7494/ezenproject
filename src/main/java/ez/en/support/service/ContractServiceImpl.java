@@ -1,7 +1,9 @@
 package ez.en.support.service;
 
+import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
+import ez.en.support.domain.Partner;
 import ez.en.support.dto.ContractPageRequestDTO;
 import ez.en.support.dto.ContractPageResponseDTO;
 import ez.en.support.repository.ContractRepository;
@@ -38,6 +40,26 @@ public class ContractServiceImpl implements ContractService {
 
         List<Contract> list = result.getContent();
         return ContractPageResponseDTO.<Contract>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(list)
+                .total((int)result.getTotalElements())
+                .build();
+    }
+
+    @Override
+    public PageResponseDTO<Partner> list(PageRequestDTO pageRequestDTO) {
+
+        String keyword = pageRequestDTO.getKeyword();
+
+        String type = pageRequestDTO.getType();
+
+        Pageable pageable = pageRequestDTO.getPageable("ptno");
+
+        Page<Partner> result = search.search(keyword, type, pageable);
+
+        List<Partner> list = result.getContent();
+
+        return PageResponseDTO.<Partner>withAll()
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(list)
                 .total((int)result.getTotalElements())

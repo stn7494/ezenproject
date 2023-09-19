@@ -102,6 +102,11 @@
 
 </div>
 <script layout:fragment="script" th:inline="javascript">
+
+    $("#btn").click(function(){
+       location.href='/contract/modify';
+    });
+
     document.querySelector(".pagination").addEventListener("click", function(e){
         e.preventDefault()
         e.stopPropagation()

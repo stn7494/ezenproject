@@ -52,6 +52,13 @@ public class ContractPageRequestDTO {
                 }
 
             }
+            if(state != null){
+                try {
+                    builder.append("&state=" + URLEncoder.encode(state,"UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             link = builder.toString();
         }
         return link;

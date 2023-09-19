@@ -1,20 +1,27 @@
 package ez.en.support.repository.search;
 
+import com.querydsl.jpa.JPQLQuery;
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
+import ez.en.support.domain.Partner;
+import ez.en.support.domain.QPartner;
 import ez.en.support.dto.ContractPageRequestDTO;
 import ez.en.support.dto.ContractPageResponseDTO;
 import ez.en.support.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class ContractSearchImpl implements ContractSearch{
+public class ContractSearchImpl extends QuerydslRepositorySupport implements ContractSearch{
+
+    public ContractSearchImpl(){super(Partner.class);}
 
     @Autowired
     private ContractRepository contractRepository;
@@ -41,24 +48,31 @@ public class ContractSearchImpl implements ContractSearch{
         return contractRepository.list(pageable);
     }
 
+
+
     @Override
-    public ContractPageResponseDTO<Contract> list(ContractPageRequestDTO pageRequestDTO) {
+    public Page<Partner> search(String keyword, String type, Pageable pageable) {
 
-        String keyword = pageRequestDTO.getKeyword();
+        QPartner partner = QPartner.partner;
 
-        String type = pageRequestDTO.getType();
+        JPQLQuery<Partner> query = from(partner);
 
-        String state = pageRequestDTO.getState();
+        if(keyword!=null && type!=null){
+            switch (type){
+                case "ptname":
+                    query.where(partner.ptname.contains(keyword));
+                    break;
+                case "ptceoname":
+                    query.where(partner.ptceoname.contains(keyword));
+                    break;
+            }
+        }
 
-        Pageable pageable = pageRequestDTO.getPageable("cno");
+        this.getQuerydsl().applyPagination(pageable,query);
 
-        Page<Contract> result = search(keyword,type,state,pageable);
+        List<Partner> list = query.fetch();
 
-        List<Contract> list = result.getContent();
-        return ContractPageResponseDTO.<Contract>withAll()
-                .pageRequestDTO(pageRequestDTO)
-                .dtoList(list)
-                .total((int)result.getTotalElements())
-                .build();
+        long count = query.fetchCount();
+        return new PageImpl<>(list,pageable,count);
     }
 }

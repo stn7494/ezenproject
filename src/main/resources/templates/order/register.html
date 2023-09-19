@@ -4,36 +4,107 @@
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
-    <title>REGISTER</title>
+    <title>ORDER REGISTER</title>
 </head>
 <div layout:fragment="content">
 
-    <div class="row-mt-3">
+    <div class="row mt-3">
         <div class="col">
             <div class="card">
-
                 <div class="card-header">
-
                 </div>
 
                 <div class="card-body">
-                    <div class="float-end">
+                    <h5 class="card-title">발주 등록</h5>
+                    <form action="/order/register" method="post">
 
-                    </div>
-                </div>      <!-- * card-body끝 *-->
+                        <div>
+                            <button type="button" class="btn btn-secondary" onclick="openSplan()">조달 계획 선택</button>
+                            <hr>
+                        </div>
 
 
-            </div>      <!-- * card 끝 *-->
-        </div>      <!-- * col 끝 * -->
+                        <input type="hidden" name="spno" class="form-control">
+                        <input type="hidden" name="ccode" class="form-control">
+                        <input type="hidden" name="email" class="form-control 로그인 정보에서 받아와야 함">
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">납기 일자</span>
+                            <input type="text" name="spdelidate" class="form-control" placeholder="조달 계획 선택" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">제품 코드</span>
+                            <input type="text" name="pcode" class="form-control" placeholder="조달 계획 선택" areadonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">제품 이름</span>
+                            <input type="text" name="pname" class="form-control" placeholder="조달 계획 선택" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">계획 수량</span>
+                            <input type="text" name="spcount" class="form-control" placeholder="조달 계획 선택" readonly>
+                        </div>
+
+                        <div>
+                            <button type="button" class="btn btn-secondary" onclick="openContract()">계약 업체 선택</button>
+                            <hr>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">업체 이름</span>
+                            <input type="text" name="ptname" class="form-control" placeholder="계약 업체 선택" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">제품 단가</span>
+                            <input type="text" name="ptname" class="form-control" placeholder="계약 업체 선택" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">발주 수량</span>
+                            <input type="text" name="ocount" class="form-control" placeholder="발주 수량 입력">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">발주 기타 사항</span>
+                            <textarea class="form-control col-sm-5" rows="5" name="odetail"></textarea>
+                        </div>
+
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="button" class="btn btn-primary submitBtn">발주 등록</button>
+                                <button type="button" class="btn btn-secondary clearBtn">초기화</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 
 </div> <!--* content 끝 *-->
 
 
 <script layout:fragment="script" th:inline="javascript">
+    
+    function openSplan() {
+        var url = "/order/popSplan"
+        var name = "조달 계획 선택"
+        var option = "width=600,height=800"
+        window.open(url,name,option)
+    }
+
+    function openContract() {
+        var temp = document.querySelector("input[name='pcode']").value
+        console.log("pcode : "+temp)
+        if($.isEmptyObject(temp)){
+            alert("조달 계획을 선택해주세요.")
+        }
+        var url = "/order/popContract"
+        var name= "계약 업체 선택"
+        var option = "width=600,height=800"
+        window.open(url,name,option)
+    }
+    
 
 </script>
-<body>
-
-</body>
 </html>
