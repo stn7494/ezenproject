@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>품목 상세조회</title>
+</head>
+
+<div layout:fragment="content">
+    <div class="row-mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5>품목 [조회]</h5>
+                </div>
+                <div class="card-body">
+                <h2>품목상세보기입니다.</h2>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목순번</span>
+                        <input type="text" class="form-control" th:value="${dto.pno}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목코드</span>
+                        <input type="text" class="form-control" th:value="${dto.pcode}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목이름</span>
+                        <input type="text" class="form-control" th:value="${dto.pname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목설명</span>
+                        <textarea class="form-control col-sm-5" rows="5" readonly>[[${dto.pcontent}]]</textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목비고</span>
+                        <textarea class="form-control col-sm-5" rows="3" readonly>[[${dto.pnote}]]</textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목등록날짜</span>
+                        <input type="text" class="form-control" th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목수정날짜</span>
+                        <input type="text" class="form-control" th:value="${#temporals.format(dto.pmoddate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                    </div>
+                    <div class="my-4">
+                        <div class="float-end" th:with="link=${productPageRequestDTO.getLink()}">
+                            <a th:href="|@{/support/productList}?${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-primary">전체목록</button>
+                            </a>
+                            <a th:href="|@{/support/productModify(pno=${dto.pno})}&${link}|" class="text-decoration-none">
+                                <button type="button" class="btn btn-secondary">품목수정하기</button>
+                            </a>
+                        </div>
+                    </div>
+
+                </div><!-- * card-body끝 *-->
+            </div><!-- * card 끝 *-->
+        </div><!-- * col 끝 * -->
+    </div>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+</script>
+<body>
+
+</body>
+</html>
