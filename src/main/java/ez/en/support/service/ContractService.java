@@ -4,12 +4,18 @@ import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
 import ez.en.support.domain.Partner;
+import ez.en.support.dto.ContractDTO;
 import ez.en.support.dto.ContractPageRequestDTO;
 import ez.en.support.dto.ContractPageResponseDTO;
+import ez.en.support.dto.ProductDTO;
 
 public interface ContractService {
 
     ContractPageResponseDTO<Contract> list(ContractPageRequestDTO pageRequestDTO);
 
     PageResponseDTO<Partner> list(PageRequestDTO pageRequestDTO);
+
+    void insert(ContractDTO contractDTO);
+
+    ContractDTO selectOne(String ccode);
 }

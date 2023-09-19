@@ -10,6 +10,25 @@
     <div class="container-fluid" layout:fragment="content">
       <div class="row mt-3">
         <div class="col">
+          <form action="/contract/product" method="get">
+            <div class="col">
+              <input type="hidden" name="size" th:value="${productPageRequestDTO.size}">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <select class="form-select" name="type">
+                    <option value="">---</option>
+                    <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
+                    <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
+                  </select>
+                </div>
+                <input type="text" class="form-control" name="keyword" th:value="${productPageRequestDTO.keyword}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
+                  <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                </div>
+              </div>
+            </div>
+          </form>
           <div class="card">
 
             <div class="card-header">
@@ -40,6 +59,9 @@
                   <td th:class="${dto.pno}">[[${dto.pnote}]]</td>
                   <td th:class="${dto.pno}">[[${dto.topDTO.tname}]]</td>
                   <td th:class="${dto.pno}">[[${dto.middleDTO.mname}]]</td>
+                  <td style="display: none;" th:class="${dto.pno}">[[${dto.middleDTO.mcode}]]</td>
+                  <td style="display: none;" th:class="${dto.pno}">[[${dto.topDTO.tcode}]]</td>
+
                 </tr>
                 </tbody>
               </table>
@@ -71,10 +93,39 @@
   </div>
 </div>
 <script layout:fragment="script" th:inline="javascript">
+  document.querySelector(".pagination").addEventListener("click", function(e){
+    e.preventDefault()
+    e.stopPropagation()
 
-  function sendValue(e){
+    const target = e.target
+
+    const num = target.getAttribute("data-num")
+
+    const formObj = document.querySelector("form")
+
+    formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+
+    formObj.submit();
+  }, false)
+
+  document.querySelector(".clearBtn").addEventListener("click", function (e){
+    e.preventDefault()
+    e.stopPropagation()
+
+    self.location = '/contract/product'
+  },false)
+
+  function sendValue(e) {
     var date = document.getElementsByClassName(e);
-
+    console.log(date);
+    window.opener.document.getElementById("pno").value = date[0].innerHTML;
+    window.opener.document.getElementById("pcode").value = date[1].innerHTML;
+    window.opener.document.getElementById("pname").value =  date[2].innerHTML;
+    window.opener.document.getElementById("tname").value = date[4].innerHTML;
+    window.opener.document.getElementById("mname").value = date[5].innerHTML;
+    window.opener.document.getElementById("mcode").value = date[6].innerHTML;
+    window.opener.document.getElementById("tcode").value = date[7].innerHTML;
+    window.close();
   }
 
 

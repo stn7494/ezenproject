@@ -1,13 +1,9 @@
 package ez.en.support.repository.search;
 
 import com.querydsl.jpa.JPQLQuery;
-import ez.en.config.PageRequestDTO;
-import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
 import ez.en.support.domain.Partner;
 import ez.en.support.domain.QPartner;
-import ez.en.support.dto.ContractPageRequestDTO;
-import ez.en.support.dto.ContractPageResponseDTO;
 import ez.en.support.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,4 +71,6 @@ public class ContractSearchImpl extends QuerydslRepositorySupport implements Con
         long count = query.fetchCount();
         return new PageImpl<>(list,pageable,count);
     }
+
+
 }
