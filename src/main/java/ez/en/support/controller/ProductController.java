@@ -1,6 +1,7 @@
 package ez.en.support.controller;
 
 
+import ez.en.support.domain.Middle;
 import ez.en.support.dto.MiddleDTO;
 import ez.en.support.dto.ProductDTO;
 import ez.en.support.dto.ProductPageRequestDTO;
@@ -14,7 +15,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("/support")
@@ -55,6 +59,26 @@ public class ProductController {
         ProductDTO productDTO = productService.productreadOne(pno);
         log.info(productDTO);
         model.addAttribute("dto", productDTO);
+    }
+
+    //품목 수정
+    @PostMapping("/productModify")
+    public String productmodify(ProductPageRequestDTO productPageRequestDTO, ProductDTO productDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        log.info("product modify post........" + productDTO);
+        productService.productmodify(productDTO);
+        redirectAttributes.addFlashAttribute("result", "modified");
+        redirectAttributes.addAttribute("pno", productDTO.getPno());
+        return "redirect:/support/productRead";
+
+    }
+
+    // 품목 삭제
+    @PostMapping("/productRemove")
+    public String productremove(int pno, RedirectAttributes redirectAttributes){
+        log.info("remove post..." + pno);
+        productService.productremove(pno);
+        redirectAttributes.addFlashAttribute("result", "removed");
+        return "redirect:/support/productList";
     }
 
 

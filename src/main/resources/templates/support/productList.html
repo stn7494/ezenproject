@@ -8,30 +8,6 @@
 </head>
 <body>
 <div class="d-flex" id="wrapper">
-    <!-- Sidebar-->
-    <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div>
-        <div class="list-group list-group-flush">
-            <th:block th:with="user=${session.user}">
-            <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '1'}">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/index">발주관리</a>
-            </th:block>
-                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '2'}">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/support/index">조달관리</a>
-                </th:block>
-                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '3'}">
-                    <div class ="dropdown"> <!--자재관리드롭다운-->
-                      <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle" href="/stock/stockList" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">자재관리</a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="/stock/stockList">자재목록</a></li>
-                            <li><a class="dropdown-item" href="/stock/orderList">발주목록</a></li>
-                            <li><a class="dropdown-item" href="/stock/ioList">입고/출고내역</a></li>
-                        </ul>
-                    </div> <!--드롭다운끝-->
-                </th:block>
-            </th:block>
-        </div>
-    </div>
     <!-- Page content wrapper-->
     <div id="page-content-wrapper">
         <!-- 여기부터 화면 처리!!!!!!!-->
@@ -44,7 +20,7 @@
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <select class="form-select" name="type">
-                                        <option value="">---</option>
+                                        <option value="">품목검색</option>
                                         <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
                                         <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
                                     </select>
@@ -59,10 +35,9 @@
                     </form>
                     <div class="card">
                         <div class="card-header">
-                            조달관리 - 품목페이지
+                            <h5>품목 [전체조회]</h5>
                         </div>
                         <div class="card-body">
-                            <h5 class="card-title">품목관리 리스트</h5>
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -89,7 +64,9 @@
                                 </tr>
                                 </tbody>
                             </table>
-
+                            <div class="my-4">
+                                 <button type="button" class="btn btn-secondary" onclick="location.href='productRegister'" >품목등록</button>
+                            </div>
                             <div class="float-end">
                                 <ul class="pagination flex-wrap">
 
@@ -139,5 +116,15 @@
 
         self.location = '/support/productList'
     },false)
+
+    var result = [[${result}]]
+    if (result) {
+        if(result=="removed") {
+            alert("품목삭제가 완료되었습니다.")
+        }else{
+            alert("품목등록이 완료되었습니다.")
+        }
+    }
+
 </script>
 </html>
