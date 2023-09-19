@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -19,11 +21,10 @@
     <div class="border-end bg-white" id="sidebar-wrapper">
         <div class="sidebar-heading border-bottom bg-light">구매관리시스템</div>
         <div class="list-group list-group-flush">
-            <th:block th:with="user=${session.user}">
-            <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '1'}">
+            <th:block sec:authorize="hasAnyRole('ORDER','ADMIN')">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/list">발주관리</a>
             </th:block>
-                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '2'}">
+                <th:block  sec:authorize="hasAnyRole('SUPPORT','ADMIN')">
                     <div class ="dropdown"> <!--자재관리드롭다운-->
                         <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle" href="/stock/stockList" role="button" data-bs-toggle="dropdown" aria-expanded="false">조달관리</a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -33,7 +34,7 @@
                         </ul>
                     </div> <!--드롭다운끝-->
                 </th:block>
-                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '3'}">
+                <th:block sec:authorize="hasAnyRole('STOCK','ADMIN')">
                     <div class ="dropdown"> <!--자재관리드롭다운-->
                       <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle" href="/stock/stockList" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">자재관리</a>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -43,10 +44,6 @@
                         </ul>
                     </div> <!--드롭다운끝-->
                 </th:block>
-                <th:block  th:each="list,i: ${session.user}" th:if="${user != null && user.get(i.index).getRole() == '4'}">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/authorization">권한 설정</a>
-                </th:block>
-            </th:block>
         </div>
     </div>
     <!-- Page content wrapper-->
@@ -57,11 +54,11 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
-                        <th:block th:with="user=${session.user}">
+                        <th:block>
                             <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item active" th:if="${user} != null"><a class="nav-link" href="/logout">로그아웃</a></li>
-                            <li class="nav-item active" th:if="${user} == null"><a class="nav-link" href="/login">로그인</a></li>
-                            <li class="nav-item active" th:if="${user} != null" th:text="${user.get(0).getLogin().getName()}"></li>
+                            <li class="nav-item active" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">로그아웃</a></li>
+                            <li class="nav-item active" sec:authorize="isAnonymous()"><a class="nav-link" href="/login">로그인</a></li>
+                            <li class="nav-item active" sec:authorize="isAuthenticated()"><span sec:authentication="principal.username"></span></li>
                         </th:block>
                     </ul>
                 </div>
