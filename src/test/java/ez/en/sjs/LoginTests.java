@@ -1,14 +1,22 @@
 package ez.en.sjs;
 
-import ez.en.login.domain.Member;
+import ez.en.login.domain.Login;
 import ez.en.login.domain.MemberRole;
 import ez.en.login.domain.Role;
-import ez.en.login.repository.MemberRepository;
+import ez.en.login.repository.LoginRepository;
 import ez.en.login.repository.RoleRepository;
+import ez.en.stock.domain.Stock;
+import ez.en.stock.dto.StockDTO;
+import ez.en.stock.repository.StockRepository;
+import ez.en.stock.service.StockService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -22,9 +30,14 @@ public class LoginTests {
     private RoleRepository repository;
 
     @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private LoginRepository loginRepository;
+    @Autowired
+    private StockRepository stockRepository;
+
+    @Autowired
+    private StockService stockService;
 
     @Test
     public void testLogin() {
@@ -39,34 +52,94 @@ public class LoginTests {
     @Test
     public void insertMembers() {
 
-        IntStream.rangeClosed(10,10).forEach(i -> {
-            Member member = Member.builder()
+        IntStream.rangeClosed(1,1).forEach(i -> {
+            Login member = Login.builder()
                     .email("admin")
                     .pw(passwordEncoder.encode("admin"))
                     .name("관리자")
                     .build();
 
-//            member.addRole(MemberRole.ORDER);
             member.addRole(MemberRole.ADMIN);
             member.addRole(MemberRole.SUPPORT);
             member.addRole(MemberRole.ORDER);
             member.addRole(MemberRole.STOCK);
 
-            memberRepository.save(member);
+            loginRepository.save(member);
         });
     }
     @Test
     public void testRead() {
 
-        Optional<Member> result = memberRepository.getWithRoles("user01@naver.com");
+        Optional<Login> result = loginRepository.getWithRolesLogin("user01@naver.com");
 
-        Member member = result.orElseThrow();
+        Login member = result.orElseThrow();
 
         log.info(member);
         log.info(member.getRoleSet());
 
         member.getRoleSet().forEach(memberRole -> log.info(memberRole.name()));
     }
+    @Test
+    public void testSelectLogin() {
+        String email = "admin";
 
+        Optional<Login> result = loginRepository.findById(email);
 
+        Login login = result.orElseThrow();
+
+        log.info(login);
+    }
+    @Test
+    public void testSelect() {
+        int sno = 1;
+
+        Optional<Stock> result = stockRepository.findById(sno);
+
+        Stock stock = result.orElseThrow();
+
+        log.info(stock);
+    }
+    @Test
+    public void testPaging() {
+
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("sno").descending());
+
+        Page<Stock> result = stockRepository.findAll(pageable);
+
+        log.info(result.getTotalElements());
+    }
+    @Test
+    public void testSearchAll() {
+        String[] types = {"t"};
+
+        String keyword = "1";
+
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("sno").descending());
+
+        Page<Stock> result = stockRepository.searchAll(types, keyword, pageable);
+
+        //total pages
+        log.info(result.getTotalElements());
+        //pag size
+        log.info(result.getSize());
+        //pageNumber
+        log.info(result.getNumber());
+        //prev next
+        log.info(result.hasPrevious() + " : "  + result.hasNext());
+
+        result.getContent().forEach(stock -> log.info(stock));
+    }
+    @Test
+    public void testRegister() {
+
+        StockDTO stockDTO = StockDTO.builder()
+                .scount(100)
+                .snote("")
+                .cno(11)
+                .pno(5)
+                .build();
+        int sno = stockService.register(stockDTO);
+
+        log.info("sno : " + sno);
+    }
 }

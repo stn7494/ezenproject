@@ -2,9 +2,9 @@ package ez.en.login.domain;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -22,5 +22,16 @@ public class Login {
 
     @Column
     private String pw;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private Set<MemberRole> roleSet = new HashSet<>();
+
+    public void addRole(MemberRole memberRole) {
+        this.roleSet.add(memberRole);
+    }
+    public void clearRoles() {
+        this.roleSet.clear();
+    }
 
 }
