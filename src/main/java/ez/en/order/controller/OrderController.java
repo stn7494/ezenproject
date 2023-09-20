@@ -64,7 +64,7 @@ public class OrderController {
         log.info("CONTROLLER REGISTER orderDTO : "+orderDTO);
         int ono = orderService.register(orderDTO);
         redirectAttributes.addFlashAttribute("result", "regist");
-        return "redirect:/order/register";
+        return "redirect:/order/list";
     }
 
 //    발주 수정 페이지 이동
