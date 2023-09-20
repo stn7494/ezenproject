@@ -1,5 +1,6 @@
 package ez.en.support.repository.search;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import ez.en.support.domain.QSupportplan;
 import ez.en.support.domain.Supportplan;
@@ -12,14 +13,16 @@ public class SupportplanSearchImpl extends QuerydslRepositorySupport implements 
     public SupportplanSearchImpl(){super(Supportplan.class);}
 
     @Override
-    public Page<Supportplan> searchAll(Pageable pageable, String keyword, String[] types) {
+    public Page<Supportplan> search(Pageable pageable, String keyword, String type) {
         QSupportplan supportplan = QSupportplan.supportplan;
 
         JPQLQuery<Supportplan> query = from(supportplan);
 
-        if((types != null && types.length > 0)&&keyword != null){
-            switch (types[0]){
-                case "c":
+        BooleanBuilder builder = new BooleanBuilder();
+
+        if(type != null && keyword != null){
+            switch (type){
+                case "a":
 
             }
         }

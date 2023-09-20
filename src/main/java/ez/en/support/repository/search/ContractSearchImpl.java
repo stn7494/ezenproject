@@ -1,14 +1,14 @@
 package ez.en.support.repository.search;
 
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import ez.en.support.domain.Contract;
-import ez.en.support.domain.Partner;
-import ez.en.support.domain.QPartner;
+import ez.en.support.domain.*;
 import ez.en.support.repository.ContractRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public class ContractSearchImpl extends QuerydslRepositorySupport implements ContractSearch{
 
-    public ContractSearchImpl(){super(Partner.class);}
+    public ContractSearchImpl(){super(Contract.class);}
 
     @Autowired
     private ContractRepository contractRepository;
@@ -26,51 +26,83 @@ public class ContractSearchImpl extends QuerydslRepositorySupport implements Con
     @Override
     public Page<Contract> search(String keyword, String type, String state, Pageable pageable) {
 
+        QContract contract = QContract.contract;
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        JPQLQuery<Contract> query = from(contract);
+
         if(type != null && keyword!= null && state!= null){
-            state = state.equals("complete")?"계약완료":"계약종료";
+            if(state.equals("all") && type.equals("all")){
+                builder.or(contract.ccode.contains(keyword))
+                        .or(contract.product.pcode.contains(keyword))
+                        .or(contract.product.pname.contains(keyword))
+                        .or(contract.partner.ptname.contains(keyword));
+                query.where(builder);
+            }else if(!(type.equals("all")) && state.equals("all")){
                 switch (type){
                     case "ccode":
-                        return contractRepository.ccodeSearch(keyword,pageable,state);
+                        builder.or(contract.ccode.contains(keyword));
+                        break;
                     case "pcode":
-                        return contractRepository.pcodeSearch(keyword,pageable,state);
+                        builder.or(contract.product.pcode.contains(keyword));
+                        break;
                     case "pname":
-                        return contractRepository.pnameSearch(keyword,pageable,state);
+                        builder.or(contract.product.pname.contains(keyword));
+                        break;
                     case "ptname":
-                        return contractRepository.ptnameSearch(keyword,pageable,state);
-
+                        builder.or(contract.partner.ptname.contains(keyword));
+                        break;
+                }
+                query.where(builder);
+            }else if(!(state.equals("all")) && type.equals("all")){
+                state = state.equals("complete")?"계약완료":"계약종료";
+                builder.or(contract.ccode.contains(keyword))
+                        .or(contract.product.pcode.contains(keyword))
+                        .or(contract.product.pname.contains(keyword))
+                        .or(contract.partner.ptname.contains(keyword))
+                        .and(contract.cstate.eq(state));
+                query.where(builder);
+            }else {
+                state = state.equals("complete") ? "계약완료" : "계약종료";
+                switch (type) {
+                    case "ccode":
+                        builder.or(contract.ccode.contains(keyword).and(contract.cstate.eq(state)));
+                        break;
+                    case "pcode":
+                        builder.or(contract.product.pcode.contains(keyword).and(contract.cstate.eq(state)));
+                        break;
+                    case "pname":
+                        builder.or(contract.product.pname.contains(keyword).and(contract.cstate.eq(state)));
+                        break;
+                    case "ptname":
+                        builder.or(contract.partner.ptname.contains(keyword).and(contract.cstate.eq(state)));
+                        break;
+                }
+                query.where(builder);
             }
-
-        }
-        return contractRepository.list(pageable);
-    }
-
-
-
-    @Override
-    public Page<Partner> search(String keyword, String type, Pageable pageable) {
-
-        QPartner partner = QPartner.partner;
-
-        JPQLQuery<Partner> query = from(partner);
-
-        if(keyword!=null && type!=null){
-            switch (type){
-                case "ptname":
-                    query.where(partner.ptname.contains(keyword));
-                    break;
-                case "ptceoname":
-                    query.where(partner.ptceoname.contains(keyword));
-                    break;
-            }
         }
 
-        this.getQuerydsl().applyPagination(pageable,query);
+        this.getQuerydsl().applyPagination(pageable, query);
 
-        List<Partner> list = query.fetch();
+        List<Contract> list =  query.fetch();
 
         long count = query.fetchCount();
+
         return new PageImpl<>(list,pageable,count);
     }
 
+    @Override
+    public List<Contract> selectOne(String keyword) {
 
+        QContract contract = QContract.contract;
+
+        JPQLQuery<Contract> query = from(contract);
+
+        query.where(contract.ccode.eq(keyword));
+
+        List<Contract> list = query.fetch();
+
+        return list;
+    }
 }

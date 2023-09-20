@@ -9,8 +9,10 @@ import ez.en.support.dto.ContractPageRequestDTO;
 import ez.en.support.dto.ContractPageResponseDTO;
 import ez.en.support.repository.ContractRepository;
 import ez.en.support.repository.search.ContractSearchImpl;
+import ez.en.support.repository.search.PartnerSearchImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,16 +21,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@Log4j2
 public class ContractServiceImpl implements ContractService {
 
-    @Autowired
-    private ContractRepository contractRepository;
 
-    @Autowired
-    private ContractSearchImpl search;
+    private final ContractRepository contractRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ContractSearchImpl contractSearch;
+
+    private final PartnerSearchImpl partnerSearch;
+
+    private final ModelMapper modelMapper;
 
     @Override
     public ContractPageResponseDTO<Contract> list(ContractPageRequestDTO pageRequestDTO) {
@@ -41,7 +45,7 @@ public class ContractServiceImpl implements ContractService {
 
         Pageable pageable = pageRequestDTO.getPageable("cno");
 
-        Page<Contract> result = search.search(keyword,type,state,pageable);
+        Page<Contract> result = contractSearch.search(keyword,type,state,pageable);
 
         List<Contract> list = result.getContent();
         return ContractPageResponseDTO.<Contract>withAll()
@@ -60,7 +64,7 @@ public class ContractServiceImpl implements ContractService {
 
         Pageable pageable = pageRequestDTO.getPageable("ptno");
 
-        Page<Partner> result = search.search(keyword, type, pageable);
+        Page<Partner> result = partnerSearch.search(keyword, type, pageable);
 
         List<Partner> list = result.getContent();
 
@@ -81,6 +85,23 @@ public class ContractServiceImpl implements ContractService {
 
     @Override
     public ContractDTO selectOne(String ccode) {
-        return null;
+
+        Contract contract = contractRepository.selectOne(ccode);
+
+        ContractDTO contractDTO = modelMapper.map(contract, ContractDTO.class);
+
+        return contractDTO;
+    }
+
+    @Override
+    public void update(String cstate, String ccode) {
+
+        Optional<Contract> result = contractRepository.findByCcode(ccode);
+
+        Contract contract = result.orElseThrow();
+
+        contract.update(cstate);
+
+        contractRepository.save(contract);
     }
 }

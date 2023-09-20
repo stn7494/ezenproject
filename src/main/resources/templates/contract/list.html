@@ -17,9 +17,9 @@
                         <span style="margin-top: auto;margin-right: 2%">계약상태</span>
                         <div class="input-group-prepend">
                             <select class="form-select" name="state" id="state">
-                                <option value="all">전체</option>
-                                <option value="complete">계약완료</option>
-                                <option value="end">계약종료</option>
+                                <option th:selected="${contractPageRequestDTO.state == 'all'}" value="all">전체</option>
+                                <option th:selected="${contractPageRequestDTO.state == 'complete'}"value="complete">계약완료</option>
+                                <option th:selected="${contractPageRequestDTO.state == 'end'}" value="end">계약종료</option>
                             </select>
                         </div>
                     </div>
@@ -28,11 +28,11 @@
                             <span style="margin-top: auto;margin-right: 2%">일반검색</span>
                             <div class="input-group-prepend">
                                 <select class="form-select" name="type" id="type">
-                                    <option value="all">전체</option>
-                                    <option value="ccode">계약코드</option>
-                                    <option value="pcode">품목코드</option>
-                                    <option value="pname">품목이름</option>
-                                    <option value="ptname">납품업체</option>
+                                    <option th:selected="${contractPageRequestDTO.type == 'all'}" value="all">전체</option>
+                                    <option th:selected="${contractPageRequestDTO.type == 'ccode'}" value="ccode">계약코드</option>
+                                    <option th:selected="${contractPageRequestDTO.type == 'pcode'}" value="pcode">품목코드</option>
+                                    <option th:selected="${contractPageRequestDTO.type == 'pname'}" value="pname">품목이름</option>
+                                    <option th:selected="${contractPageRequestDTO.type == 'ptname'}" value="ptname">납품업체</option>
                                 </select>
                             </div>
                             <input type="text" class="form-control" name="keyword" id="keyword" th:value="${contractPageRequestDTO.keyword}">

@@ -4,10 +4,7 @@ import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
 import ez.en.support.domain.Partner;
-import ez.en.support.dto.ContractDTO;
-import ez.en.support.dto.ContractPageRequestDTO;
-import ez.en.support.dto.ContractPageResponseDTO;
-import ez.en.support.dto.ProductDTO;
+import ez.en.support.dto.*;
 
 public interface ContractService {
 
@@ -18,4 +15,7 @@ public interface ContractService {
     void insert(ContractDTO contractDTO);
 
     ContractDTO selectOne(String ccode);
+
+    void update(String cstate, String ccode);
+
 }
