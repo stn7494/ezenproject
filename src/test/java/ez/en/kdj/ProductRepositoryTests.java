@@ -1,7 +1,6 @@
 package ez.en.kdj;
 
 import ez.en.support.domain.Product;
-import ez.en.support.domain.ProductImage;
 import ez.en.support.repository.ProductRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -74,36 +73,8 @@ public class ProductRepositoryTests {
 //
 //    }
 
-    @Test
-    @Transactional
-    public void testReadWithImages() {
-        //반드시 존재하는 pno로 확인
-        Optional<Product> result = productRepository.findById(45);
-        Product product = result.orElseThrow();
-        log.info(product);
-        log.info("------------------------");
-        for (ProductImage productImage : product.getImageSet()){
-            log.info(productImage);
-        }
-    }
 
-    @Test
-    @Commit
-    @Transactional
-    public void testModifyImages() {
-        Optional<Product> result = productRepository.findByIdWithImages(45);
-        Product product = result.orElseThrow();
 
-        //기존의 첨부파일들은 삭제
-        product.clearImages();
-
-        //새로운 첨부파일들
-        for (int i=0; i<2; i++) {
-            product.addImage(UUID.randomUUID().toString(), "updatefile"+i+".jpg");
-        }
-        productRepository.save(product);
-
-    }
 
 
 

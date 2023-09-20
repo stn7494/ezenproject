@@ -12,9 +12,8 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Integer>, ProductSearch {
 
-    @EntityGraph(attributePaths = {"imageSet"})
-    @Query("select p from Product p where p.pno =:pno")
-    Optional<Product> findByIdWithImages(int pno);
+//    @Query("select p from Product p where p.pno =:pno")
+//    Optional<Product> findById(int pno);
 
     @Query(value = "select now()", nativeQuery = true)
     String getTime();
