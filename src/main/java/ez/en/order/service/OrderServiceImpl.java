@@ -38,24 +38,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public int register(OrderDTO orderDTO) {
-//        orderDTO.setContract(Contract.builder().cno(orderDTO.getCno()).build());
-//        orderDTO.setSupportplan(Supportplan.builder().spno(orderDTO.getSpno()).build());
-//        orderDTO.setLogin(Login.builder().email(orderDTO.getEmail().toString()).build());
-
-//        OrderDTO orderDTO1 = OrderDTO.builder()
-//                .odate(orderDTO.getOdate())
-//                .ocode(orderDTO.getOcode())
-//                .ocount(orderDTO.getOcount())
-//                .ostate(orderDTO.getOstate())
-//                .odetail(orderDTO.getOdetail())
-//                .contract(Contract.builder().cno(orderDTO.getCno()).build())
-//                .supportplan(Supportplan.builder().spno(orderDTO.getSpno()).build())
-//                .login(Login.builder().email(orderDTO.getEmail()).build())
-//                .build();
-//
-//        orderDTO.setCno(0);
-//        orderDTO.setSpno(0);
-//        orderDTO.setEmail(null);
+        orderDTO.setContract(Contract.builder().cno(orderDTO.getCno()).build());
+        orderDTO.setSupportplan(Supportplan.builder().spno(orderDTO.getSpno()).build());
+        orderDTO.setLogin(Login.builder().email(orderDTO.getEmail()).build());
         log.info("=================="+orderDTO);
         Orders orders = modelMapper.map(orderDTO, Orders.class);
         log.info("service register orders : "+ orders);

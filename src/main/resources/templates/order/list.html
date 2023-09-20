@@ -17,7 +17,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <select class="form-select" name="type">
-                            <option value="">---</option>
+                            <option value="pt" th:selected="${pageRequestDTO.type=='pt'}">---</option>
                             <option value="p" th:selected="${pageRequestDTO.type=='p'}">제품명</option>
                             <option value="t" th:selected="${pageRequestDTO.type=='t'}">업체명</option>
                         </select>
@@ -72,6 +72,10 @@
                         </tbody>
                     </table>
 
+                    <div>
+                        <button type="button" class="btn btn-primary regiBtn">발주 신청</button>
+                    </div>
+
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
 
@@ -118,6 +122,12 @@
         e.preventDefault()
         e.stopPropagation()
         self.location="/order/list"
+    }, false)
+
+    document.querySelector(".regiBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        self.location="/order/register"
     }, false)
 
 </script>
