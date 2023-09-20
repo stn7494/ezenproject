@@ -24,25 +24,25 @@
                         </div>
 
 
-                        <input type="hidden" name="spno" class="form-control">
-                        <input type="hidden" name="ccode" class="form-control">
-                        <input type="hidden" name="email" class="form-control 로그인 정보에서 받아와야 함">
+                        <input type="hidden" name="spno" id="spno" class="form-control">
+                        <input type="hidden" name="cno" id="cno" class="form-control">
+                        <input type="hidden" name="email" class="form-control" value="test01@test.test">
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">납기 일자</span>
-                            <input type="text" name="spdelidate" class="form-control" placeholder="조달 계획 선택" readonly>
+                            <input type="text" name="spdelidate" id= spdelidate class="form-control" placeholder="조달 계획 선택" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">제품 코드</span>
-                            <input type="text" name="pcode" class="form-control" placeholder="조달 계획 선택" areadonly>
+                            <input type="text" name="pcode" id="pcode" class="form-control" placeholder="조달 계획 선택" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">제품 이름</span>
-                            <input type="text" name="pname" class="form-control" placeholder="조달 계획 선택" readonly>
+                            <input type="text" name="pname" id="pname" class="form-control" placeholder="조달 계획 선택" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">계획 수량</span>
-                            <input type="text" name="spcount" class="form-control" placeholder="조달 계획 선택" readonly>
+                            <input type="text" name="spcount" id="spcount" class="form-control" placeholder="조달 계획 선택" readonly>
                         </div>
 
                         <div>
@@ -52,11 +52,11 @@
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">업체 이름</span>
-                            <input type="text" name="ptname" class="form-control" placeholder="계약 업체 선택" readonly>
+                            <input type="text" name="ptname" id="ptname" class="form-control" placeholder="계약 업체 선택" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">제품 단가</span>
-                            <input type="text" name="ptname" class="form-control" placeholder="계약 업체 선택" readonly>
+                            <input type="text" name="cprice" id="cprice" class="form-control" placeholder="계약 업체 선택" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">발주 수량</span>
@@ -89,7 +89,7 @@
     function openSplan() {
         var url = "/order/popSplan"
         var name = "조달 계획 선택"
-        var option = "width=600,height=800"
+        var option = "width=1200,height=720"
         window.open(url,name,option)
     }
 
@@ -98,12 +98,30 @@
         console.log("pcode : "+temp)
         if($.isEmptyObject(temp)){
             alert("조달 계획을 선택해주세요.")
+            return
         }
-        var url = "/order/popContract"
+        var url = "/order/popContract?pcode="+document.querySelector("input[name='pcode']").value
         var name= "계약 업체 선택"
-        var option = "width=600,height=800"
+        var option = "width=1200,height=720"
         window.open(url,name,option)
     }
+
+    document.querySelector(".clearBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        self.location="/order/register"
+    }, false)
+
+    document.querySelector(".submitBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        if(!confirm("입력 내용으로 발주를 신청합니까?")){
+            return
+        }
+        else document.querySelector("form").submit()
+    }, false)
+
+
     
 
 </script>
