@@ -28,6 +28,14 @@
                         <input type="text" class="form-control" th:value="${dto.pname}" readonly>
                     </div>
                     <div class="input-group mb-3">
+                        <span class="input-group-text">품목분류1(대분류)</span>
+                        <input type="text" class="form-control" th:value="${dto.topDTO.tname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목분류2(중분류)</span>
+                        <input type="text" class="form-control" th:value="${dto.middleDTO.mname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
                         <span class="input-group-text">품목설명</span>
                         <textarea class="form-control col-sm-5" rows="5" readonly>[[${dto.pcontent}]]</textarea>
                     </div>

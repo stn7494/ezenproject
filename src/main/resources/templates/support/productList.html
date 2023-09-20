@@ -17,7 +17,7 @@
                     <form action="/support/productList" method="get">
                         <div class="col">
                             <input type="hidden" name="size" th:value="${productPageRequestDTO.size}">
-                            <div class="input-group">
+                            <div class="input-group"> <!--검색!!-->
                                 <div class="input-group-prepend">
                                     <select class="form-select" name="type">
                                         <option value="">품목검색</option>
@@ -30,7 +30,7 @@
                                     <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
                                     <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
                                 </div>
-                            </div>
+                            </div><br/>
                         </div>
                     </form>
                     <div class="card">
