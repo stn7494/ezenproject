@@ -9,11 +9,11 @@ import ez.en.support.dto.ContractPageResponseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ContractSearch {
 
     Page<Contract> search(String keyword, String type, String state ,Pageable pageable);
 
-    Page<Partner> search(String keyword, String type,Pageable pageable);
-
-
+    List<Contract> selectOne(String keyword);
 }

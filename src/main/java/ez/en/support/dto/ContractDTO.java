@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+import java.time.LocalDateTime;
+
 
 @Data
 @AllArgsConstructor
@@ -24,11 +27,8 @@ public class ContractDTO {
 
     private String cstate;
 
-    private PartnerDTO partnerdto;
+    private PartnerDTO partnerDTO;
 
-    private ProductDTO productdto;
+    private ProductDTO productDTO;
 
-    private MiddleDTO middledto;
-
-    private TopDTO topdto;
 }

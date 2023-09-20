@@ -1,23 +1,14 @@
 package ez.en.shin;
 
-import ez.en.config.PageRequestDTO;
-import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.*;
-import ez.en.support.dto.ContractDTO;
-import ez.en.support.dto.ContractPageRequestDTO;
-import ez.en.support.dto.ContractPageResponseDTO;
+import ez.en.support.dto.*;
 import ez.en.support.repository.*;
-import ez.en.support.repository.search.ContractSearchImpl;
 import ez.en.support.service.ContractServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -26,29 +17,13 @@ import java.util.Optional;
 @Log4j2
 public class SupportRepositoryTests {
 
-    @Autowired
-    private SupportplanRepository supportplanRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private TopRepository topRepository;
-
-    @Autowired
-    private PartnerRepository partnerRepository;
-
-    @Autowired
-    private MiddleRepository middleRepository;
 
     @Autowired
     private ContractRepository contractRepository;
 
     @Autowired
-    private ContractSearchImpl search;
-
-    @Autowired
     private ContractServiceImpl service;
+
 
 
 
@@ -68,6 +43,20 @@ public class SupportRepositoryTests {
     @Test
     public void selectOne(){
 
+        Contract contract = contractRepository.selectOne("1");
+
+        log.info(contract.getProduct());
+        log.info(contract.getPartner());
+        log.info(contract.getProduct().getMiddle().getMcode());
+
+        Optional<Contract> result = contractRepository.findByCcode("1");
+        Contract contract1 = result.orElseThrow();
+
+        contract1.update("계약종료");
+
+        Contract contract2 = contractRepository.save(contract1);
+        log.info(contract1);
+        log.info(contract2);
     }
 
 

@@ -40,4 +40,7 @@ public class Contract {
     @JoinColumn(name = "pno")
     private Product product;
 
+    public void update(String cstate){
+        this.cstate = cstate;
+    }
 }

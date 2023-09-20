@@ -1,5 +1,7 @@
 package ez.en.support.controller;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Contract;
 import ez.en.support.domain.Partner;
 import ez.en.support.dto.*;
@@ -7,7 +9,6 @@ import ez.en.support.service.ContractServiceImpl;
 import ez.en.support.service.ProductServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Controller
 @Log4j2
@@ -44,7 +41,7 @@ public class ContractController {
 
         mav.addObject("responseDTO", responseDTO);
 
-        mav.setViewName("/contract/contractList");
+        mav.setViewName("/contract/list");
 
         return mav;
     }
@@ -80,8 +77,8 @@ public class ContractController {
         log.info(ccode);
         contractDTO.setCcode(ccode);
         contractDTO.setCstate("계약완료");
-        contractDTO.setPartnerdto(partnerDTO);
-        contractDTO.setProductdto(productDTO);
+        contractDTO.setPartnerDTO(partnerDTO);
+        contractDTO.setProductDTO(productDTO);
         service.insert(contractDTO);
         return "redirect:/contract/list";
     }
@@ -104,9 +101,24 @@ public class ContractController {
     }
 
     @GetMapping({"detail","modify"})
-    public void modify(@RequestParam("ccode")String ccode, Model model){
+    public void modify(@RequestParam("ccode")String ccode, Model model, ContractPageRequestDTO pageRequestDTO){
+
         ContractDTO dto = service.selectOne(ccode);
-        model.addAttribute("dto", dto);
-        log.info("조회결과 : "+dto);
+
+        model.addAttribute("dto",dto);
+
+        log.info(dto.getProductDTO().getMiddleDTO().getTopDTO());
+    }
+
+    @PostMapping("modify")
+    public String modify(ContractPageRequestDTO pageRequestDTO,
+                         @RequestParam("ccode")String ccode,
+                         @RequestParam("cstate")String cstate){
+        log.info("계약코드 : "+ccode);
+        log.info("계약상태 : "+cstate);
+        String link = pageRequestDTO.getLink();
+        cstate = cstate.equals("end")?"계약종료":"계약완료";
+        service.update(cstate, ccode);
+        return "redirect:/contract/detail?ccode="+ccode+"&"+link;
     }
 }
