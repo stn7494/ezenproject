@@ -12,7 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 @Log4j2
@@ -52,6 +54,9 @@ public class ProductServiceTests {
                 .pnote("업데이트두번")
                 .build();
 
+        //첨부파일을 하나 추가
+        productDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
+
         productService.productmodify(productDTO);
     }
 
@@ -69,6 +74,24 @@ public class ProductServiceTests {
 
         log.info(responseDTO);
     }
+
+    @Test
+    public void testReadAll() {
+        int pno = 45;
+        ProductDTO productDTO = productService.productreadOne(pno);
+        log.info(productDTO);
+        for (String fileName : productDTO.getFileNames()) {
+            log.info(fileName);
+        }// end for
+    }
+
+    @Test
+    public void testRemoveAll() {
+        int pno = 44;
+        productService.productremove(pno);
+    }
+
+
 
 
 

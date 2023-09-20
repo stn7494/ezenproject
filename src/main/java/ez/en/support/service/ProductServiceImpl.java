@@ -1,8 +1,12 @@
 package ez.en.support.service;
 
 
+import com.querydsl.jpa.JPQLQuery;
+import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.Product;
+import ez.en.support.domain.QProduct;
 import ez.en.support.dto.ProductDTO;
+import ez.en.support.dto.ProductListAllDTO;
 import ez.en.support.dto.ProductPageRequestDTO;
 import ez.en.support.dto.ProductPageResponseDTO;
 import ez.en.support.repository.ProductRepository;
@@ -29,16 +33,20 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public int productregister(ProductDTO productDTO) {
-        Product product = modelMapper.map(productDTO, Product.class);
+//        Product product = modelMapper.map(productDTO, Product.class);
+        Product product = dtoToEntity(productDTO);
         int pno = productRepository.save(product).getPno();
         return pno;
     }
 
     @Override
     public ProductDTO productreadOne(int pno) {
-        Optional<Product> result = productRepository.findById(pno);
+        
+        // board_image까지 조인처리는 findByWithLmages()를 이용
+        Optional<Product> result = productRepository.findByIdWithImages(pno);
         Product product = result.orElseThrow();
-        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+//        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+        ProductDTO productDTO = entityToDTO(product);
         return productDTO;
     }
 
@@ -48,6 +56,16 @@ public class ProductServiceImpl implements ProductService{
         Optional<Product> result = productRepository.findById(productDTO.getPno());
         Product product = result.orElseThrow();
         product.productchange(productDTO.getPname(), productDTO.getPcontent(), productDTO.getPnote());
+
+        //첨부파일의 처리
+        product.clearImages();
+
+        if (productDTO.getFileNames() != null){
+            for (String fileName : productDTO.getFileNames()) {
+                String[] arr = fileName.split("_");
+                product.addImage(arr[0], arr[1]);
+            }
+        }
         productRepository.save(product);
     }
 
@@ -74,4 +92,28 @@ public class ProductServiceImpl implements ProductService{
                 .build();
     }
 
+
+
+
+
+
+
+
+
+//    @Override
+//    public ProductPageResponseDTO<ProductListAllDTO> listWithAll(ProductPageRequestDTO productPageRequestDTO){
+//        String[] types = productPageRequestDTO.getTypes();
+//        String keyword = productPageRequestDTO.getKeyword();
+//        Pageable pageable = productPageRequestDTO.getPageable("pno");
+//
+//        Page<ProductListAllDTO> result = productRepository.productsearchAll(types, keyword, pageable);
+//
+//        return ProductPageResponseDTO.<ProductListAllDTO>withAll()
+//                .productPageRequestDTO(productPageRequestDTO)
+//                .dtoList(result.getContent())
+//                .total((int)result.getTotalElements())
+//                .build();
+//
+//    }
+//
 }

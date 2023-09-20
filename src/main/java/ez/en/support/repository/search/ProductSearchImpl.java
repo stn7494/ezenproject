@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import ez.en.support.domain.Product;
 import ez.en.support.domain.QProduct;
+import ez.en.support.dto.ProductListAllDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -58,5 +59,10 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
         List<Product> list = query.fetch();
         long count = query.fetchCount();
         return new PageImpl<>(list, pageable,count);
+    }
+
+    @Override
+    public Page<ProductListAllDTO> searchWithAll(String[] types, String keyword, Pageable pageable) {
+        return null;
     }
 }
