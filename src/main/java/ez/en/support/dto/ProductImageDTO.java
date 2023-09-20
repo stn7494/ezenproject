@@ -1,4 +1,5 @@
-package ez.en.login.dto;
+package ez.en.support.dto;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,16 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class LoginDTO {
-
-
-    private String email;
-
-    private String name;
-
-    private String pw;
-
+public class ProductImageDTO {
+    private String uuid;
+    private String fileName;
+    private int ord;
 }
+

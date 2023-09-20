@@ -34,22 +34,13 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/img/**", "/js/**", "/vendor/**", "/vendor/tools/**").permitAll()
 
                 //STOCK
-                .antMatchers("/stock/ioList").hasRole("STOCK")
-                .antMatchers("/stock/orderList").hasRole("STOCK")
-                .antMatchers("/stock/stockList").hasRole("STOCK")
+                .antMatchers("/stock/**").hasRole("STOCK")
 
                 //ORDER
-                .antMatchers("/order/detail").hasRole("ORDER")
-                .antMatchers("/order/list").hasRole("ORDER")
-                .antMatchers("/order/modify").hasRole("ORDER")
-                .antMatchers("/order/register").hasRole("ORDER")
+                .antMatchers("/order/**").hasRole("ORDER")
 
                 //SUPPORT
-                .antMatchers("/support/index").hasRole("SUPPORT")
-                .antMatchers("/support/productList").hasRole("SUPPORT")
-                .antMatchers("/contract/list").hasRole("SUPPORT")
-                .antMatchers("/contract/detail").hasRole("SUPPORT")
-                .antMatchers("/contract/modify").hasRole("SUPPORT");
+                .antMatchers("/support/**").hasRole("SUPPORT");
 
         http.formLogin()
                 .loginPage("/login")

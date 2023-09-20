@@ -1,6 +1,7 @@
 package ez.en.kdj;
 
 import ez.en.support.domain.Product;
+import ez.en.support.domain.ProductImage;
 import ez.en.support.repository.ProductRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 @SpringBootTest
 @Log4j2
@@ -53,5 +57,54 @@ public class ProductRepositoryTests {
         product.productchange("업데이트 삼성 키보드","업데이트 테스트임...", "수정한거임" );
         productRepository.save(product);
     }
+
+//    @Test
+//    public void testInsertWithImages() {
+//        Product product = Product.builder()
+//                .pcode("P20230914T01M05SS08")
+//                .pname("이미지테스트")
+//                .pcontent("첨부파일 테스트")
+//                .build();
+//
+//        for (int i = 0; i <3; i++) {
+//            product.addImage(UUID.randomUUID().toString(), "file"+i+".jpg");
+//        }// end for
+//
+//        productRepository.save(product);
+//
+//    }
+
+    @Test
+    @Transactional
+    public void testReadWithImages() {
+        //반드시 존재하는 pno로 확인
+        Optional<Product> result = productRepository.findById(45);
+        Product product = result.orElseThrow();
+        log.info(product);
+        log.info("------------------------");
+        for (ProductImage productImage : product.getImageSet()){
+            log.info(productImage);
+        }
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void testModifyImages() {
+        Optional<Product> result = productRepository.findByIdWithImages(45);
+        Product product = result.orElseThrow();
+
+        //기존의 첨부파일들은 삭제
+        product.clearImages();
+
+        //새로운 첨부파일들
+        for (int i=0; i<2; i++) {
+            product.addImage(UUID.randomUUID().toString(), "updatefile"+i+".jpg");
+        }
+        productRepository.save(product);
+
+    }
+
+
 
 }

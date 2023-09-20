@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//임시 테스트용 DTO 클래스
 public class PopSplanDTO {
 
     private int spno;
@@ -20,6 +19,8 @@ public class PopSplanDTO {
     private String spstate;
 
     private int spcount;
+
+    private String spdate;
 
     private Product product;
 

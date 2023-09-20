@@ -1,6 +1,7 @@
 package ez.en.order.dto;
 
 import ez.en.support.domain.Partner;
+import ez.en.support.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//임시 테스트용 DTO 클래스
 public class PopContractDTO {
 
     private int cno;
@@ -22,6 +22,8 @@ public class PopContractDTO {
     private String cstate;
 
     private Partner partner;
+
+    private Product product;
 
 
 

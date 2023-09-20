@@ -26,6 +26,9 @@ public class Supportplan {
     @Column
     private String spdelidate;
 
+    @Column
+    private String spstate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pno")
     private Product product;

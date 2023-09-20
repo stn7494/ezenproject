@@ -3,6 +3,8 @@ package ez.en.order.controller;
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.order.dto.OrderDTO;
+import ez.en.order.dto.PopContractDTO;
+import ez.en.order.dto.PopSplanDTO;
 import ez.en.order.service.OrderService;
 import ez.en.support.domain.Contract;
 import ez.en.support.dto.ContractPageRequestDTO;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 
 @Controller
@@ -29,8 +32,6 @@ import java.time.format.DateTimeFormatter;
 public class OrderController {
 
     private final OrderService orderService;
-    private final ContractService contractService;
-//    private final SupportService supportService;
 
 //    발주 목록 (선택 정렬 기능 미완성)
     @GetMapping("/order/list")
@@ -60,9 +61,10 @@ public class OrderController {
         orderDTO.setOcode("O"+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddmmssSS")));
         orderDTO.setOstate("발주신청");
         orderDTO.setOdate(LocalDate.now().toString());
+        log.info("CONTROLLER REGISTER orderDTO : "+orderDTO);
         int ono = orderService.register(orderDTO);
         redirectAttributes.addFlashAttribute("result", "regist");
-        return "redirect:/order/list";
+        return "redirect:/order/register";
     }
 
 //    발주 수정 페이지 이동
@@ -83,13 +85,16 @@ public class OrderController {
     }
 
     @GetMapping("/order/popSplan")
-    public void popSplanGet(){
+    public void popSplanGet(Model model){
+        List<PopSplanDTO> spDTO = orderService.popSplanList();
+        model.addAttribute("spDTO", spDTO);
+
     }
 
     @GetMapping("/order/popContract")
-    public void popContract(PageRequestDTO pageRequestDTO, Model model){
-
-
+    public void popContract(String pcode, Model model){
+        List<PopContractDTO> cDTO = orderService.popContractList(pcode);
+        model.addAttribute("cDTO", cDTO);
     }
 
 
