@@ -2,7 +2,6 @@ package ez.en.support.repository.search;
 
 
 import ez.en.support.domain.Product;
-import ez.en.support.dto.ProductListAllDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,6 +11,7 @@ public interface ProductSearch {
 
     Page<Product> productsearchAll(String[] types, String keyword, Pageable pageable);
 
-    Page<ProductListAllDTO> searchWithAll(String[] types, String keyword, Pageable pageable);
+//    Page<ProductListAllDTO> searchWithAll(String[] types, String keyword, Pageable pageable);
+
 
 }
