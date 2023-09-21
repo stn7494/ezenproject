@@ -17,7 +17,7 @@
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <select class="form-select" name="type">
-                            <option value="pt" th:selected="${pageRequestDTO.type=='pt'}">---</option>
+                            <option value="pt" th:selected="${pageRequestDTO.type=='pt'}">검색</option>
                             <option value="p" th:selected="${pageRequestDTO.type=='p'}">제품명</option>
                             <option value="t" th:selected="${pageRequestDTO.type=='t'}">업체명</option>
                         </select>
@@ -39,6 +39,7 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">발주 목록</h5>
+                    <hr>
 
                     <table class="table">
                         <thead>

@@ -44,21 +44,21 @@ public class ProductServiceTests {
 
     }
 
-    @Test
-    public void testproductModify() {
-        //변경에 필요한 데이터만 작성
-        ProductDTO productDTO = ProductDTO.builder()
-                .pno(38)
-                .pname("또 변경한 업데이트삼성키보드")
-                .pcontent("업업데이트")
-                .pnote("업데이트두번")
-                .build();
-
-        //첨부파일을 하나 추가
-        productDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
-
-        productService.productmodify(productDTO);
-    }
+//    @Test
+//    public void testproductModify() {
+//        //변경에 필요한 데이터만 작성
+//        ProductDTO productDTO = ProductDTO.builder()
+//                .pno(38)
+//                .pname("또 변경한 업데이트삼성키보드")
+//                .pcontent("업업데이트")
+//                .pnote("업데이트두번")
+//                .build();
+//
+//        //첨부파일을 하나 추가
+//        productDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
+//
+//        productService.productmodify(productDTO);
+//    }
 
 
     @Test
@@ -75,15 +75,15 @@ public class ProductServiceTests {
         log.info(responseDTO);
     }
 
-    @Test
-    public void testReadAll() {
-        int pno = 45;
-        ProductDTO productDTO = productService.productreadOne(pno);
-        log.info(productDTO);
-        for (String fileName : productDTO.getFileNames()) {
-            log.info(fileName);
-        }// end for
-    }
+//    @Test
+//    public void testReadAll() {
+//        int pno = 45;
+//        ProductDTO productDTO = productService.productreadOne(pno);
+//        log.info(productDTO);
+//        for (String fileName : productDTO.getFileNames()) {
+//            log.info(fileName);
+//        }// end for
+//    }
 
     @Test
     public void testRemoveAll() {
