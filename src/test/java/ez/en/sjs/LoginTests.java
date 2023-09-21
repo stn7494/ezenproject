@@ -143,5 +143,28 @@ public class LoginTests {
 
         log.info(responseDTO);
     }
+    @Test
+    public void testfail() {
+
+        String email = "user01@naver.com";
+
+        loginRepository.failLogin(email);
+
+    }
+    @Test
+    public void testLock() {
+
+        String email = "user01@naver.com";
+
+        loginRepository.loginLock(email);
+    }
+    @Test
+    public void testcntLock() {
+        String email = "user01@naver.com";
+
+        int list = loginRepository.checkCnt(email);
+
+        log.info(list);
+    }
 
 }
