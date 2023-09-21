@@ -5,7 +5,9 @@ import ez.en.config.PageResponseDTO;
 import ez.en.order.dto.OrderDTO;
 import ez.en.order.dto.PopContractDTO;
 import ez.en.order.dto.PopSplanDTO;
+import ez.en.order.dto.ProgressInspectionDTO;
 import ez.en.order.service.OrderService;
+import ez.en.order.service.ProgressInspectionService;
 import ez.en.support.domain.Contract;
 import ez.en.support.dto.ContractPageRequestDTO;
 import ez.en.support.dto.ContractPageResponseDTO;
@@ -32,6 +34,7 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final ProgressInspectionService progressInspectionService;
 
 //    발주 목록 (선택 정렬 기능 미완성)
     @GetMapping("/order/list")
@@ -46,8 +49,16 @@ public class OrderController {
     @GetMapping("/order/detail")
     public void detailGet(PageRequestDTO pageRequestDTO, Model model, int ono){
         OrderDTO orderDTO = orderService.detail(ono);
-//        조달 리스트, 계약 상세 확인 기능 필요
+        log.info("CONTROLLER orderDTO : "+orderDTO);
         model.addAttribute("dto", orderDTO);
+    }
+
+//    발주 상세 수정
+    @PostMapping("/order/detail")
+    public String detailPost(OrderDTO orderDTO, RedirectAttributes redirectAttributes){
+        int ono = orderService.modify(orderDTO);
+        redirectAttributes.addAttribute("ono", ono);
+        return "redirect:/order/detail";
     }
 
 //    발주 등록 페이지 이동
@@ -67,34 +78,27 @@ public class OrderController {
         return "redirect:/order/list";
     }
 
-//    발주 수정 페이지 이동
-    @GetMapping("/order/modify")
-    public void modifyGet(Model model, int ono){
-        OrderDTO orderDTO = orderService.detail(ono);
-        model.addAttribute("dto", orderDTO);
-    }
-
-//    발주 수정
-    @PostMapping("/order/modify")
-    public String modify(OrderDTO orderDTO, RedirectAttributes redirectAttributes){
-        orderService.modify(orderDTO);
-        redirectAttributes.addFlashAttribute("result", "modified");
-        redirectAttributes.addAttribute("ono", orderDTO.getOno());
-        return "redirect:/order/detail";
-
-    }
-
+//    발주 등록시 조달 계획 선택 팝업
     @GetMapping("/order/popSplan")
     public void popSplanGet(Model model){
         List<PopSplanDTO> spDTO = orderService.popSplanList();
         model.addAttribute("spDTO", spDTO);
-
     }
 
+//    발주 등록시 계약 선택 팝업
     @GetMapping("/order/popContract")
     public void popContract(String pcode, Model model){
         List<PopContractDTO> cDTO = orderService.popContractList(pcode);
         model.addAttribute("cDTO", cDTO);
+    }
+
+//    발주 상세 확인에서 진척 검수 팝업
+    @GetMapping("/order/popInspection")
+    public void popInspection(int ono, Model model){
+
+
+
+
     }
 
 

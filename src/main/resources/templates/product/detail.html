@@ -53,10 +53,10 @@
                     </div>
                     <div class="my-4">
                         <div class="float-end" th:with="link=${productPageRequestDTO.getLink()}">
-                            <a th:href="|@{/support/productList}?${link}|" class="text-decoration-none">
+                            <a th:href="|@{/product/list}?${link}|" class="text-decoration-none">
                                 <button type="button" class="btn btn-primary">전체목록</button>
                             </a>
-                            <a th:href="|@{/support/productModify(pno=${dto.pno})}&${link}|" class="text-decoration-none">
+                            <a th:href="|@{/product/modify(pno=${dto.pno})}&${link}|" class="text-decoration-none">
                                 <button type="button" class="btn btn-secondary">품목수정</button>
                             </a>
                         </div>
@@ -73,6 +73,8 @@
     if (result) {
         alert("품목 수정이 완료되었습니다.")
     }
+
+
 
 </script>
 <body>

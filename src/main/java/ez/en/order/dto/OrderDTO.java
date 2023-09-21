@@ -22,8 +22,6 @@ public class OrderDTO {
 
     private String odate;
 
-//    private String odelidate;
-
     private String odetail;
 
     private String ostate;

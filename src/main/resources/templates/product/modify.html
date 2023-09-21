@@ -14,7 +14,7 @@
                     <h5>품목 [수정]</h5>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/support/productModify.html}" method="post" id="f1">
+                    <form th:action="@{/product/modify.html}" method="post" id="f1">
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목순번</span>
                             <input type="text" class="form-control" th:value="${dto.pno}" name="pno" readonly style="background-color: silver">
@@ -29,11 +29,11 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" style="width: 10%">품목분류1(대분류)</span>
-                            <input type="text" class="form-control" th:value="${dto.topDTO.tname}" name="pname" readonly style="background-color: silver">
+                            <input type="text" class="form-control" th:value="${dto.topDTO.tname}" name="tname" readonly style="background-color: silver">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목분류2(중분류)</span>
-                            <input type="text" class="form-control" th:value="${dto.middleDTO.mname}" name="pname" readonly style="background-color: silver">
+                            <input type="text" class="form-control" th:value="${dto.middleDTO.mname}" name="mname" readonly style="background-color: silver">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목설명</span>
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                     </form>
-                </div>      <!-- * card-body끝 *-->
+                </div>      <!-- * card-body 끝 *-->
             </div>      <!-- * card 끝 *-->
         </div>      <!-- * col 끝 * -->
     </div>
@@ -73,7 +73,7 @@
         e.preventDefault()
         e.stopPropagation()
 
-        formObj.action = `/support/productList`
+        formObj.action = `/product/list`
         formObj.method = `get`
         formObj.submit()
     }, false)
@@ -82,7 +82,7 @@
         e.preventDefault()
         e.stopPropagation()
 
-        formObj.action = `/support/productModify?${link}`
+        formObj.action = `/product/modify?${link}`
         formObj.method = `post`
         formObj.submit()
     }, false)
@@ -91,7 +91,7 @@
         e.preventDefault()
         e.stopPropagation()
 
-        formObj.action = `/support/productRemove`
+        formObj.action = `/product/remove`
         formObj.method = 'post'
         formObj.submit()
     }, false)
