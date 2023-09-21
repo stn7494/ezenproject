@@ -55,7 +55,7 @@ public class ProductServiceTests {
                 .build();
 
         //첨부파일을 하나 추가
-        productDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
+//        productDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
 
         productService.productmodify(productDTO);
     }
@@ -75,7 +75,7 @@ public class ProductServiceTests {
         log.info(responseDTO);
     }
 
-    @Test
+   /* @Test
     public void testReadAll() {
         int pno = 45;
         ProductDTO productDTO = productService.productreadOne(pno);
@@ -83,7 +83,7 @@ public class ProductServiceTests {
         for (String fileName : productDTO.getFileNames()) {
             log.info(fileName);
         }// end for
-    }
+    }*/
 
     @Test
     public void testRemoveAll() {

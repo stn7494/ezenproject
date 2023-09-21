@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <div layout:fragment="content">
 
     <div class="row-mt-3">
@@ -17,10 +18,11 @@
                     <h5><b>발주목록</b></h5>
                 </div>
                 <div class="card-body">
+                    <form name="orderForm" id="oForm">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>#</th>
+                            <th>선택</th>
                             <th>품목코드</th>
                             <th>품목이름</th>
                             <th>품목분류1</th>
@@ -32,30 +34,59 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th></th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
-                            <th>8</th>
+                        <tr th:each="olist,status:${oList}">
+                            <th><input type="radio" name="orderCheck" th:value="${status.index}"></th>
+<!--                            <th><input type="hidden" name="pcode" th:value="${olist.contract.product.pcode}">[[${olist.contract.product.pcode}]]</th>-->
+                            <th><label for="oForm">[[${olist.contract.product.pcode}]]</label></th>
+                            <th><input type="hidden" name="pname" th:value="${olist.contract.product.pname}">[[${olist.contract.product.pname}]]</th>
+                            <th><input type="hidden" name="mname" th:value="${olist.contract.product.middle.mname}">[[${olist.contract.product.middle.mname}]]</th>
+                            <th><input type="hidden" name="tname" th:value="${olist.contract.product.middle.top.tname}">[[${olist.contract.product.middle.top.tname}]]</th>
+                            <th><input type="hidden" name="ocount" th:value="${olist.ocount}">[[${olist.ocount}]]</th>
+                            <th><input type="hidden" name="cprice" th:value="${olist.contract.cprice}">[[${olist.contract.cprice}]]</th>
+                            <th><input type="hidden" name="odate" th:value="${olist.odate}">[[${olist.odate}]]</th>
+                            <th><input type="hidden" name="ostate" th:value="${olist.ostate}">[[${olist.ostate}]]</th>
                         </tr>
                         </tbody>
                     </table>
                     <div class="float-end">
-                        <button type="button" class="btn btn-dark">자재입고</button>
+                        <button type="submit" onclick="request()" class="btn btn-dark">자재입고</button>
                     </div>
+                    </form>
                 </div>      <!-- * card-body끝 *-->
             </div>      <!-- * card 끝 *-->
         </div>      <!-- * col 끝 * -->
     </div>
 
+
 </div>
 <script layout:fragment="script" th:inline="javascript">
 
+    $(document).ready(function() {
+        $('form').on("submit",function() {
+            if ($("input[type=radio][name=orderCheck]").is(':checked')) {
+                var index = $("input[name=orderCheck]:checked").next().text();
+                alert(index);
+            }
+        })
+    });
+
+    // function request(){
+    //     $.ajax({
+    //         url: "/stock/orderList",
+    //         type: "get",
+    //
+    //         success : function(data){
+    //             $(data).each(function(){
+    //                 alert(this.pname + " " + this.pcode + " " + this.ocount);
+    //             });
+    //         },
+    //         error :function(){
+    //             alert("request error!");
+    //         }
+    //
+    //     });
+    //
+    // }
 </script>
 <body>
 
