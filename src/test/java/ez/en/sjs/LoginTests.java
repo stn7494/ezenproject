@@ -1,5 +1,7 @@
 package ez.en.sjs;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.login.domain.Login;
 import ez.en.login.domain.MemberRole;
 import ez.en.login.domain.Role;
@@ -70,7 +72,7 @@ public class LoginTests {
     @Test
     public void testRead() {
 
-        Optional<Login> result = loginRepository.getWithRolesLogin("user01@naver.com");
+        Optional<Login> result = loginRepository.getWithRolesLogin("admin");
 
         Login member = result.orElseThrow();
 
@@ -130,16 +132,39 @@ public class LoginTests {
         result.getContent().forEach(stock -> log.info(stock));
     }
     @Test
-    public void testRegister() {
+    public void testList() {
 
-        StockDTO stockDTO = StockDTO.builder()
-                .scount(100)
-                .snote("")
-                .cno(11)
-                .pno(5)
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
                 .build();
-        int sno = stockService.register(stockDTO);
 
-        log.info("sno : " + sno);
+        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
+
+        log.info(responseDTO);
     }
+    @Test
+    public void testfail() {
+
+        String email = "user01@naver.com";
+
+        loginRepository.failLogin(email);
+
+    }
+    @Test
+    public void testLock() {
+
+        String email = "user01@naver.com";
+
+        loginRepository.loginLock(email);
+    }
+    @Test
+    public void testcntLock() {
+        String email = "user01@naver.com";
+
+        int list = loginRepository.checkCnt(email);
+
+        log.info(list);
+    }
+
 }

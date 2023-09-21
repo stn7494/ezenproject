@@ -5,6 +5,7 @@ import ez.en.login.repository.LoginRepository;
 import ez.en.security.dto.MemberSecurityDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<Login> result = loginRepository.getWithRolesLogin(username);
 
         if (result.isEmpty()) { //해당 아이디를 가진 사용자가 없다면
-            throw new UsernameNotFoundException("해당 아이디는 없는 아이디 입니다.");
+            throw new InternalAuthenticationServiceException(username);
         }
         Login member = result.get();
 

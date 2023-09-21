@@ -1,13 +1,19 @@
 package ez.en.login.service;
 
+import ez.en.login.domain.Login;
 import ez.en.login.repository.LoginRepository;
 import ez.en.login.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +27,22 @@ public class LoginServiceImpl implements LoginService{
 
     private final ModelMapper modelMapper;
 
+    @Override
+    public void loginFail(String email) {
+        loginRepository.failLogin(email);
+    }
 
-//    @Override
+    @Override
+    public int checkFailCount(String email) {
+        return loginRepository.checkCnt(email);
+
+    }
+
+    @Override
+    public void lockUser(String email) {
+        loginRepository.loginLock(email);
+    }
+    //    @Override
 //    public List<Role> login(LoginDTO loginDTO) {
 //        String email = loginDTO.getEmail();
 //        String pw = loginDTO.getPw();

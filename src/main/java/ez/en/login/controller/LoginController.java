@@ -1,10 +1,16 @@
 package ez.en.login.controller;
 
+import ez.en.login.domain.Login;
+import ez.en.login.repository.LoginRepository;
 import ez.en.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
 
 
 @Controller
@@ -15,13 +21,14 @@ public class LoginController {
     private final LoginService service;
 
     @GetMapping("/login")
-    public void login(String error, String logout){
-        log.info("login get......................");
-        log.info("logout : " + logout);
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "exception", required = false) String exception,
+                        Model model){
 
-        if (logout != null) {
-            log.info("user logout..........");
-        }
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
+        return "/login";
+
     }
 //    @GetMapping("/logout")
 //    public String logout(HttpSession session) {

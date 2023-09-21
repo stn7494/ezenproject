@@ -34,6 +34,9 @@
                     <span class="input-group-text">비밀번호</span>
                     <input type="password" name="password" class="form-control" placeholder="비밀번호">
                 </div>
+                <div th:if="error">
+                    <p id="vaild" style="color: red; font-size: 12px;"><a th:text="${exception}"></a> </p>
+                </div>
                 <div class="my-4">
                     <div class="float-end">
                         <button type="submit" class="btn btn-dark">로그인</button>
