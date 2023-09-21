@@ -4,6 +4,14 @@
       layout:decorate="~{layout/basic.html}">
 <head>
     <title>ORDER DETAIL</title>
+    <style>
+        span{
+            display: inline-block;
+            width: 130px;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <div layout:fragment="content">
@@ -13,39 +21,197 @@
                 <div class="card-header">
                 </div>
                 <div class="card-body">
-
+                    <h5 class="card-title">발주 상세</h5>
+                    <hr>
+                    <input type="hidden" name="ono" th:value="${dto.ono}">
                     <div class="input-group mb-3">
                         <span class="input-group-text">발주 코드</span>
-                        <input type="text" class="form-control" th:value="${dto.ocode}" readonly>
+                        <input type="text" class="form-control" name="ocode" th:value="${dto.ocode}" readonly>
                     </div>
-
-                    조달 순번
-                    계약 코드
-                    발주 등록자
-                    제품명
-                    발주 수량
-                    발주 등록일
-                    납기 마감일
-                    발주 기타사항
-
-                    진척 검수
-
-                    발주 상태
-
-
-
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">업체명</span>
+                        <input type="text" class="form-control viewPartner" style="font-weight: bold" name="ptname" th:value="${dto.contract.partner.ptname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">제품명</span>
+                        <input type="text" class="form-control" name="pname" th:value="${dto.contract.product.pname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주 수량</span>
+                        <input type="text" class="form-control" name="ocount" th:value="${dto.ocount}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">제품 단가</span>
+                        <input type="text" class="form-control" name="ocount" th:value="${dto.contract.cprice}+'&nbsp;원'" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">총 금액</span>
+                        <input type="text" class="form-control" th:value="${(dto.contract.cprice)*(dto.ocount)}+'&nbsp;원'" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">납기 마감일</span>
+                        <input type="text" class="form-control" name="spdelidate" th:value="${dto.supportplan.spdelidate}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주 등록자</span>
+                        <input type="text" class="form-control viewWriter" style="font-weight: bold" name="writer" th:value="${dto.login.name}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주 등록일</span>
+                        <input type="text" class="form-control" name="odate" th:value="${dto.odate}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주 기타 사항</span>
+                        <textarea class="form-control col-sm-5 viewOdetail" rows="5" style="font-weight: bold" name="odetail" readonly>[[${dto.odetail}]]</textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주 상태</span>
+                        <input type="text" class="form-control" th:value="${dto.ostate}" readonly>
+                        <button type="button" class="btn btn-primary viewOstate">발주 상태 관리</button>
+                        <button th:if="${dto.ostate=='발주확인' || dto.ostate=='진척검수'}" type="button" class="btn btn-danger openInspection">진척 검수</button>
+                    </div>
                     <div class="my-4">
                         <div class="float-end" th:with="link=${pageRequestDTO.getLink()}">
                             <a th:href="|@{/order/list}?${link}|" class="text-decoration-none">
-                                <button type="button" class="btn btn-primary">발주 목록</button>
+                                <button type="button" class="btn btn-primary">목록으로</button>
                             </a>
-                            <a th:href="|@{/order/modify(ono=${dto.ono})}&${link}|" class="text-decoration-none">
-                                <button type="button" class="btn btn-secondary">수정</button>
+<!--                            <a th:href="|@{/order/modify(ono=${dto.ono})}&${link}|" class="text-decoration-none">-->
+<!--                                <button type="button" class="btn btn-secondary">수정</button>-->
+<!--                            </a>-->
+                            <a class="text-decoration-none">
+                                <button type="button" class="btn btn-secondary" onclick="window.print()">인쇄</button>
                             </a>
                         </div>
                     </div>
-                </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--업체 정보 모달-->
+    <div class="modal partnerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">업체 정보</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">업체명</span>
+                        <input type="text" class="form-control" th:value="${dto.contract.partner.ptname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">대표자</span>
+                        <input type="text" class="form-control" th:value="${dto.contract.partner.ptceoname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">사업자 번호</span>
+                        <input type="text" class="form-control" th:value="${dto.contract.partner.ptnum}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">소재지</span>
+                        <input type="text" class="form-control" th:value="${dto.contract.partner.ptadd}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">전화번호</span>
+                        <input type="text" class="form-control" th:value="${dto.contract.partner.ptnum}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">팩스</span>
+                        <input type="text" class="form-control" th:value="${dto.contract.partner.ptfax}" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark closePartnerBtn">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--사원 정보 모달-->
+    <div class="modal writerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">사원 정보</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">이름</span>
+                        <input type="text" class="form-control" th:value="${dto.login.name}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Email</span>
+                        <input type="text" class="form-control" th:value="${dto.login.email}" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark closeWriterBtn">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!--발주 상태 수정 모달-->
+    <div class="modal ostateModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">발주 상태 수정</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">현재 발주 상태</span>
+                        <input type="text" class="form-control" th:value="${dto.ostate}" readonly>
+                    </div>
+                    <form class="osForm" method="post">
+                        <input type="hidden" name="odetail" th:value="${dto.odetail}">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">발주 상태 변경</span>
+                        <select class="form-control" name="ostate">
+                            <option th:if="${dto.ostate=='발주취소'}" class="form-control" value="발주신청">발주신청</option>
+                            <option th:if="${dto.ostate=='발주신청'}" class="form-control" value="발주확인">발주확인</option>
+                            <option th:if="${dto.ostate!='진척검수'}" class="form-control" value="진척검수">진척검수</option>
+                            <option th:if="${dto.ostate!='발주취소'}" class="form-control" value="발주취소">발주취소</option>
+                        </select>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary submitOstateBtn">변경</button>
+                    <button type="button" class="btn btn-outline-dark closeOstateBtn">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--발주 기타 사항 수정 모달-->
+    <div class="modal odetailModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">발주 기타 사항</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="odForm" method="post">
+                        <input type="hidden" name="ostate" th:value="${dto.ostate}">
+                    <div class="input-group mb-3">
+                        <textarea class="form-control col-sm-5" rows="5" name="odetail">[[${dto.odetail}]]</textarea>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary submitOdetailBtn">변경</button>
+                    <button type="button" class="btn btn-outline-dark closeOdetailBtn">닫기</button>
+                </div>
             </div>
         </div>
     </div>
@@ -55,6 +221,68 @@
 </div>
 
 <script layout:fragment="script" th:inline="javascript">
+
+    const partnerModal = new bootstrap.Modal(document.querySelector(".partnerModal"))
+    const writerModal = new bootstrap.Modal(document.querySelector(".writerModal"))
+    const ostateModal = new bootstrap.Modal(document.querySelector(".ostateModal"))
+    const odetailModal = new bootstrap.Modal(document.querySelector(".odetailModal"))
+
+
+    document.querySelector(".viewPartner").addEventListener("click",function (e){
+        partnerModal.show()
+    }, false)
+    document.querySelector(".viewWriter").addEventListener("click",function (e){
+        writerModal.show()
+    }, false)
+    document.querySelector(".viewOstate").addEventListener("click",function (e){
+        ostateModal.show()
+    }, false)
+    document.querySelector(".viewOdetail").addEventListener("click",function (e){
+        odetailModal.show()
+    }, false)
+
+
+    document.querySelector(".closePartnerBtn").addEventListener("click", function (e){
+        partnerModal.hide()
+    }, false)
+    document.querySelector(".closeWriterBtn").addEventListener("click", function (e){
+        writerModal.hide()
+    }, false)
+    document.querySelector(".closeOstateBtn").addEventListener("click", function (e){
+        ostateModal.hide()
+    }, false)
+    document.querySelector(".closeOdetailBtn").addEventListener("click", function (e){
+        odetailModal.hide()
+    }, false)
+
+
+    document.querySelector(".submitOstateBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        if(!confirm("발주 상태를 변경하겠습니까?")){
+            return
+        }
+        document.querySelector(".osForm").submit()
+    }, false)
+
+    document.querySelector(".submitOdetailBtn").addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+        if(!confirm("기타 사항 내용을 변경하겠습니까?")){
+            return
+        }
+        document.querySelector(".odForm").submit()
+    }, false)
+
+
+    document.querySelector(".openInspection").addEventListener("click", function (e) {
+        var url = "/order/popInspection?ono="+document.querySelector("input[name='ono']").value
+        var name = "진척 검수 관리"
+        var option = "width=1200,height=720"
+        window.open(url,name,option)
+    })
+
+
 
 
 </script>

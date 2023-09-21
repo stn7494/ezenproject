@@ -14,6 +14,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @SpringBootTest
 @Log4j2
+
 public class OrderTest {
 
     @Autowired
@@ -80,9 +82,11 @@ public class OrderTest {
     }
 
     @Test
+    @Transactional
     public void orderDetailTest(){
-        int ono = 3;
+        int ono = 10;
         OrderDTO orderDTO = orderService.detail(ono);
+
         log.info("====== order detail : "+orderDTO);
     }
 
