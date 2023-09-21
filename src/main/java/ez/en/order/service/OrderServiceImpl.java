@@ -18,10 +18,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,6 +27,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Log4j2
+@Transactional
 public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
@@ -81,7 +80,9 @@ public class OrderServiceImpl implements OrderService{
     public OrderDTO detail(int ono) {
         Optional<Orders> result = orderRepository.findById(ono);
         Orders orders = result.orElseThrow();
+        log.info("============ orders : "+orders);
         OrderDTO orderDTO = modelMapper.map(orders, OrderDTO.class);
+        log.info("============ orderDTO Cno : "+orderDTO.getCno());
         return orderDTO;
     }
 
