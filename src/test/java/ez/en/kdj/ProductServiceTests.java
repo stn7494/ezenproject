@@ -54,9 +54,6 @@ public class ProductServiceTests {
                 .pnote("업데이트두번")
                 .build();
 
-        //첨부파일을 하나 추가
-        productDTO.setFileNames(Arrays.asList(UUID.randomUUID()+"_zzz.jpg"));
-
         productService.productmodify(productDTO);
     }
 
@@ -80,9 +77,6 @@ public class ProductServiceTests {
         int pno = 45;
         ProductDTO productDTO = productService.productreadOne(pno);
         log.info(productDTO);
-        for (String fileName : productDTO.getFileNames()) {
-            log.info(fileName);
-        }// end for
     }
 
     @Test
