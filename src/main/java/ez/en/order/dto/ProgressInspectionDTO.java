@@ -1,9 +1,13 @@
 package ez.en.order.dto;
 
+import ez.en.login.domain.Login;
+import ez.en.order.domain.Orders;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 
 @Data
@@ -16,9 +20,18 @@ public class ProgressInspectionDTO {
 
     private String pidate;
 
-    private String piper;
+    private int pisequence;
+
+    private String pidetail;
+
+    private boolean picomplete;
+
+    private String email;
 
     private int ono;
 
-    private String email;
+    private Login login;
+
+    private Orders orders;
+
 }

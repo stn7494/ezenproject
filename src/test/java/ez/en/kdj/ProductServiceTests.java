@@ -44,18 +44,6 @@ public class ProductServiceTests {
 
     }
 
-    @Test
-    public void testproductModify() {
-        //변경에 필요한 데이터만 작성
-        ProductDTO productDTO = ProductDTO.builder()
-                .pno(38)
-                .pname("또 변경한 업데이트삼성키보드")
-                .pcontent("업업데이트")
-                .pnote("업데이트두번")
-                .build();
-
-        productService.productmodify(productDTO);
-    }
 
 
     @Test
@@ -72,12 +60,6 @@ public class ProductServiceTests {
         log.info(responseDTO);
     }
 
-    @Test
-    public void testReadAll() {
-        int pno = 45;
-        ProductDTO productDTO = productService.productreadOne(pno);
-        log.info(productDTO);
-    }
 
     @Test
     public void testRemoveAll() {

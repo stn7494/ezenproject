@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script th:src="@{/js/scripts.js}">
+        <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+<body>
+<div class="row mt-3">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">진척 검수 관리</h5>
+                <hr>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">1차 검수</span>
+                    <textarea class="form-control col-sm-5" rows="5" name="odetail" readonly>[[${dto.odetail}]]</textarea>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">1차 검수</span>
+                    <input type="date" class="form-control" name="pidate" th:value="${dto.pidate}">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script th:inline="javascript">
+
+    function returnParent(cno, cprice, ptname) {
+        opener.document.getElementById("cno").value=cno
+        opener.document.getElementById("cprice").value=cprice
+        opener.document.getElementById("ptname").value=ptname
+        self.close()
+    }
+
+</script>
+</html>

@@ -22,7 +22,13 @@ public class ProgressInspection {
     private String pidate;
 
     @Column
-    private String piper;
+    private int pisequence;
+
+    @Column
+    private String pidetail;
+
+    @Column
+    private boolean picomplete;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
@@ -31,5 +37,6 @@ public class ProgressInspection {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ono")
     private Orders orders;
+
 
 }
