@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface SupportplanSearch{
 
-    Page<Supportplan> search(Pageable pageable, String keyword, String type);
+    Page<Supportplan> search(Pageable pageable, String keyword, String[] type);
+
 
 }

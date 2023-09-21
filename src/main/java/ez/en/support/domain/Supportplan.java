@@ -37,5 +37,11 @@ public class Supportplan {
     @JoinColumn(name = "mcode")
     private Middle middle;
 
+    public void update(String spdate, int spcount, String spdelidate){
+        this.spdate = spdate;
+        this.spcount = spcount;
+        this.spdelidate = spdelidate;
+    }
+
 
 }

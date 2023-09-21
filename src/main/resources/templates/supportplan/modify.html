@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div layout:fragment="content">
+
+    <div class="row-mt-3" th:with="dto = ${dto}, link = ${pageRequestDTO.getLink()}">
+        <div class="col">
+            <form method="post" id="modify" action="/supportplan/modify">
+                <input type="hidden" id="link" name="link" th:value="${link}">
+                <input type="hidden" id="spno" name="spno" th:value="${dto.spno}">
+                <div class="card" style="margin-bottom: 5%">
+                    <div class="card-header">
+                        <h5>조달계획 등록하기</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="col">
+                            <span>품목코드</span>
+                            <input type="text" id="pcode" name="pcode" th:value="${dto.productDTO.pcode}" class="form-control" readonly>
+                        </div>
+                        <div class="col">
+                            <span>품목이름</span>
+                            <input type="text" id="pname" name="tname" th:value="${dto.productDTO.pname}" class="form-control" readonly>
+                        </div>
+                        <div class="col">
+                            <span>대분류</span>
+                            <input type="text" id="tname" name="tname" th:value="${dto.middleDTO.topDTO.tname}" class="form-control" readonly>
+                        </div>
+                        <div class="col">
+                            <span>소요일정</span>
+                            <input type="date" id="spdate" name="spdate" th:value="${dto.spdate}" class="form-control">
+                        </div>
+                        <div class="col">
+                            <span>소요량</span>
+                            <input type="text" id="spcount" name="spcount" th:value="${dto.spcount}" class="form-control">
+                        </div>
+                        <div class="col">
+                            <span>조달납기</span>
+                            <input type="date" id="spdelidate" name="spdelidate" th:value="${dto.spdelidate}" class="form-control">
+                        </div>
+                        <div class="float-end">
+                            <input class="btn btn-dark" type="button" value="수정" onclick="modify()">
+                            <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+                            <input class="btn btn-dark" type="button" value="삭제" onclick="remove()">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>      <!-- * col 끝 * -->
+    </div>
+
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+    var link = $("#link").val();
+
+    var spno = $("#spno").val();
+
+    var objform = $("#modify");
+
+    function modify(){
+        if($("#spdate").val() == ""){
+            alert("소요일정을 입력해주세요");
+            $("#spdate").focus();
+        }else if($("#spcount").val() == ""){
+            alert("소요량을 입력해주세요");
+            $("#spcount").focus();
+        }else if($("#spdelidate").val() == ""){
+            alert("조달납기일을 입력해주세요");
+            $("#spdelidate").focus();
+        }else{
+            objform.submit();
+        }
+    }
+
+
+
+    function back(){
+        location.href = '/supportplan/list?'+link;
+    }
+
+    function remove(){
+        location.href = '/supportplan/remove?spno='+spno+'&'+link;
+    }
+
+</script>
+<body>
+
+</body>
+</html>

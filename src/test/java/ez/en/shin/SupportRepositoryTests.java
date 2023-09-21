@@ -4,6 +4,7 @@ import ez.en.support.domain.*;
 import ez.en.support.dto.*;
 import ez.en.support.repository.*;
 import ez.en.support.service.ContractServiceImpl;
+import ez.en.support.service.SupportPlanServiceImpl;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,12 @@ public class SupportRepositoryTests {
     private ContractRepository contractRepository;
 
     @Autowired
+    private SupportplanRepository supportplanRepository;
+    @Autowired
     private ContractServiceImpl service;
 
-
-
+    @Autowired
+    private SupportPlanServiceImpl supportPlanService;
 
     @Test
     public void list(){
@@ -57,6 +60,45 @@ public class SupportRepositoryTests {
         Contract contract2 = contractRepository.save(contract1);
         log.info(contract1);
         log.info(contract2);
+    }
+
+    @Test
+    public void insert(){
+        TopDTO topDTO = TopDTO.builder()
+                .tname("데스크탑")
+                .tcode("T01")
+                .build();
+        MiddleDTO dto = MiddleDTO.builder()
+                .topDTO(topDTO)
+                .mcode("M01")
+                .mname("CPU")
+                .build();
+
+        ProductDTO productDTO = ProductDTO.builder()
+                .pno(1)
+                .pcode("P20230914T01M01CP01")
+                .pname("CPU AMD 라이젠7-4세대 5800X")
+                .build();
+
+        SupportPlanDTO planDTO = SupportPlanDTO.builder()
+                .middleDTO(dto)
+                .productDTO(productDTO)
+                .spcount(50)
+                .spdelidate("2023-09-21")
+                .spdate("2023-09-30")
+                .spstate("조달요청")
+                .build();
+
+        supportPlanService.insert(planDTO);
+    }
+
+    @Test
+    public void select(){
+        Supportplan supportplan = supportplanRepository.selectOne(4);
+        log.info(supportplan);
+
+        SupportPlanDTO planDTO = supportPlanService.selectOne(4);
+        log.info(planDTO);
     }
 
 
