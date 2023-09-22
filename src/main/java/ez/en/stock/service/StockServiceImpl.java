@@ -1,5 +1,6 @@
 package ez.en.stock.service;
 
+import ez.en.login.domain.Login;
 import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
 import ez.en.order.dto.PopContractDTO;
@@ -11,6 +12,7 @@ import ez.en.stock.dto.StockInDTO;
 import ez.en.stock.repository.StockRepository;
 import ez.en.stock.repository.StockinRepository;
 import ez.en.support.domain.Contract;
+import ez.en.support.domain.Supportplan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -28,20 +30,11 @@ public class StockServiceImpl implements StockService{
 
     private final ModelMapper modelMapper;
 
-    private final StockRepository stockRepository;
     private final StockinRepository stockinRepository;
     private final OrderRepository orderRepository;
 
 
-    @Override
-    public int register(StockDTO stockDTO) {
 
-        Stock stock = modelMapper.map(stockDTO, Stock.class);
-
-        int sno = stockRepository.save(stock).getSno();
-
-        return sno;
-    }
 
     @Override
     public List<OrderDTO> getOrder() {
@@ -70,7 +63,13 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public void insertIn(int ono, String email, String sidate) {
-        StockIn stockin
-        stockRepository.save(ono,)
+        log.info("!!!!!!!!!!!!!!!!"+ono+email+sidate);
+        Stockin stockin = Stockin.builder()
+                .order(Orders.builder().ono(ono).build())
+                .login(Login.builder().email(email).build())
+                .sidate(sidate)
+                .build();
+        stockinRepository.save(stockin);
+
     }
 }
