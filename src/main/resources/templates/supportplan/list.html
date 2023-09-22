@@ -35,7 +35,7 @@
             </form>
             <div class="card">
                 <div class="card-header">
-                    <h6>계약관리</h6>
+                    <h6>조달계획관리</h6>
                 </div>
                 <div class="card-body">
 
@@ -46,16 +46,16 @@
                             <th scope="col">품목코드</th>
                             <th scope="col">품목이름</th>
                             <th scope="col">자재소요공정</th>
-                            <th scope="col">자재소요일정</th>
-                            <th scope="col">자재소요랑</th>
                             <th scope="col">조달납기</th>
+                            <th scope="col">자재소요랑</th>
+                            <th scope="col">자재소요일정</th>
                         </tr>
                         </thead>
                         <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                        <input type="hidden" id="link" name="link" th:value="${link}">
                         <tr th:each="dto:${responseDTO.dtoList}">
                             <td>
                                 <input type="radio" id="spno" name="spno" th:value="${dto.spno}">
-                                <input type="hidden" th:id="${dto.spno}+'modal'" th:value="${dto.spno}">
                             </td>
                             <td>
                                 <a th:href="|@{/supportplan/detail(spno=${dto.spno})}&${link}|">[[${dto.product.pcode}]]</a>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="col">
                         <span>품목이름</span>
-                        <textarea class="form-control" id="modalpname" name="modalpname" readonly></textarea>
+                        <textarea class="form-control" id="modalpname" name="modalpname" readonly style="resize: none"></textarea>
                     </div>
                     <div class="col">
                         <span>대분류</span>
@@ -125,8 +125,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="state">완료</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
@@ -145,8 +145,12 @@
 
         var checkval = $("input[name=spno]:checked").val();
 
+        if(checkval == null){
+            alert("계획을 선택해주세요");
+            return false;
+        }
+
         var data = {"data" : checkval};
-        alert(checkval);
 
         $.ajax({
             type:'post',
@@ -167,6 +171,14 @@
         });
 
        modal.show();
+    });
+
+    $("#state").click(function(){
+        let checkval = $("input[name=spno]:checked").val();
+
+        let link = $("#link").val();
+
+        location.href = '/supportplan/state?spno='+checkval+'&'+link+'&state=조달완료';
     });
 
     document.querySelector(".pagination").addEventListener("click", function(e){
@@ -190,7 +202,7 @@
         // 이벤트가 동작시 상위 엘리먼트에게 전달되지 않고 해당 위치에서만 실행함
         e.stopPropagation()
 
-        self.location = '/contract/list'
+        self.location = '/supportplan/list'
 
     }, false)
 </script>

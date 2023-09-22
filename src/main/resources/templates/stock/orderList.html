@@ -47,7 +47,7 @@
                         </tbody>
                     </table>
                     <div class="float-end">
-                        <button type="submit" onclick="request()" class="btn btn-dark">자재입고</button>
+                        <button id=stockIn class="btn btn-dark">자재입고</button>
                     </div>
                 </div>      <!-- * card-body끝 *-->
             </div>      <!-- * card 끝 *-->
@@ -58,32 +58,13 @@
 </div>
 <script layout:fragment="script" th:inline="javascript">
 
-    $(document).on("click","input[name=orderCheck]",function () {
-
-        var ono = $(this).val();
-        alert(ono);
-        $.ajax({
-            url:"/stock/modalread",
-            type:'get',
-            data: {"ono":ono},
-            contentType:"application/json",
-            success:function (data){
-                $("#scode").val(data.pcode);
-                $("#sname").val(data.pname);
-                $("#scate1").val(data.ptype1);
-                $("#scate2").val(data.ptype2);
-                $("#sreturn").val(data.pprice);
-                $("#sin").val(data.oquantity);
-                $("#snote").val(data.ono);
-                $("#requester").val(data.omanager);
-                $("#sin2").val(data.oquantity);
-            },
-            error:function (){
-                alert("실패");
-            }
-        }); //ajax end
-
-    }); //radio end
+    $("#stockIn").click(function(){
+        if($('input:radio[name=orderCheck]').is(":checked")){
+            var index = $('input[name=orderCheck]:checked').val();
+            location.href = '/stock/stockIn?index='+index;
+        }
+        // $(location).attr("href", "/stock/stockIn")
+    })
 </script>
 <body>
 

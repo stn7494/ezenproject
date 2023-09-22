@@ -18,17 +18,28 @@ public interface LoginRepository extends JpaRepository<Login, String> {
     @Query("select m from Login m where m.email = :email")
     Optional<Login> getWithRolesLogin(String email);
 
-    @Modifying
-    @Transactional
-    @Query(value = "update Login l set l.failcnt = l.failcnt + 1 where l.email = :email")
-    void failLogin(String email);
+    @Query(value = "select l from Login l")
+    List<Login> getAll();
 
-    @Modifying
-    @Transactional
-    @Query(value = "update login set login.lock = 1 \n" +
-            "where email = :email", nativeQuery = true)
-    void loginLock(String email);
+//    @Modifying
+//    @Transactional
+//    @Query(value = "update Login l set l.failcnt = l.failcnt + 1 where l.email = :email")
+//    void failLogin(String email);
+//
+//    @Modifying
+//    @Transactional
+//    @Query(value = "update Login l set l.prison = 1 where l.email = :email")
+//    void loginLock(String email);
+//
+//    @Query(value = "select l.failcnt from Login l where l.email = :email")
+//    int checkCnt(String email);
+//
+//    @Query(value = "select l.prison from Login l where l.email = :email")
+//    int checkPrison(String email);
+//
+//    @Modifying
+//    @Transactional
+//    @Query(value = "update Login l set l.failcnt = 0 where l.email = :email")
+//    void resetCnt(String email);
 
-    @Query(value = "select l.failcnt from Login l where l.email = :email")
-    int checkCnt(String email);
 }

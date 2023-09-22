@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 @RequestMapping("/supportplan")
@@ -83,4 +82,18 @@ public class SupportPlanController {
         return service.selectOne(data);
     }
 
+
+    @GetMapping("remove")
+    public String remove(PageRequestDTO pageRequestDTO, @RequestParam("spno")int spno){
+        service.delete(spno);
+        return "redirect:/supportplan/list?"+pageRequestDTO.getLink();
+    }
+
+
+    @GetMapping("/state")
+    public String state(PageRequestDTO pageRequestDTO, @RequestParam("spno")int spno, @RequestParam("state")String state){
+        String link = pageRequestDTO.getLink();
+        service.stateUpdate(spno, state);
+        return "redirect:/supportplan/list?"+link;
+    }
 }

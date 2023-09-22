@@ -1,5 +1,7 @@
 package ez.en.shin;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.support.domain.*;
 import ez.en.support.dto.*;
 import ez.en.support.repository.*;
@@ -9,6 +11,9 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 
 import java.util.List;
@@ -101,5 +106,21 @@ public class SupportRepositoryTests {
         log.info(planDTO);
     }
 
+    @Test
+    public void supportlist(){
+        Pageable pageable = PageRequest.of(0,2, Sort.by("spno").descending());
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .type("a")
+                .keyword("라")
+                .sort("spno")
+                .build();
+
+        PageResponseDTO<Supportplan> list = supportPlanService.list(pageRequestDTO);
+
+        List<Supportplan>list2 = list.getDtoList();
+
+        log.info(list2);
+    }
 
 }

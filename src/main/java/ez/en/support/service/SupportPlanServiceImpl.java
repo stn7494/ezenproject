@@ -70,11 +70,24 @@ public class SupportPlanServiceImpl implements SupportPlanService{
     }
 
 
+
 //  발주시 조달 상태 수정용 메소드
     @Override
     public void updateState(Supportplan supportplan) {
         Supportplan supportplan1 = repository.selectOne(supportplan.getSpno());
         supportplan1.changeState(supportplan.getSpstate());
         repository.save(supportplan1);
+
+    @Override
+    public void stateUpdate(int spno, String state) {
+        Supportplan supportplan = repository.selectOne(spno);
+        supportplan.stateUpdate(state);
+        repository.save(supportplan);
+    }
+
+    @Override
+    public void delete(int spno) {
+        repository.deleteById(spno);
+
     }
 }

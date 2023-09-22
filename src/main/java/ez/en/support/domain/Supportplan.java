@@ -43,6 +43,10 @@ public class Supportplan {
         this.spdelidate = spdelidate;
     }
 
+    public void stateUpdate(String spstate){
+        this.spstate = spstate;
+    }
+
 
     public void changeState(String spstate){
         this.spstate = spstate;

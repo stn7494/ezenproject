@@ -12,10 +12,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +31,19 @@ public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
 
     @Override
-    public int productregister(ProductDTO productDTO) {
-        Product product = modelMapper.map(productDTO, Product.class);
+    public int productregister(ProductDTO productDTO,MultipartFile file)throws Exception{
+        //여기부터
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+        UUID uuid = UUID.randomUUID();
+        String fileName = uuid+"_"+file.getOriginalFilename();
+        File saveFile = new File(projectPath, fileName);
+        file.transferTo(saveFile);
+        productDTO.setFilename(fileName);
+        productDTO.setFilepath("/files/"+fileName);
+        Product product = modelMapper.map(productDTO, Product.class); // 이건 엔티티로 바꿔주는애
+        productRepository.save(product);
+        //여기까지 파일업로드때매 추가함
+
         int pno = productRepository.save(product).getPno();
         return pno;
     }
@@ -37,7 +51,6 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public ProductDTO productreadOne(int pno) {
         
-        // board_image까지 조인처리는 findByWithLmages()를 이용
         Optional<Product> result = productRepository.findById(pno);
         Product product = result.orElseThrow();
         ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);

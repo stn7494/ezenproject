@@ -15,23 +15,26 @@
             <h5>계약등록</h5>
           </div>
           <div class="card-body">
-            <div class="col">
-              <h2>계약정보</h2>
-              <span></span>
+            <div class="input-group mb-3">
+              <h2>계약 정보</h2>
             </div>
-            <div class="col">
-              <span>계약코드</span>
+            <dlv class="input-group mb-3">
+              <span class="input-group-text">품목코드</span>
+              <input type="text" class="form-control" th:value="${dto.productDTO.pcode}" readonly>
+            </dlv>
+            <div class="input-group mb-3">
+              <span class="input-group-text">계약코드</span>
               <input type="text" id="ccode" name="ccode" class="form-control" th:value="${dto.ccode}" readonly>
             </div>
-            <div class="col">
-              <span>계약일자</span>
+            <div class="input-group mb-3">
+              <span class="input-group-text">계약일자</span>
               <input type="date" class="form-control" th:value="${dto.cdate}" readonly>
             </div>
-            <div class="col">
-              <span>계약상태</span>
+            <div class="input-group mb-3">
+              <span class="input-group-text">계약상태</span>
               <input type="text" class="form-control" th:value="${dto.cstate}" readonly>
             </div>
-            <div class="col">
+            <div class="input-group mb-3">
               <select id="cstate" name="cstate" class="form-select">
                 <option value="complete">계약완료</option>
                 <option value="end">계약종료</option>
@@ -42,8 +45,14 @@
               <input class="btn btn-dark" type="submit" value="수정" >
               <input class="btn btn-dark" type="button" value="목록" onclick="back()">
             </div>
-            <span>양도양수조건</span>
-            <textarea style="width: 100%; height: 200px;" class="form-control" th:text="${dto.ccontent}" readonly></textarea>
+            <div class="input-group mb-3">
+              <span class="input-group-text">계약상태</span>
+              <input type="text" class="form-control" th:value="${dto.cstate}" readonly>
+            </div>
+            <div class="input-group mb-3">
+              <span class="input-group-text">양도양수조건</span>
+              <textarea style="width: 100%; height: 200px;" class="form-control" th:text="${dto.ccontent}" readonly></textarea>
+            </div>
           </div>      <!-- * card-body끝 *-->
         </div>      <!-- * card 끝 *-->
 

@@ -25,20 +25,20 @@
                             <th>품목분류1</th>
                             <th>품목분류2</th>
                             <th>입고수량</th>
-                            <th>입고일자</th>
                             <th>공급단가</th>
+                            <th>입고일자</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th></th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
+                        <tr th:each="inlist,status:${inList}">
+                            <th><input type="radio" name="orderCheck" th:value="${status.index}"></th>
+                            <th>[[${inlist.order.contract.product.pcode}]]</th>
+                            <th>[[${inlist.order.contract.product.pname}]]</th>
+                            <th>[[${inlist.order.contract.product.middle.mname}]]</th>
+                            <th>[[${inlist.order.contract.product.middle.top.tname}]]</th>
+                            <th>[[${inlist.order.ocount}]]</th>
+                            <th>[[${inlist.order.contract.cprice}]]</th>
+                            <th>[[${inlist.sidate}]]</th>
                         </tr>
                         </tbody>
                     </table>
@@ -63,8 +63,8 @@
                             <th>품목분류1</th>
                             <th>품목분류2</th>
                             <th>출고수량</th>
-                            <th>출고일자</th>
                             <th>공급단가</th>
+                            <th>출고일자</th>
                         </tr>
                         </thead>
                         <tbody>
