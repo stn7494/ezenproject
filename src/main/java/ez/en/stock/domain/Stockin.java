@@ -2,6 +2,7 @@ package ez.en.stock.domain;
 
 import ez.en.login.domain.Login;
 import ez.en.order.domain.Orders;
+import ez.en.support.domain.Product;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,6 +21,9 @@ public class Stockin {
     private int sino;
 
     @Column
+    private int sicount;
+
+    @Column
     private String sidate;
 
     @Column
@@ -35,4 +39,8 @@ public class Stockin {
     @ManyToOne
     @JoinColumn(name = "email")
     private Login login;
+
+    @ManyToOne
+    @JoinColumn(name = "pno")
+    private Product product;
 }

@@ -1,6 +1,7 @@
 package ez.en.stock.dto;
 
 import ez.en.order.domain.Orders;
+import ez.en.support.domain.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,10 +15,12 @@ import java.time.LocalDateTime;
 public class StockInDTO {
 
     private int sino;
+    private int scount;
     private String sidate;
     private String siidate;
     private String siicontent;
     private int ono;
     private String email;
     private Orders order;
+    private Product product;
 }

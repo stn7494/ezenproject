@@ -1,6 +1,7 @@
 package ez.en.stock.controller;
 
 import ez.en.order.dto.OrderDTO;
+import ez.en.stock.dto.StockDTO;
 import ez.en.stock.dto.StockInDTO;
 import ez.en.stock.service.StockService;
 
@@ -30,7 +31,17 @@ public class StockController {
 
 
     @GetMapping("/stock/stockList")
-    public void stockList(){
+    public void stockList(Model model){
+        List<Integer> pnoList = stockService.getPno();
+        for(int i:pnoList){
+            int all = stockService.getSicountAll(i);
+            stockService.sicountAll(i,all);
+        }
+
+        List<StockDTO> sList = stockService.getStock();
+        model.addAttribute("sList",sList);
+
+
     }
 
     @GetMapping("/stock/orderList")
@@ -53,10 +64,9 @@ public class StockController {
 
     @PostMapping("/stock/stockIn")
     @ResponseBody
-    public void stockIn(int ono, String email){
-        log.info("??????????????"+ono+email);
+    public void stockIn(int ono, String email, int pno, int sicount){
         String sidate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")); // 날짜 포맷
-        stockService.insertIn(ono, email,sidate); // 입고완료시 입고테이블에 데이터추가
+        stockService.insertIn(ono, email,sidate,pno,sicount); // 입고완료시 입고테이블에 데이터추가
         stockService.updateOstate(ono); // 발주상태 입고완료로 변경
 
 

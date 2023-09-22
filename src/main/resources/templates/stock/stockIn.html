@@ -25,6 +25,7 @@
                     <hr>
                     <input type="hidden" id="ono" name="ono" th:value="${dto.ono}">
                     <input type="hidden" id="email" name="email" value="admin">
+                    <input type="hidden" id="pno" name="pno" th:value="${dto.contract.product.pno}">
                     <div class="input-group mb-3">
                         <span class="input-group-text">품목코드</span>
                         <input type="text" class="form-control" name="pcode" th:value="${dto.contract.product.pcode}" readonly>
@@ -47,7 +48,7 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">입고수량</span>
-                        <input type="text" class="form-control" name="ocount" th:value="${(dto.ocount)}+'&nbsp;개'" readonly>
+                        <input type="text" id="ocount" class="form-control" name="ocount" th:value="${dto.ocount}" readonly>
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">신청자</span>
@@ -73,7 +74,9 @@
             url : '/stock/stockIn',
             data: {
                 ono : $('#ono').val(),
-                email : $('#email').val()
+                email : $('#email').val(),
+                pno : $('#pno').val(),
+                sicount : $('#ocount').val()
                 },
             success : function() {
                 location.href = '/stock/orderList';

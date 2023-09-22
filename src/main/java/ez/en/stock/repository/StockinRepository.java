@@ -15,5 +15,6 @@ public interface StockinRepository extends JpaRepository<Stockin, Integer> {
     @Query(value = "select s from Stockin s where s.order.ostate = '입고완료'")
     List<Stockin> getIn();
 
-
+    @Query(value= "select COALESCE(sum(s.sicount),0) from Stockin s where s.product.pno=:pno")
+    int getSicountAll(int pno);
 }

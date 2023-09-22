@@ -21,7 +21,10 @@ public class Stock {
     private int sno;
 
     @Column
-    private int scount;
+    private int sicountall;
+
+    @Column
+    private int socountall;
 
     @Column
     private String snote;

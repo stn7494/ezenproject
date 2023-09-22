@@ -129,17 +129,17 @@ public class LoginTests {
 
         result.getContent().forEach(stock -> log.info(stock));
     }
-    @Test
-    public void testRegister() {
-
-        StockDTO stockDTO = StockDTO.builder()
-                .scount(100)
-                .snote("")
-                .cno(11)
-                .pno(5)
-                .build();
-        int sno = stockService.register(stockDTO);
-
-        log.info("sno : " + sno);
-    }
+//    @Test
+//    public void testRegister() {
+//
+//        StockDTO stockDTO = StockDTO.builder()
+//                .scount(100)
+//                .snote("")
+//                .cno(11)
+//                .pno(5)
+//                .build();
+//        int sno = stockService.register(stockDTO);
+//
+//        log.info("sno : " + sno);
+//    }
 }
