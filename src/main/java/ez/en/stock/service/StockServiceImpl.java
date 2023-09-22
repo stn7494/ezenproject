@@ -70,9 +70,15 @@ public class StockServiceImpl implements StockService{
         orderRepository.updateOstate(ono);
     }
 
-    @Override
-    public void insertIn(int ono, String email, String sidate) {
+//    @Override
+//    public void insertIn(int ono, String email, String sidate) {
 //        StockIn stockin
 //        stockRepository.save(ono,)
+//    }
+
+
+    @Override
+    public void insertIn(int ono, String email, String sidate) {
+      
     }
 }

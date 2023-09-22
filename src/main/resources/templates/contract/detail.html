@@ -96,8 +96,8 @@
                         </div>
                         <div class="float-end" th:with="link = ${contractPageRequestDTO.getLink()}">
                             <input type="hidden" th:value="${link}" id="link">
-                            <input class="btn btn-dark" type="button" value="수정" onclick="modify()">
                             <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+                            <input class="btn btn-primary" type="button" value="수정" onclick="modify()">
                         </div>
                     </div>       <!-- * card-body끝 *-->
                 </div>
