@@ -23,10 +23,6 @@ public class Login {
     @Column
     private String pw;
 
-    @Column
-    private int lock;
-
-    
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default

@@ -19,6 +19,4 @@ public class LoginDTO {
     private String name;
 
     private String pw;
-
-    private int lock;
 }
