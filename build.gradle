@@ -59,6 +59,7 @@ dependencies {
 
 			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa"
 	)
+
 }
 
 tasks.named('test') {
