@@ -30,8 +30,10 @@
                             <span class="input-group-text">계약상태</span>
                             <input type="text" class="form-control" th:value="${dto.cstate}" readonly>
                         </div>
-                        <span>양도양수조건</span>
-                        <textarea class="form-control col-sm-5" th:text="${dto.ccontent}" readonly></textarea>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">양도양수조건</span>
+                            <textarea class="form-control col-sm-5" th:text="${dto.ccontent}" readonly></textarea>
+                        </div>
                     </div>      <!-- * card-body끝 *-->
                 </div>      <!-- * card 끝 *-->
 

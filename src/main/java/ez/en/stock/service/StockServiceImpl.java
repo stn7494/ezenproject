@@ -72,7 +72,7 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public void insertIn(int ono, String email, String sidate) {
-        StockIn stockin
-        stockRepository.save(ono,)
+//        StockIn stockin
+//        stockRepository.save(ono,)
     }
 }
