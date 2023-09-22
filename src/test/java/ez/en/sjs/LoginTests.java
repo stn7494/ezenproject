@@ -35,11 +35,6 @@ public class LoginTests {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private LoginRepository loginRepository;
-    @Autowired
-    private StockRepository stockRepository;
-
-    @Autowired
-    private StockService stockService;
 
     @Test
     public void testLogin() {
@@ -56,9 +51,9 @@ public class LoginTests {
 
         IntStream.rangeClosed(1,1).forEach(i -> {
             Login member = Login.builder()
-                    .email("admin")
-                    .pw(passwordEncoder.encode("admin"))
-                    .name("관리자")
+                    .name("테스트")
+                    .pw(passwordEncoder.encode("test"))
+                    .email("test")
                     .build();
 
             member.addRole(MemberRole.ADMIN);
@@ -92,79 +87,52 @@ public class LoginTests {
         log.info(login);
     }
     @Test
-    public void testSelect() {
-        int sno = 1;
+    public void testAll() {
 
-        Optional<Stock> result = stockRepository.findById(sno);
+        List<Login> result = loginRepository.getAll();
 
-        Stock stock = result.orElseThrow();
-
-        log.info(stock);
+        for (int i = 0; i < result.size(); i++) {
+            log.info(result.get(i).getEmail());
+            log.info(result.get(i).getName());
+        }
     }
+//    @Test
+//    public void testfail() {
+//
+//        String email = "user01@naver.com";
+//
+//        loginRepository.failLogin(email);
+//
+//    }
+//    @Test
+//    public void testLock() {
+//
+//        String email = "test";
+//
+//        loginRepository.loginLock(email);
+//    }
+//    @Test
+//    public void testcntLock() {
+//        String email = "user01@naver.com";
+//
+//        int list = loginRepository.checkCnt(email);
+//
+//        log.info(list);
+//    }
     @Test
-    public void testPaging() {
+    public void testDelete() {
+        String email = "test";
 
-        Pageable pageable = PageRequest.of(0, 3, Sort.by("sno").descending());
-
-        Page<Stock> result = stockRepository.findAll(pageable);
-
-        log.info(result.getTotalElements());
-    }
-    @Test
-    public void testSearchAll() {
-        String[] types = {"t"};
-
-        String keyword = "1";
-
-        Pageable pageable = PageRequest.of(0, 3, Sort.by("sno").descending());
-
-        Page<Stock> result = stockRepository.searchAll(types, keyword, pageable);
-
-        //total pages
-        log.info(result.getTotalElements());
-        //pag size
-        log.info(result.getSize());
-        //pageNumber
-        log.info(result.getNumber());
-        //prev next
-        log.info(result.hasPrevious() + " : "  + result.hasNext());
-
-        result.getContent().forEach(stock -> log.info(stock));
-    }
-    @Test
-    public void testList() {
-
-        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-                .page(1)
-                .size(10)
-                .build();
-
-        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
-
-        log.info(responseDTO);
-    }
-    @Test
-    public void testfail() {
-
-        String email = "user01@naver.com";
-
-        loginRepository.failLogin(email);
+        loginRepository.deleteById(email);
 
     }
-    @Test
-    public void testLock() {
-
-        String email = "user01@naver.com";
-
-        loginRepository.loginLock(email);
-    }
-    @Test
-    public void testcntLock() {
-        String email = "user01@naver.com";
-
-        int list = loginRepository.checkCnt(email);
-
-        log.info(list);
-    }
+//    @Test
+//    public void testCheckPrison() {
+//        String email = "test";
+//
+//        int check = loginRepository.checkPrison(email);
+//
+//        log.info(check+"============================");
+//    }
 
 }

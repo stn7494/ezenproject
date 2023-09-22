@@ -5,8 +5,11 @@ import ez.en.order.dto.OrderDTO;
 import ez.en.order.dto.PopContractDTO;
 import ez.en.order.repository.OrderRepository;
 import ez.en.stock.domain.Stock;
+import ez.en.stock.domain.Stockin;
 import ez.en.stock.dto.StockDTO;
+import ez.en.stock.dto.StockInDTO;
 import ez.en.stock.repository.StockRepository;
+import ez.en.stock.repository.StockinRepository;
 import ez.en.support.domain.Contract;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +31,9 @@ public class StockServiceImpl implements StockService{
     private final ModelMapper modelMapper;
 
     private final StockRepository stockRepository;
+    private final StockinRepository stockinRepository;
     private final OrderRepository orderRepository;
+
 
     @Override
     public int register(StockDTO stockDTO) {
@@ -50,11 +55,24 @@ public class StockServiceImpl implements StockService{
         return oList;
     }
 
-//    public List<PopContractDTO> popContractList(String pcode) {
-//        List<Contract> result = contractRepository.popContractList(pcode, "계약완료");
-//        List<PopContractDTO> dtoList = result.stream()
-//                .map(contract -> modelMapper.map(contract, PopContractDTO.class))
-//                .collect(Collectors.toList());
-//        return dtoList;
-//    }
+    @Override
+    public List<StockInDTO> getIn() {
+        List<Stockin> result = stockinRepository.getIn();
+        List<StockInDTO> inList = result.stream()
+                .map(i -> modelMapper.map(i,StockInDTO.class))
+                .collect(Collectors.toList());
+
+        return inList;
+    }
+
+    @Override
+    public void updateOstate(int ono) {
+        orderRepository.updateOstate(ono);
+    }
+
+    @Override
+    public void insertIn(int ono, String email, String sidate) {
+        StockIn stockin
+        stockRepository.save(ono,)
+    }
 }

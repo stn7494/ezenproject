@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -29,6 +30,15 @@ public class LoginController {
         model.addAttribute("exception", exception);
         return "/login";
 
+    }
+
+    @GetMapping("/list")
+    public String list(Model model) {
+
+        List<Login> list = service.listAll();
+
+        model.addAttribute("list", list);
+        return "/list";
     }
 //    @GetMapping("/logout")
 //    public String logout(HttpSession session) {
