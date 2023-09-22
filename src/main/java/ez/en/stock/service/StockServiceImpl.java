@@ -79,6 +79,6 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public void insertIn(int ono, String email, String sidate) {
-
+      
     }
 }
