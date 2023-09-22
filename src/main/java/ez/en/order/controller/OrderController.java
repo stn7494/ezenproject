@@ -2,6 +2,9 @@ package ez.en.order.controller;
 
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
+import ez.en.login.domain.Login;
+import ez.en.login.service.LoginService;
+import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
 import ez.en.order.dto.PopContractDTO;
 import ez.en.order.dto.PopSplanDTO;
@@ -38,6 +41,7 @@ public class OrderController {
     private final OrderService orderService;
     private final ProgressInspectionService progressInspectionService;
     private final SupportPlanService supportPlanService;
+    private final LoginService loginService;
 
 //    발주 목록 (선택 정렬 기능 미완성)
     @GetMapping("/order/list")
@@ -104,20 +108,28 @@ public class OrderController {
     @GetMapping("/order/popInspection")
     public void popInspectionGet(int ono, Model model){
         List<ProgressInspectionDTO> piDTO = progressInspectionService.popPiList(ono);
+        List<Login> memberDTO = loginService.listAll();
         log.info("piDTO : "+piDTO);
-        ProgressInspectionDTO dto1=null;
-        ProgressInspectionDTO dto2=null;
+        ProgressInspectionDTO dto1=ProgressInspectionDTO.builder()
+                .orders(Orders.builder().build())
+                .login(Login.builder().build())
+                .build();
+        ProgressInspectionDTO dto2=ProgressInspectionDTO.builder()
+                .orders(Orders.builder().build())
+                .login(Login.builder().build())
+                .build();
         for(ProgressInspectionDTO dto: piDTO){
             if(dto.getPisequence()==1){
                 dto1 = dto;
             }
-            else{
+            else if(dto.getPisequence()==2){
                 dto2 = dto;
             }
         }
         log.info("dto1 : "+dto1+", dto2 : "+dto2);
         model.addAttribute("dto1", dto1);
         model.addAttribute("dto2", dto2);
+        model.addAttribute("memDTO", memberDTO);
     }
 
     @PostMapping("/order/popInspection")

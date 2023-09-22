@@ -1,7 +1,6 @@
 package ez.en.order.service;
 
 
-import ez.en.order.dto.OrderDTO;
 import ez.en.order.dto.ProgressInspectionDTO;
 
 import java.util.List;

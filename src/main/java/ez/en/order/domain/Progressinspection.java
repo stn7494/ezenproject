@@ -11,8 +11,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @ToString(exclude = {"login", "orders"})
-@Table(name = "progressinspection")
-public class ProgressInspection {
+public class Progressinspection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
