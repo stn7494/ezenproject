@@ -48,8 +48,11 @@
                              <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
                         <div class="my-4">
                             <div class="float-end">
+                                <a th:href="|@{/product/list}|" class="text-decoration-none">
+                                    <button type="button" class="btn btn-secondary">목록</button>
+                                </a>
                                 <button type="button" class="btn btn-primary" onclick="insert()">품목등록완료</button>
-                                <button type="reset" class="btn btn-secondary">리셋</button>
+                                <button type="reset" class="btn btn-danger">리셋</button>
                             </div>
                         </div>
                     </form>
@@ -131,8 +134,6 @@
             var insertt = document.getElementById("insert")
             insertt.submit();
         }
-
-
 
     </script>
 </div>
