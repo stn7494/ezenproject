@@ -28,20 +28,37 @@ public class LoginServiceImpl implements LoginService{
     private final ModelMapper modelMapper;
 
     @Override
-    public void loginFail(String email) {
-        loginRepository.failLogin(email);
-    }
+    public List<Login> listAll() {
 
-    @Override
-    public int checkFailCount(String email) {
-        return loginRepository.checkCnt(email);
+        List<Login> list = loginRepository.getAll();
 
+        return list;
     }
-
-    @Override
-    public void lockUser(String email) {
-        loginRepository.loginLock(email);
-    }
+    //    @Override
+//    public void loginFail(String email) {
+//        loginRepository.failLogin(email);
+//    }
+//
+//    @Override
+//    public int checkFailCount(String email) {
+//        return loginRepository.checkCnt(email);
+//
+//    }
+//
+//    @Override
+//    public void lockUser(String email) {
+//        loginRepository.loginLock(email);
+//    }
+//
+//    @Override
+//    public int checkPrison(String email) {
+//        return loginRepository.checkPrison(email);
+//    }
+//
+//    @Override
+//    public void resetCnt(String email) {
+//        loginRepository.resetCnt(email);
+//    }
     //    @Override
 //    public List<Role> login(LoginDTO loginDTO) {
 //        String email = loginDTO.getEmail();

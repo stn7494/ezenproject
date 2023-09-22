@@ -1,7 +1,6 @@
 package ez.en.support.controller;
 
 
-import ez.en.support.domain.Middle;
 import ez.en.support.dto.MiddleDTO;
 import ez.en.support.dto.ProductDTO;
 import ez.en.support.dto.ProductPageRequestDTO;
@@ -15,10 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("/product")
@@ -43,12 +40,13 @@ public class ProductController {
     }
 
     @PostMapping("/register")
-    public String productregisterPOST(ProductDTO productDTO, MiddleDTO middleDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String productregisterPOST(ProductDTO productDTO, MiddleDTO middleDTO, BindingResult bindingResult,
+                                      MultipartFile file, RedirectAttributes redirectAttributes) throws Exception{
         log.info("product POST register.....");
         productDTO.setMiddleDTO(middleDTO);
         log.info(productDTO.getMiddleDTO());
 
-        int pno = productService.productregister(productDTO);
+        int pno = productService.productregister(productDTO, file);
         redirectAttributes.addFlashAttribute("result", pno);
         return "redirect:/product/list";
     }
@@ -63,7 +61,8 @@ public class ProductController {
 
     //품목 수정
     @PostMapping("/modify")
-    public String productmodify(ProductPageRequestDTO productPageRequestDTO, ProductDTO productDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String productmodify(ProductPageRequestDTO productPageRequestDTO, ProductDTO productDTO, BindingResult bindingResult,
+                                MultipartFile file,RedirectAttributes redirectAttributes) throws Exception{
         log.info("product modify post........" + productDTO);
         productService.productmodify(productDTO);
         redirectAttributes.addFlashAttribute("result", "modified");

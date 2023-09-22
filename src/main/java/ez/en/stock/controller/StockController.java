@@ -1,18 +1,25 @@
 package ez.en.stock.controller;
 
 import ez.en.order.dto.OrderDTO;
+import ez.en.stock.dto.StockInDTO;
 import ez.en.stock.service.StockService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
+
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Log4j2
 public class StockController {
 
 
@@ -30,13 +37,22 @@ public class StockController {
     }
 
     @GetMapping("/stock/ioList")
-    public void ioList(){
+    public void ioList(Model model){
+        List<StockInDTO> inList = stockService.getIn();
+        model.addAttribute("inList",inList);
     }
 
-    @GetMapping("/stock/inModal")
+    @GetMapping("/stock/stockIn")
+    public void stockIn(int index,Model model){
+        OrderDTO order = stockService.getOrder().get(index);
+        model.addAttribute("dto",order);
+    }
+
+
+    @PostMapping("/stock/stockIn")
     @ResponseBody
-    public OrderDTO inModal(int index){
-//        return oDto;
-        return null;
+    public void stockIn(int ono, String email){
+        stockService.updateOstate(ono);
+
     }
 }

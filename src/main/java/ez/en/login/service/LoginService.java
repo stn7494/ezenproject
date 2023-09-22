@@ -10,11 +10,16 @@ public interface LoginService {
 
 
     //    List<Role> login(LoginDTO loginDTO);
+    List<Login> listAll();
 
-    void loginFail(String email);
-
-    int checkFailCount(String email);
-
-    void lockUser(String email);
+//    void loginFail(String email);
+//
+//    int checkFailCount(String email);
+//
+//    void lockUser(String email);
+//
+//    int checkPrison(String email);
+//
+//    void resetCnt(String email);
 
 }

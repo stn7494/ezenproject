@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <title>ORDER DETAIL</title>
+    <style>
+        span{
+            display: inline-block;
+            width: 130px;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">자재 입고</h5>
+                    <hr>
+                    <input type="hidden" id="ono" name="ono" th:value="${dto.ono}">
+                    <input type="hidden" id="email" name="email" value="admin">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목코드</span>
+                        <input type="text" class="form-control" name="pcode" th:value="${dto.contract.product.pcode}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목이름</span>
+                        <input type="text" class="form-control viewPartner" style="font-weight: bold" name="pname" th:value="${dto.contract.product.pname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목분류1</span>
+                        <input type="text" class="form-control" name="tname" th:value="${dto.contract.product.middle.top.tname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목분류2</span>
+                        <input type="text" class="form-control" name="mname" th:value="${dto.contract.product.middle.mname}" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">공급단가</span>
+                        <input type="text" class="form-control" name="cprice" th:value="${dto.contract.cprice}+'&nbsp;원'" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">입고수량</span>
+                        <input type="text" class="form-control" name="ocount" th:value="${(dto.ocount)}+'&nbsp;개'" readonly>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">신청자</span>
+                        <input type="text" class="form-control" name="tttt" >
+                    </div>
+                    <div class="my-4">
+                        <div class="float-end">
+                            <button id=btn1 class="btn btn-primary">목록으로</button>
+                            <button id=btn2 class="btn btn-dark">입고완료</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    $("#btn2").click(function(){
+        $.ajax({
+            type: 'post',
+            url : '/stock/stockIn',
+            data: {
+                ono : $('#ono').val(),
+                email : $('#admin').val()
+                },
+            success : function() {
+                location.href = '/stock/orderList';
+            },
+            error : function() {
+                alert("error");
+            }
+        })
+
+    })
+
+    $("#btn1").click(function(){
+        location.href = '/stock/orderList';
+    })
+
+
+
+
+</script>
+
+</html>

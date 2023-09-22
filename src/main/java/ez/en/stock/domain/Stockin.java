@@ -20,10 +20,10 @@ public class Stockin {
     private int sino;
 
     @Column
-    private LocalDateTime sidate;
+    private String sidate;
 
     @Column
-    private LocalDateTime siidate;
+    private String siidate;
 
     @Column
     private String siicontent;
