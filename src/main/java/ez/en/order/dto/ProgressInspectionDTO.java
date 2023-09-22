@@ -24,7 +24,9 @@ public class ProgressInspectionDTO {
 
     private String pidetail;
 
-    private boolean picomplete;
+    private int picomplete;
+
+    private int piprogress;
 
     private String email;
 

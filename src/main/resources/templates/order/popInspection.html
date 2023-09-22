@@ -10,25 +10,62 @@
     <!-- Core theme JS-->
     <script th:src="@{/js/scripts.js}">
         <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+
+    <style>
+        span{
+            display: inline-block;
+            width: 130px;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+
 </head>
 
 <body>
 <div class="row mt-3">
     <div class="col">
         <div class="card">
-            <div class="card-header">
-            </div>
             <div class="card-body">
                 <h5 class="card-title">진척 검수 관리</h5>
                 <hr>
+                <th:block>
+                    <h6 class="card-title" style="font-weight: bold">1차 검수</h6>
+                    <form>
+                        <input type="hidden" name="ono" th:value="${ono}">
+                        <input type="hidden" name="pino" th:value="${dto1.pino}">
+                        <input type="hidden" name="pisequence" value=1>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">검수 담당자</span>
+                            <input th:if="${dto1.login.name!=null}" type="text" class="form-control" name="email" th:value="${dto1.login.name}" readonly>
+                            <input th:if="${dto1.login.name==null}" type="text" class="form-control" name="email" placeholder="검수 담당자 입력">
+                        </div>
+                        <div class="input-group mb-3">
+                           <span class="input-group-text">검수 일자</span>
+                            <input th:if="${dto1.pidate!=null}" type="text" class="form-control" name="pidate" th:value="${dto1.pidate}" readonly>
+                            <input th:if="${dto1.pidate==null}" type="date" class="form-control" name="pidate">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">진척도</span>
+                            <input type="text" class="form-control" name="piprogress">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">검수 결과 내용</span>
+                            <textarea class="form-control col-sm-5" rows="5" name="pidetail"></textarea>
+                        </div>
+                        <div style="text-align: right">
+                            <button type="button" class="btn btn-secondary firstSubmitBtn1">1차 검수 등록</button>
+                            <button th:if="${dto1!=null}" type="button" class="btn btn-primary firstSubmitBtn2">1차 검수 마감</button>
+                        </div>
+                    </form>
+                </th:block>
+                <hr>
 
-                <div class="input-group mb-3">
-                    <span class="input-group-text">1차 검수</span>
-                    <textarea class="form-control col-sm-5" rows="5" name="odetail" readonly>[[${dto.odetail}]]</textarea>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">1차 검수</span>
-                    <input type="date" class="form-control" name="pidate" th:value="${dto.pidate}">
+
+                <hr>
+
+                <div style="text-align: right">
+                    <button th:if="${dto1.picomplete==1 && dto2.picomplete==1}" type="button" class="btn btn-primary finalSubmitBtn">진척 검수 마감</button>
                 </div>
 
             </div>
@@ -39,12 +76,18 @@
 
 <script th:inline="javascript">
 
-    function returnParent(cno, cprice, ptname) {
-        opener.document.getElementById("cno").value=cno
-        opener.document.getElementById("cprice").value=cprice
-        opener.document.getElementById("ptname").value=ptname
+
+
+    document.querySelector(".finalSubmitBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
+        if(!confirm("진척 검수를 완료 처리하겠습니까?")){
+            return
+        }
+        opener.document.getElementById("ostate").value="검수완료"
         self.close()
-    }
+    })
+
 
 </script>
 </html>

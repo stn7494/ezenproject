@@ -48,4 +48,9 @@ public class Supportplan {
     }
 
 
+    public void changeState(String spstate){
+        this.spstate = spstate;
+    }
+
+
 }
