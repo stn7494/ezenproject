@@ -48,9 +48,11 @@ public class StockController {
         model.addAttribute("dto",order);
     }
 
+
     @PostMapping("/stock/stockIn")
     @ResponseBody
     public void stockIn(int ono, String email){
         stockService.updateOstate(ono);
+
     }
 }
