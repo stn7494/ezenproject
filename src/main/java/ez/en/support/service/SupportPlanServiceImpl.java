@@ -79,7 +79,6 @@ public class SupportPlanServiceImpl implements SupportPlanService{
         repository.save(supportplan1);
     }
 
-    }
     @Override
     public void stateUpdate(int spno, String state) {
         Supportplan supportplan = repository.selectOne(spno);

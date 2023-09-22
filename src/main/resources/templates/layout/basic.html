@@ -45,7 +45,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     </div> <!--드롭다운끝-->
                 </th:block>
             <th:block sec:authorize="hasRole('ADMIN')">
-                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/list">사원관리</a>
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/admin/list">사원목록</a>
             </th:block>
         </div>
     </div>

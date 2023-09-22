@@ -35,6 +35,10 @@ public class LoginTests {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private LoginRepository loginRepository;
+    @Autowired
+    private StockRepository stockRepository;
+    @Autowired
+    private StockService stockService;
 
     @Test
     public void testLogin() {
@@ -134,5 +138,21 @@ public class LoginTests {
 //
 //        log.info(check+"============================");
 //    }
+    @Test
+    public void testListALL() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
+
+        List<StockDTO> list = responseDTO.getDtoList();
+
+        for (StockDTO stockDTO:list){
+            log.info(stockDTO);
+        }
+
+    }
 
 }

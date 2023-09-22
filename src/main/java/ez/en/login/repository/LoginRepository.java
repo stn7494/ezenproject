@@ -21,6 +21,8 @@ public interface LoginRepository extends JpaRepository<Login, String> {
     @Query(value = "select l from Login l")
     List<Login> getAll();
 
+    @Query(value = "select l from Login l where l.email = :email")
+    List<Login> readOne(String email);
 //    @Modifying
 //    @Transactional
 //    @Query(value = "update Login l set l.failcnt = l.failcnt + 1 where l.email = :email")

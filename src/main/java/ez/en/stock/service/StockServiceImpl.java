@@ -1,5 +1,7 @@
 package ez.en.stock.service;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
 import ez.en.order.dto.PopContractDTO;
@@ -36,16 +38,6 @@ public class StockServiceImpl implements StockService{
 
 
     @Override
-    public int register(StockDTO stockDTO) {
-
-        Stock stock = modelMapper.map(stockDTO, Stock.class);
-
-        int sno = stockRepository.save(stock).getSno();
-
-        return sno;
-    }
-
-    @Override
     public List<OrderDTO> getOrder() {
         List<Orders> result = orderRepository.getOrder();
         List<OrderDTO> oList = result.stream()
@@ -79,6 +71,25 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public void insertIn(int ono, String email, String sidate) {
-      
+//        StockIn stockin
+//        stockRepository.save(ono,)
+    }
+
+    @Override
+    public PageResponseDTO<StockDTO> list(PageRequestDTO pageRequestDTO) {
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("sno");
+
+        Page<Stock> result = stockRepository.searchAll(types, keyword, pageable);
+
+        List<StockDTO> dtoList = result.getContent().stream()
+                .map(stock -> modelMapper.map(stock,StockDTO.class)).collect(Collectors.toList());
+
+        return PageResponseDTO.<StockDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total((int) result.getTotalElements())
+                .build();
     }
 }
