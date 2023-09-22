@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
+@ToString(exclude = "roleSet")
 public class Login {
 
     @Id

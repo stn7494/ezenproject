@@ -34,6 +34,14 @@ public class LoginServiceImpl implements LoginService{
 
         return list;
     }
+
+    @Override
+    public Optional<Login> detail(String email) {
+        Optional<Login> list = loginRepository.getWithRolesLogin(email);
+
+        return list;
+    }
+
     //    @Override
 //    public void loginFail(String email) {
 //        loginRepository.failLogin(email);
