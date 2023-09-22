@@ -24,10 +24,9 @@ public class Login {
     private String pw;
 
     @Column
-    private int failcnt;
+    private int lock;
 
-    @Column
-    private String lock;
+    
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
@@ -39,5 +38,4 @@ public class Login {
     public void clearRoles() {
         this.roleSet.clear();
     }
-
 }

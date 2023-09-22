@@ -1,6 +1,5 @@
 package ez.en.config;
 
-import ez.en.login.domain.Login;
 import ez.en.login.repository.LoginRepository;
 import ez.en.login.service.LoginService;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.Optional;
 
 @Component
 @Log4j2
@@ -33,16 +31,12 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-
+        String username = request.getParameter("username");
         String errorMessage = new String();
         if (exception instanceof BadCredentialsException) {
-            String username = request.getParameter(request.getParameter("username"));
-            loginFail(username);
             errorMessage = "아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.";
 
-        } else if (exception instanceof LockedException) {
-            errorMessage = "잠긴 계정입니다.";
-        } else if (exception instanceof InternalAuthenticationServiceException) {
+        }else if (exception instanceof InternalAuthenticationServiceException) {
             errorMessage = "아이디 또는 비밀번호가 맞지 않습니다. 다시 확인해 주세요.";
         }
         errorMessage = URLEncoder.encode(errorMessage, "UTF-8");
@@ -52,11 +46,4 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
 
     }
 
-    protected void loginFail(String username) {
-        loginRepository.failLogin(username);
-        int cnt = service.checkFailCount(username);
-        if (cnt == 3) {
-            loginRepository.loginLock(username);
-        }
-    }
 }

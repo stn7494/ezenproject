@@ -20,7 +20,5 @@ public class LoginDTO {
 
     private String pw;
 
-    private int failcnt;
-
-    private String lock;
+    private int lock;
 }
