@@ -9,9 +9,12 @@ import ez.en.order.dto.ProgressInspectionDTO;
 import ez.en.order.service.OrderService;
 import ez.en.order.service.ProgressInspectionService;
 import ez.en.support.domain.Contract;
+import ez.en.support.domain.Supportplan;
 import ez.en.support.dto.ContractPageRequestDTO;
 import ez.en.support.dto.ContractPageResponseDTO;
+import ez.en.support.dto.SupportPlanDTO;
 import ez.en.support.service.ContractService;
+import ez.en.support.service.SupportPlanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -34,6 +37,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final ProgressInspectionService progressInspectionService;
+    private final SupportPlanService supportPlanService;
 
 //    발주 목록 (선택 정렬 기능 미완성)
     @GetMapping("/order/list")
@@ -73,6 +77,11 @@ public class OrderController {
         orderDTO.setOdate(LocalDate.now().toString());
         log.info("CONTROLLER REGISTER orderDTO : "+orderDTO);
         int ono = orderService.register(orderDTO);
+        Supportplan supportplan = Supportplan.builder()
+                .spno(orderDTO.getSpno())
+                .spstate("조달처리중")
+                .build();
+        supportPlanService.updateState(supportplan);
         redirectAttributes.addFlashAttribute("result", "regist");
         return "redirect:/order/list";
     }
@@ -93,11 +102,28 @@ public class OrderController {
 
 //    발주 상세 확인에서 진척 검수 팝업
     @GetMapping("/order/popInspection")
-    public void popInspection(int ono, Model model){
+    public void popInspectionGet(int ono, Model model){
+        List<ProgressInspectionDTO> piDTO = progressInspectionService.popPiList(ono);
+        log.info("piDTO : "+piDTO);
+        ProgressInspectionDTO dto1=null;
+        ProgressInspectionDTO dto2=null;
+        for(ProgressInspectionDTO dto: piDTO){
+            if(dto.getPisequence()==1){
+                dto1 = dto;
+            }
+            else{
+                dto2 = dto;
+            }
+        }
+        log.info("dto1 : "+dto1+", dto2 : "+dto2);
+        model.addAttribute("dto1", dto1);
+        model.addAttribute("dto2", dto2);
+    }
 
-
-
-
+    @PostMapping("/order/popInspection")
+    public String popInspectionPost(ProgressInspectionDTO progressInspectionDTO){
+        progressInspectionService.save(progressInspectionDTO);
+        return "redirect:/order/popInspection";
     }
 
 

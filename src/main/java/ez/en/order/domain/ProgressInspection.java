@@ -28,7 +28,10 @@ public class ProgressInspection {
     private String pidetail;
 
     @Column
-    private boolean picomplete;
+    private int piprogress;
+
+    @Column
+    private int picomplete;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
@@ -37,6 +40,14 @@ public class ProgressInspection {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ono")
     private Orders orders;
+
+    public void change(String pidate, String pidetail, int piprogress, int picomplete, Login login){
+        this.pidate=pidate;
+        this.pidetail=pidetail;
+        this.piprogress=piprogress;
+        this.picomplete=picomplete;
+        this.login=login;
+    }
 
 
 }

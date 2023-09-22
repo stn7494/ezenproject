@@ -15,4 +15,8 @@ public interface SupportPlanService {
 
     void update(SupportPlanDTO dto);
 
+
+//    발주시 조달 상태 수정용 메소드
+    void updateState(Supportplan supportplan);
+
 }

@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SupportPlanServiceImpl implements SupportPlanService{
 
     private final ModelMapper modelMapper;
@@ -65,5 +67,14 @@ public class SupportPlanServiceImpl implements SupportPlanService{
         Supportplan supportplan = repository.selectOne(dto.getSpno());
         supportplan.update(dto.getSpdate(),dto.getSpcount(),dto.getSpdelidate());
         repository.save(supportplan);
+    }
+
+
+//  발주시 조달 상태 수정용 메소드
+    @Override
+    public void updateState(Supportplan supportplan) {
+        Supportplan supportplan1 = repository.selectOne(supportplan.getSpno());
+        supportplan1.changeState(supportplan.getSpstate());
+        repository.save(supportplan1);
     }
 }
