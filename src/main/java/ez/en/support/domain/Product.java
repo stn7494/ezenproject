@@ -1,11 +1,8 @@
 package ez.en.support.domain;
 
 import lombok.*;
-import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -30,6 +27,12 @@ public class Product extends BaseEntity{
 
     @Column
     private String pnote;
+
+    @Column
+    private String filename;
+
+    @Column
+    private String filepath;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mcode")
