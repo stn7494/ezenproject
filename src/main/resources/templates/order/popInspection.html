@@ -32,21 +32,25 @@
                 <th:block>
                     <h6 class="card-title" style="font-weight: bold">1차 검수</h6>
                     <form>
+
                         <input type="hidden" name="ono" th:value="${ono}">
                         <input type="hidden" name="pino" th:value="${dto1.pino}">
                         <input type="hidden" name="pisequence" value=1>
+                        <input type="hidden" name="picomplete" id="picomplete" th:value="${dto1.picomplete}">
                         <div class="input-group mb-3">
                             <span class="input-group-text">검수 담당자</span>
-                            <input th:if="${dto1.login.name!=null}" type="text" class="form-control" name="email" th:value="${dto1.login.name}" readonly>
-                            <input th:if="${dto1.login.name==null}" type="text" class="form-control" name="email" placeholder="검수 담당자 입력">
+                            <input th:if="${dto1.login.name!=null}" type="text" class="form-control" th:value="${dto1.login.name}">
+                            <input th:if="${dto1.login.name==null}" type="text" class="form-control" placeholder="검수 담당자 등록" readonly>
+                            <button type="button" class="btn-secondary viewInspecter">담당자 변경</button>
                         </div>
                         <div class="input-group mb-3">
                            <span class="input-group-text">검수 일자</span>
-                            <input th:if="${dto1.pidate!=null}" type="text" class="form-control" name="pidate" th:value="${dto1.pidate}" readonly>
+                            <input th:if="${dto1.pidate!=null}" type="text" class="form-control" name="pidate" th:value="${dto1.pidate}">
                             <input th:if="${dto1.pidate==null}" type="date" class="form-control" name="pidate">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">진척도</span>
+                            <input th:if="${dto1.piprogress!=0}" type="text" class="form-control" name="piprogress" readonly>
                             <input type="text" class="form-control" name="piprogress">
                         </div>
                         <div class="input-group mb-3">
@@ -55,7 +59,7 @@
                         </div>
                         <div style="text-align: right">
                             <button type="button" class="btn btn-secondary firstSubmitBtn1">1차 검수 등록</button>
-                            <button th:if="${dto1!=null}" type="button" class="btn btn-primary firstSubmitBtn2">1차 검수 마감</button>
+                            <button th:if="${dto!=null}" type="button" class="btn btn-primary firstSubmitBtn2">1차 검수 마감</button>
                         </div>
                     </form>
                 </th:block>
@@ -72,9 +76,51 @@
         </div>
     </div>
 </div>
+
+<!--사원 정보 모달-->
+<div class="modal inspecterModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">사원 목록</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">이름</th>
+                    <th scope="col">이메일</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="memDTO:${memDTO}">
+                    <td>[[${memDTO.name}]]</td>
+                    <td>[[${memDTO.email}]]</td>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark closeWriterBtn">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 
 <script th:inline="javascript">
+
+    const inspecterModal = new bootstrap.Modal(document.querySelector(".inspecterModal"))
+
+
+    document.querySelector(".viewInspecter").addEventListener("click",function (e){
+        inspecterModal.show()
+    }, false)
 
 
 
