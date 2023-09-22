@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>품목 등록</title>
 </head>
+
 <div layout:fragment="content">
     <div class="row-mt-3">
         <div class="col">
@@ -15,7 +16,7 @@
                 </div>
                 <div class="card-body">
                     <h2>품목정보를 입력해주세요</h2>
-                    <form action="/product/register" method="post" id="insert">
+                    <form action="/product/register" method="post" id="insert" enctype="multipart/form-data">
                         <select name="tcode" id="tcode" onchange="product_tvalue()">
                             <option value="">-품목분류1(대분류)-</option>
                             <option value="T01">데스크탑</option>
@@ -42,7 +43,9 @@
                             <span class="input-group-text">비고</span>
                             <textarea class="form-control col-sm-5" rows="5" name="pnote"></textarea>
                         </div>
-
+                             <!--파일업로드-->
+                             <!--파일 선택추가-->
+                             <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
                         <div class="my-4">
                             <div class="float-end">
                                 <button type="button" class="btn btn-primary" onclick="insert()">품목등록완료</button>

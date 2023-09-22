@@ -44,6 +44,13 @@
                         <textarea class="form-control col-sm-5" rows="3" readonly>[[${dto.pnote}]]</textarea>
                     </div>
                     <div class="input-group mb-3">
+                        <span class="input-group-text">품목사진</span>
+                        <img th:src="${dto.filepath}" width="200px;" height="200px;" style="margin: auto;">
+                    </div>
+
+
+
+                    <div class="input-group mb-3">
                         <span class="input-group-text">품목등록날짜</span>
                         <input type="text" class="form-control" th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                     </div>

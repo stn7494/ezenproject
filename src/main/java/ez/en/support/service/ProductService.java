@@ -3,11 +3,12 @@ package ez.en.support.service;
 import ez.en.support.dto.ProductDTO;
 import ez.en.support.dto.ProductPageRequestDTO;
 import ez.en.support.dto.ProductPageResponseDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductService {
 
     // 제품 등록
-    int productregister(ProductDTO productDTO);
+    int productregister(ProductDTO productDTO, MultipartFile file) throws Exception;
 
     // 제품 상세보기
     ProductDTO productreadOne(int pno);

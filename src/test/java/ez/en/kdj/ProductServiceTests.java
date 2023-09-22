@@ -39,9 +39,6 @@ public class ProductServiceTests {
                 .middleDTO(middleDTO)
                 .build();
 
-        int pno = productService.productregister(productDTO);
-        log.info("pno: " + pno);
-
     }
 
 
