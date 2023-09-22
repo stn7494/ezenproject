@@ -15,4 +15,7 @@ public interface SupportPlanService {
 
     void update(SupportPlanDTO dto);
 
+    void stateUpdate(int spno, String state);
+
+    void delete(int spno);
 }

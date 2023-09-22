@@ -66,4 +66,16 @@ public class SupportPlanServiceImpl implements SupportPlanService{
         supportplan.update(dto.getSpdate(),dto.getSpcount(),dto.getSpdelidate());
         repository.save(supportplan);
     }
+
+    @Override
+    public void stateUpdate(int spno, String state) {
+        Supportplan supportplan = repository.selectOne(spno);
+        supportplan.stateUpdate(state);
+        repository.save(supportplan);
+    }
+
+    @Override
+    public void delete(int spno) {
+        repository.deleteById(spno);
+    }
 }

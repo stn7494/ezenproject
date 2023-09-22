@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import ez.en.support.domain.QSupportplan;
 import ez.en.support.domain.Supportplan;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.List;
 
+@Log4j2
 public class SupportplanSearchImpl extends QuerydslRepositorySupport implements SupportplanSearch{
 
     public SupportplanSearchImpl(){super(Supportplan.class);}
@@ -23,6 +25,7 @@ public class SupportplanSearchImpl extends QuerydslRepositorySupport implements 
 
         BooleanBuilder builder = new BooleanBuilder();
 
+
         if(type != null && keyword != null){
             switch (type[0]){
                 case "a":
@@ -32,17 +35,22 @@ public class SupportplanSearchImpl extends QuerydslRepositorySupport implements 
                     break;
                 case "c":
                     builder.or(supportplan.product.pcode.contains(keyword));
+
+
                     break;
                 case "n":
                     builder.or(supportplan.product.pname.contains(keyword));
+
                     break;
                 case "t":
                     builder.or(supportplan.middle.top.tname.contains(keyword));
+
                     break;
             }
+            query.where(builder);
         }
 
-        query.where(supportplan.spstate.eq("조달요청"));
+        query.where(supportplan.spstate.ne("조달완료"));
 
         this.getQuerydsl().applyPagination(pageable, query);
 

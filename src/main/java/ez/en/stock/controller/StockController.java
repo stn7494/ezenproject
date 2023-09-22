@@ -36,6 +36,7 @@ public class StockController {
     @GetMapping("/stock/inModal")
     @ResponseBody
     public OrderDTO inModal(int index){
-        return oDto;
+//        return oDto;
+        return null;
     }
 }
