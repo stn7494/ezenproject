@@ -9,12 +9,13 @@
 <body>
       <div class="row mt-3">
         <div class="col">
-          <form action="/contract/product" method="get">
+          <form action="/supportplan/product" method="get">
             <div class="col">
               <input type="hidden" name="size" th:value="${productPageRequestDTO.size}">
               <div class="input-group">
                 <div class="input-group-prepend">
                   <select class="form-select" name="type">
+                    <option value="cm" th:selected="${productPageRequestDTO.type == 'cm'}">전체</option>
                     <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
                     <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
                   </select>
@@ -48,7 +49,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="dto:${responseDTO.dtoList}">
-                  <th onclick="sendValue(this.id)" th:id="${dto.pno}" th:class="${dto.pno}" scope="row">[[${dto.pno}]]</th>
+                  <th style="color: #0d6efd" onclick="sendValue(this.id)" th:id="${dto.pno}" th:class="${dto.pno}" scope="row">[[${dto.pno}]]</th>
                   <td th:class="${dto.pno}">[[${dto.pcode}]]</td>
                   <td th:class="${dto.pno}">[[${dto.pname}]]</td>
                   <td th:class="${dto.pno}">[[${dto.pnote}]]</td>
@@ -103,7 +104,7 @@
     e.preventDefault()
     e.stopPropagation()
 
-    self.location = '/contract/product'
+    self.location = '/supportplan/product'
   },false)
 
   function sendValue(e) {

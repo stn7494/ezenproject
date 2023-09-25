@@ -44,7 +44,7 @@
                             <input type="date" id="spdelidate" name="spdelidate" class="form-control">
                         </div>
                         <div class="float-end">
-                            <input class="btn btn-dark" type="button" value="등록" onclick="register()">
+                            <input class="btn btn-primary" type="button" value="등록" onclick="register()">
                             <input class="btn btn-dark" type="button" value="목록" onclick="back()">
                         </div>
                     </div>
@@ -57,11 +57,17 @@
 <script layout:fragment="script" th:inline="javascript">
     function register(){
         var objform = $("#register");
-        if($("#spdate").val() == ""){
+        if($("#pcode").val() == ""){
+            alert("품목을 선택해주세요");
+            $("#pcode").focus();
+        }else if($("#spdate").val() == ""){
             alert("소요일정을 입력해주세요");
             $("#spdate").focus();
         }else if($("#spcount").val() == ""){
             alert("소요량을 입력해주세요");
+            $("#spcount").focus();
+        }else if(isNaN($("#spcount"))||$("#spcount").val() <= 0) {
+            alert("1개 이상의 숫자를 입력해주세요");
             $("#spcount").focus();
         }else if($("#spdelidate").val() == ""){
             alert("조달납기일을 입력해주세요");

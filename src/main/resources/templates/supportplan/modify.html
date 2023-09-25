@@ -52,10 +52,9 @@
                             <input type="text" id="spstate" name="spstate" th:value="${dto.spstate}" class="form-control" readonly>
                         </div>
                         <div class="float-end">
-                                <input class="btn btn-dark" type="button" value="수정" onclick="modify()">
-                                <input class="btn btn-dark" type="button" value="목록" onclick="back()">
-                                <input class="btn btn-dark" type="button" id="remove" value="삭제" onclick="remove()">
-
+                            <input class="btn btn-dark" type="button" value="수정" onclick="modify()">
+                            <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+                            <input class="btn btn-dark" type="button" id="remove" value="삭제" onclick="remove()">
                         </div>
                     </div>
                 </div>
@@ -89,6 +88,9 @@
             $("#spdate").focus();
         }else if($("#spcount").val() == ""){
             alert("소요량을 입력해주세요");
+            $("#spcount").focus();
+        }else if(isNaN($("#spcount"))||$("#spcount").val() <= 0) {
+            alert("1개 이상의 숫자를 입력해주세요");
             $("#spcount").focus();
         }else if($("#spdelidate").val() == ""){
             alert("조달납기일을 입력해주세요");
