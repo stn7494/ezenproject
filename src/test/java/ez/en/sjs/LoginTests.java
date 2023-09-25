@@ -7,8 +7,10 @@ import ez.en.login.domain.MemberRole;
 import ez.en.login.domain.Role;
 import ez.en.login.repository.LoginRepository;
 import ez.en.login.repository.RoleRepository;
+import ez.en.stock.domain.Dailystock;
 import ez.en.stock.domain.Stock;
 import ez.en.stock.dto.StockDTO;
+import ez.en.stock.repository.DailyStockRepository;
 import ez.en.stock.repository.StockRepository;
 import ez.en.stock.service.StockService;
 import lombok.extern.log4j.Log4j2;
@@ -39,6 +41,8 @@ public class LoginTests {
     private StockRepository stockRepository;
     @Autowired
     private StockService stockService;
+    @Autowired
+    private DailyStockRepository dailyStockRepository;
 
     @Test
     public void testLogin() {
@@ -153,6 +157,13 @@ public class LoginTests {
             log.info(stockDTO);
         }
 
+    }
+    @Test
+    public void testDaily() {
+
+        List<Dailystock> list = dailyStockRepository.dailystock();
+
+        log.info(list);
     }
 
 }
