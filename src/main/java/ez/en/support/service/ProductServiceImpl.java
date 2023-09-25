@@ -34,10 +34,6 @@ public class ProductServiceImpl implements ProductService{
     public int productregister(ProductDTO productDTO,MultipartFile file)throws Exception{
         //여기부터
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-        if (file.getOriginalFilename().equals("")){
-
-        }
-
         UUID uuid = UUID.randomUUID();
         String fileName = uuid+"_"+file.getOriginalFilename();
         File saveFile = new File(projectPath, fileName);
@@ -65,11 +61,30 @@ public class ProductServiceImpl implements ProductService{
 
     // 무엇을 수정할것인지는 Product.java에서 써줘야함
     @Override
-    public void productmodify(ProductDTO productDTO) {
+    public void productmodify(ProductDTO productDTO, MultipartFile file) throws Exception {
+        log.info("내가 전송한 데이터 : " + productDTO);
+        log.info("내가 전송한 파일의 데이터 " + file.getOriginalFilename());
+
         Optional<Product> result = productRepository.findById(productDTO.getPno());
         Product product = result.orElseThrow();
-        product.productchange(productDTO.getPname(), productDTO.getPcontent(), productDTO.getPnote());
 
+
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+        if (file!= null) {
+            // 새로운 파일을 올릴때
+            File f = new File(productDTO.getFilepath());
+            if (f.exists()){ // 파일이 존재하면
+                f.delete();  // 파일 삭제
+            }
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid+"_"+file.getOriginalFilename();
+            File saveFile = new File(projectPath, fileName);
+            file.transferTo(saveFile);
+
+            productDTO.setFilename(fileName);
+            productDTO.setFilepath("/files/" + fileName);
+        }
+        product.productchange(productDTO.getPname(), productDTO.getPcontent(), productDTO.getPnote(), productDTO.getFilename(), productDTO.getFilepath());
         productRepository.save(product);
     }
 

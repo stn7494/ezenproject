@@ -39,10 +39,12 @@ public class Product extends BaseEntity{
     private Middle middle;
 
     //수정항목 설정!
-    public void productchange(String pname, String pcontent, String pnote) {
+    public void productchange(String pname, String pcontent, String pnote, String filename, String filepath) {
         this.pname = pname;
         this.pcontent = pcontent;
         this.pnote = pnote;
+        this.filename = filename;
+        this.filepath = filepath;
     }
 
 }

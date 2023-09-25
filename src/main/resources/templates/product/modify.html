@@ -14,7 +14,9 @@
                     <h5>품목 [수정]</h5>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/product/modify.html}" method="post" id="f1">
+                    <form th:action="@{/product/modify.html}" method="post" id="f1", enctype="multipart/form-data">
+                        <input type="hidden" name="filepath"  id="filepath" th:value="${dto.filepath}">
+                        <input type="hidden" name="filename"  id="filename" th:value="${dto.filename}">
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목순번</span>
                             <input type="text" class="form-control" th:value="${dto.pno}" name="pno" readonly style="background-color: silver">
@@ -46,14 +48,15 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목사진</span>
                             <img th:src="${dto.filepath}" width="200px;" height="200px;" style="margin: auto;">
+                            <input type="file" name="file">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목등록날짜</span>
-                            <input type="text" class="form-control" th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" readonly style="background-color: silver">
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" name="pdate" readonly style="background-color: silver">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목수정날짜</span>
-                            <input type="text" class="form-control" th:value="${#temporals.format(dto.pmoddate, 'yyyy-MM-dd HH:mm:ss')}" readonly style="background-color: silver">
+                            <input type="text" class="form-control" th:value="${#temporals.format(dto.pmoddate, 'yyyy-MM-dd HH:mm:ss')}" name="pmoddate" readonly style="background-color: silver">
                         </div>
 
                         <div class="my-4">
