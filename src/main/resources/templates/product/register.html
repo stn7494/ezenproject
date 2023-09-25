@@ -21,7 +21,7 @@
                             <option value="">-품목분류1(대분류)-</option>
                             <option value="T01">데스크탑</option>
                             <option value="T02">악세사리</option>
-                            <option value="T03">ETC</option>
+                            <option value="T03">기타</option>
                         </select>
 
                         <select name="mcode" id="mcode" onchange="product_mvalue()"></select>
@@ -45,7 +45,10 @@
                         </div>
                              <!--파일업로드-->
                              <!--파일 선택추가-->
-                             <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목사진</span>
+                            <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
+                        </div>
                         <div class="my-4">
                             <div class="float-end">
                                 <a th:href="|@{/product/list}|" class="text-decoration-none">

@@ -44,6 +44,10 @@
                             <textarea class="form-control col-sm-5" rows="3" name="pnote">[[${dto.pnote}]]</textarea>
                         </div>
                         <div class="input-group mb-3">
+                            <span class="input-group-text">품목사진</span>
+                            <img th:src="${dto.filepath}" width="200px;" height="200px;" style="margin: auto;">
+                        </div>
+                        <div class="input-group mb-3">
                             <span class="input-group-text">품목등록날짜</span>
                             <input type="text" class="form-control" th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" readonly style="background-color: silver">
                         </div>
@@ -54,9 +58,9 @@
 
                         <div class="my-4">
                             <div class="float-end">
-                                <button type="button" class="btn btn-secondary listBtn">목록</button>
-                                <button type="button" class="btn btn-primary modBtn">품목수정완료</button>
-                                <button type="button" class="btn btn-danger removeBtn">품목삭제</button>
+                                    <button type="button" class="btn btn-secondary listBtn">목록</button>
+                                    <button type="button" class="btn btn-primary modBtn">품목수정완료</button>
+                                    <button type="button" class="btn btn-danger removeBtn">품목삭제</button>
                             </div>
                         </div>
                     </form>
@@ -66,6 +70,11 @@
     </div>
 </div>
 <script layout:fragment="script" th:inline="javascript">
+
+    $(document).ready(function (){
+
+    });
+
     const link = [[${productPageRequestDTO.getLink()}]]
     const formObj = document.querySelector("#f1")
 
@@ -73,6 +82,7 @@
         e.preventDefault()
         e.stopPropagation()
 
+        /*get방식으로 보낸다.*/
         location.href=`/product/list?${link}`
     }, false)
 
@@ -80,9 +90,11 @@
         e.preventDefault()
         e.stopPropagation()
 
+        /*컨트롤러(/modify)로 가라고 하는 form형식이다*/
         formObj.action = `/product/modify?${link}`
         formObj.method = `post`
         formObj.submit()
+
     }, false)
 
     document.querySelector(".removeBtn").addEventListener("click", function (e) {
