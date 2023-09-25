@@ -39,9 +39,9 @@
                         <input type="hidden" name="picomplete" id="picomplete" th:value="${dto1.picomplete}">
                         <div class="input-group mb-3">
                             <span class="input-group-text">검수 담당자</span>
-                            <input th:if="${dto1.login.name!=null}" type="text" class="form-control" th:value="${dto1.login.name}">
-                            <input th:if="${dto1.login.name==null}" type="text" class="form-control" placeholder="검수 담당자 등록" readonly>
-                            <button type="button" class="btn-secondary viewInspecter">담당자 변경</button>
+                            <input th:if="${dto1.login.name!=null}" type="text" class="form-control" id="inspecter1" th:value="${dto1.login.name}">
+                            <input th:if="${dto1.login.name==null}" type="text" class="form-control" id="inspecter2" placeholder="검수 담당자 등록" readonly>
+                            <button type="button" class="btn btn-secondary viewInspecter">담당자 변경</button>
                         </div>
                         <div class="input-group mb-3">
                            <span class="input-group-text">검수 일자</span>
@@ -96,7 +96,7 @@
 
                 <tbody>
                 <tr th:each="memDTO:${memDTO}">
-                    <td>[[${memDTO.name}]]</td>
+                    <td id="memberName">[[${memDTO.name}]]</td>
                     <td>[[${memDTO.email}]]</td>
                 </tr>
                 </tbody>
@@ -104,7 +104,7 @@
 
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark closeWriterBtn">닫기</button>
+                <button type="button" class="btn btn-outline-dark closeInspecterBtn">닫기</button>
             </div>
         </div>
     </div>
@@ -122,6 +122,10 @@
         inspecterModal.show()
     }, false)
 
+    document.querySelector(".closeInspecterBtn").addEventListener("click", function (e){
+        partnerModal.hide()
+    }, false)
+
 
 
     document.querySelector(".finalSubmitBtn").addEventListener("click", function (e) {
@@ -133,6 +137,8 @@
         opener.document.getElementById("ostate").value="검수완료"
         self.close()
     })
+
+    document.querySelector("#memberName").addEventListener("click", )
 
 
 </script>
