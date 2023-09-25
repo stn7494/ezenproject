@@ -34,12 +34,18 @@ public class ProductServiceImpl implements ProductService{
     public int productregister(ProductDTO productDTO,MultipartFile file)throws Exception{
         //여기부터
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+        if (file.getOriginalFilename().equals("")){
+
+        }
+
         UUID uuid = UUID.randomUUID();
         String fileName = uuid+"_"+file.getOriginalFilename();
         File saveFile = new File(projectPath, fileName);
-        file.transferTo(saveFile);
-        productDTO.setFilename(fileName);
-        productDTO.setFilepath("/files/"+fileName);
+        if(!file.isEmpty()){
+            file.transferTo(saveFile);
+            productDTO.setFilename(fileName);
+            productDTO.setFilepath("/files/"+fileName);
+        }
         Product product = modelMapper.map(productDTO, Product.class); // 이건 엔티티로 바꿔주는애
         productRepository.save(product);
         //여기까지 파일업로드때매 추가함
