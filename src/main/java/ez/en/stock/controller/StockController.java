@@ -1,6 +1,9 @@
 package ez.en.stock.controller;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.order.dto.OrderDTO;
+import ez.en.stock.dto.StockDTO;
 import ez.en.stock.dto.StockInDTO;
 import ez.en.stock.service.StockService;
 
@@ -27,7 +30,10 @@ public class StockController {
 
 
     @GetMapping("/stock/stockList")
-    public void stockList(){
+    public void stockList(PageRequestDTO pageRequestDTO, Model model){
+        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
+
+        model.addAttribute("dto", responseDTO);
     }
 
     @GetMapping("/stock/orderList")

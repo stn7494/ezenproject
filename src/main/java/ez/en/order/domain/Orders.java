@@ -28,9 +28,6 @@ public class Orders {
     @Column
     private String odate;
 
-//    @Column
-//    private String odelidate;
-
     @Column
     private String odetail;
 

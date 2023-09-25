@@ -6,7 +6,6 @@ import ez.en.order.domain.Progressinspection;
 import ez.en.order.dto.PopContractDTO;
 import ez.en.order.dto.ProgressInspectionDTO;
 import ez.en.order.repository.ProgressInspectionRepository;
-import ez.en.support.domain.Contract;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -23,17 +22,16 @@ import java.util.stream.Collectors;
 @Transactional
 public class ProgressInspectionServiceImpl implements ProgressInspectionService{
 
-    private ProgressInspectionRepository progressInspectionRepository;
-    private ModelMapper modelMapper;
+    private final ProgressInspectionRepository progressInspectionRepository;
+    private final ModelMapper modelMapper;
 
 
     @Override
     public List<ProgressInspectionDTO> popPiList(int ono) {
         log.info("popPiList ono : "+ono);
         List<Progressinspection> result = progressInspectionRepository.popPiList(ono);
-
         List<ProgressInspectionDTO> dtoList = result.stream()
-                .map(progressInspection -> modelMapper.map(progressInspection, ProgressInspectionDTO.class))
+                .map(progressinspection -> modelMapper.map(progressinspection, ProgressInspectionDTO.class))
                 .collect(Collectors.toList());
         return dtoList;
     }
@@ -44,20 +42,21 @@ public class ProgressInspectionServiceImpl implements ProgressInspectionService{
         progressInspectionDTO.setLogin(Login.builder().email(progressInspectionDTO.getEmail()).build());
         if(progressInspectionDTO.getPino()!=0){
             Optional<Progressinspection> result = progressInspectionRepository.findById(progressInspectionDTO.getPino());
-            Progressinspection progressInspection = result.orElseThrow();
-            progressInspection.change(
+            Progressinspection progressinspection = result.orElseThrow();
+            progressinspection.change(
                     progressInspectionDTO.getPidate(),
-                    progressInspection.getPidetail(),
-                    progressInspection.getPiprogress(),
-                    progressInspection.getPicomplete(),
+                    progressInspectionDTO.getPidetail(),
+                    progressInspectionDTO.getPiprogress(),
+                    progressInspectionDTO.getPicomplete(),
                     progressInspectionDTO.getLogin()
             );
-            int ono = progressInspectionRepository.save(progressInspection).getOrders().getOno();
-            return ono;
+            int pino = progressInspectionRepository.save(progressinspection).getPino();
+            return pino;
         }else {
-            Progressinspection progressInspection = modelMapper.map(progressInspectionDTO, Progressinspection.class);
-            int ono = progressInspectionRepository.save(progressInspection).getOrders().getOno();
-            return ono;
+            log.info("save DTO: "+progressInspectionDTO);
+            Progressinspection progressinspection = modelMapper.map(progressInspectionDTO, Progressinspection.class);
+            int pino = progressInspectionRepository.save(progressinspection).getPino();
+            return pino;
         }
     }
 

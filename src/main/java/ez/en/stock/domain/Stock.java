@@ -1,8 +1,14 @@
 package ez.en.stock.domain;
 
+import ez.en.order.dto.OrderDTO;
+import ez.en.stock.dto.StockOutDTO;
 import ez.en.support.domain.Contract;
 import ez.en.support.domain.Product;
 import ez.en.support.domain.Supportplan;
+import ez.en.support.dto.ContractDTO;
+import ez.en.support.dto.MiddleDTO;
+import ez.en.support.dto.ProductDTO;
+import ez.en.support.dto.TopDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,5 +39,4 @@ public class Stock {
     @ManyToOne
     @JoinColumn(name = "cno")
     private Contract contract;
-
 }

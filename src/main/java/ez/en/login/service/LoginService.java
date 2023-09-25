@@ -12,6 +12,9 @@ public interface LoginService {
     //    List<Role> login(LoginDTO loginDTO);
     List<Login> listAll();
 
+    Optional<Login> detail(String email);
+
+
 //    void loginFail(String email);
 //
 //    int checkFailCount(String email);

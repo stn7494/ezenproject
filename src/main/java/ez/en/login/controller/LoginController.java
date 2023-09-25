@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -32,13 +33,21 @@ public class LoginController {
 
     }
 
-    @GetMapping("/list")
+    @GetMapping("/admin/list")
     public String list(Model model) {
 
         List<Login> list = service.listAll();
 
         model.addAttribute("list", list);
         return "/list";
+    }
+
+    @GetMapping("/detail")
+    public String detail(@RequestParam("email")String email,Model model) {
+        Optional<Login> list = service.detail(email);
+
+        model.addAttribute("list", list);
+        return "/detail";
     }
 //    @GetMapping("/logout")
 //    public String logout(HttpSession session) {

@@ -10,16 +10,15 @@
 
     <div class="row-mt-3">
         <div class="col">
-            <div class="card">
+            <div class="card" style="width: 50%; margin: auto">
                 <div class="card-header">
-                    <h6>사원관리</h6>
+                    <h6>사원목록</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-body" >
 
-                    <table class="table">
+                    <table class="table" >
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col">사원 이메일</th>
                             <th scope="col">사원 이름</th>
                         </tr>
@@ -27,21 +26,13 @@
                         <tbody>
                         <tr th:each="list:${list}">
                             <td>
-                                <input type="radio" id="spno" name="spno">
-                                <!--/* <input type="hidden" th:id="${dto.spno}+'modal'"> */-->
-                            </td>
-                            <td>
-                                <a th:href="|@{/detail(spno=${dto.spno})}&${link}|" th:text="${list.email}"></a>
+                                <a th:text="${list.email}"></a>
                             </td>
                             <td th:text="${list.name}"></td>
                         </tr>
                         </tbody>
 
                     </table>
-                    <div>
-                        <button class="btn btn-dark" id="register">조달계획등록</button>
-                        <button class="btn btn-dark" id="complete">조달완료처리</button>
-                    </div>
 
                 </div>      <!-- * card-body끝 *-->
             </div>      <!-- * card 끝 *-->

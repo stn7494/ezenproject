@@ -77,8 +77,8 @@ public class SupportPlanServiceImpl implements SupportPlanService{
         Supportplan supportplan1 = repository.selectOne(supportplan.getSpno());
         supportplan1.changeState(supportplan.getSpstate());
         repository.save(supportplan1);
-
     }
+
     @Override
     public void stateUpdate(int spno, String state) {
         Supportplan supportplan = repository.selectOne(spno);
