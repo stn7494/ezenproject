@@ -48,7 +48,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">진척도</span>
-                            <input type="text" class="form-control" name="piprogress" th:value="${dto1.piprogress}">
+                            <input type="text" class="form-control" name="piprogress" id="piprogress1" th:value="${dto1.piprogress}">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">검수 결과 내용</span>
@@ -82,7 +82,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">진척도</span>
-                            <input type="text" class="form-control" name="piprogress" th:value="${dto2.piprogress}">
+                            <input type="text" class="form-control" name="piprogress" id="piprogress2" th:value="${dto2.piprogress}">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">검수 결과 내용</span>
@@ -163,6 +163,12 @@
 
 
     function firstSubmitBtn1() {
+        var piprogress1 = Number(document.querySelector("input[id='piprogress1']").value)
+        console.log(piprogress1)
+        if(piprogress1==NaN || piprogress1 > 100 || piprogress1 < 0){
+            alert("진척도는 0~100의 숫자만 입력 가능합니다.")
+            return
+        }
         if(!confirm("1차 검수를 등록하겠습니까?")){
             return
         }
@@ -180,6 +186,12 @@
     }
 
     function secondSubmitBtn1() {
+        var piprogress2 = Number(document.querySelector("input[id='piprogress2']").value)
+        console.log(piprogress2)
+        if(piprogress2==NaN || piprogress2 > 100 || piprogress2 < 0){
+            alert("진척도는 0~100의 숫자만 입력 가능합니다.")
+            return
+        }
         if(!confirm("2차 검수를 등록하겠습니까?")){
             return
         }
