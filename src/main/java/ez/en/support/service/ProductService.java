@@ -14,7 +14,7 @@ public interface ProductService {
     ProductDTO productreadOne(int pno);
 
     // 제품 수정
-    void productmodify(ProductDTO productDTO);
+    void productmodify(ProductDTO productDTO, MultipartFile file) throws Exception;
 
     // 제품 삭제
     void productremove(int pno);

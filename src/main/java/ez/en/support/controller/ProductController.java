@@ -68,7 +68,7 @@ public class ProductController {
     public String productmodify(ProductPageRequestDTO productPageRequestDTO, ProductDTO productDTO, BindingResult bindingResult,
                                 MultipartFile file,RedirectAttributes redirectAttributes) throws Exception{
         log.info("product modify post........" + productDTO);
-        productService.productmodify(productDTO);
+        productService.productmodify(productDTO, file);
         redirectAttributes.addFlashAttribute("result", "modified");
         redirectAttributes.addAttribute("pno", productDTO.getPno());
         redirectAttributes.addAttribute("size", productPageRequestDTO.getSize());
