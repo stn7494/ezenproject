@@ -158,12 +158,18 @@ public class LoginTests {
         }
 
     }
-    @Test
-    public void testDaily() {
 
-        List<Dailystock> list = dailyStockRepository.dailystock();
-
-        log.info(list);
-    }
-
+//    @Test
+//    public void testRegister() {
+//
+//        StockDTO stockDTO = StockDTO.builder()
+//                .scount(100)
+//                .snote("")
+//                .cno(11)
+//                .pno(5)
+//                .build();
+//        int sno = stockService.register(stockDTO);
+//
+//        log.info("sno : " + sno);
+//    }
 }

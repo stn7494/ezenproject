@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
@@ -30,10 +33,17 @@ public class StockController {
 
 
     @GetMapping("/stock/stockList")
-    public void stockList(PageRequestDTO pageRequestDTO, Model model){
-        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
+    public void stockList(Model model){
+        List<Integer> pnoList = stockService.getPno();
+        for(int i:pnoList){
+            int all = stockService.getSicountAll(i);
+            stockService.sicountAll(i,all);
+        }
 
-        model.addAttribute("dto", responseDTO);
+        List<StockDTO> sList = stockService.getStock();
+        model.addAttribute("sList",sList);
+
+
     }
 
     @GetMapping("/stock/orderList")
@@ -57,8 +67,9 @@ public class StockController {
 
     @PostMapping("/stock/stockIn")
     @ResponseBody
-    public void stockIn(int ono, String email){
-        stockService.updateOstate(ono);
-
+    public void stockIn(int ono, String email, int pno, int sicount){
+        String sidate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")); // 날짜 포맷
+        stockService.insertIn(ono, email,sidate,pno,sicount); // 입고완료시 입고테이블에 데이터추가
+        stockService.updateOstate(ono); // 발주상태 입고완료로 변경
     }
 }

@@ -6,6 +6,7 @@ import ez.en.stock.domain.Stock;
 import ez.en.stock.dto.StockDTO;
 import ez.en.stock.repository.StockRepository;
 
+import ez.en.stock.repository.StockinRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,16 +24,19 @@ public class StockTest {
 
     @Autowired
     StockRepository stockRepository;
-
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    StockinRepository stockinRepository;
+
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
+
     @Test
     public void test(){
-
+        int num = stockinRepository.getSicountAll(1);
+        log.info("///////////"+num);
     }
 
 

@@ -48,5 +48,4 @@ public class Progressinspection {
         this.login=login;
     }
 
-
 }
