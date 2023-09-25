@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @ToString
-public class Dailystock {
+public class Dailystock extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

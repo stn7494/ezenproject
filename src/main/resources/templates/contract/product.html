@@ -15,7 +15,7 @@
               <div class="input-group">
                 <div class="input-group-prepend">
                   <select class="form-select" name="type">
-                    <option value="c" th:selected="${productPageRequestDTO.type == 'cm'}">전체</option>
+                    <option value="cm" th:selected="${productPageRequestDTO.type == 'cm'}">전체</option>
                     <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
                     <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
                   </select>

@@ -42,8 +42,8 @@
             </div>
             <div class="col" th:with="link = ${contractPageRequestDTO.getLink()}">
               <input type="hidden" th:value="${link}" id="link" name="link">
-              <input class="btn btn-dark" type="submit" value="수정" >
               <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+              <input class="btn btn-primary" type="submit" value="수정" >
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">계약상태</span>
