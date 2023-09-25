@@ -77,9 +77,6 @@
                             <a th:href="|@{/order/list}?${link}|" class="text-decoration-none">
                                 <button type="button" class="btn btn-primary">목록으로</button>
                             </a>
-<!--                            <a th:href="|@{/order/modify(ono=${dto.ono})}&${link}|" class="text-decoration-none">-->
-<!--                                <button type="button" class="btn btn-secondary">수정</button>-->
-<!--                            </a>-->
                             <a class="text-decoration-none">
                                 <button type="button" class="btn btn-secondary" onclick="window.print()">인쇄</button>
                             </a>
@@ -211,7 +208,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary submitOdetailBtn">변경</button>
+                    <button type="button" class="btn btn-primary submitOdetailBtn">수정</button>
                     <button type="button" class="btn btn-outline-dark closeOdetailBtn">닫기</button>
                 </div>
             </div>
@@ -271,7 +268,7 @@
     document.querySelector(".submitOdetailBtn").addEventListener("click", function (e){
         e.preventDefault()
         e.stopPropagation()
-        if(!confirm("기타 사항 내용을 변경하겠습니까?")){
+        if(!confirm("기타 사항 내용을 수정하겠습니까?")){
             return
         }
         document.querySelector(".odForm").submit()
