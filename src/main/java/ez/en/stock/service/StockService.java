@@ -17,4 +17,6 @@ public interface StockService {
     List<StockInDTO> getIn();
     void updateOstate(int ono);
     void insertIn(int ono, String email, String sidate);
+
+
 }

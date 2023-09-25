@@ -135,7 +135,7 @@ public class OrderController {
     @PostMapping("/order/popInspection")
     public String popInspectionPost(ProgressInspectionDTO progressInspectionDTO){
         progressInspectionService.save(progressInspectionDTO);
-        return "redirect:/order/popInspection";
+        return "redirect:/order/popInspection?ono="+progressInspectionDTO.getOno();
     }
 
 

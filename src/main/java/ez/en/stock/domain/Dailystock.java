@@ -3,6 +3,8 @@ package ez.en.stock.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -24,7 +26,5 @@ public class Dailystock extends BaseEntity{
 
     @Column
     private int dscount;
-
-    
 
 }

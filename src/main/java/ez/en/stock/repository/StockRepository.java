@@ -13,5 +13,4 @@ public interface StockRepository extends JpaRepository<Stock, Integer>, StockSea
     @Query(value = "select now()", nativeQuery = true)
     String getTime();
 
-
 }
