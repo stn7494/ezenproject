@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input[readonly]{
+            background-color: silver;
+        }
+    </style>
+</head>
+<div layout:fragment="content">
+
+    <div class="row-mt-3" th:with="dto = ${dto}, link = ${pageRequestDTO.getLink()}">
+        <div class="col">
+            <form method="post" id="modify" action="/supportplan/modify">
+                <input type="hidden" id="link" name="link" th:value="${link}">
+                <input type="hidden" id="spno" name="spno" th:value="${dto.spno}">
+                <div class="card" style="margin-bottom: 5%">
+                    <div class="card-header">
+                        <h5>조달계획 수정하기</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목코드</span>
+                            <input type="text" id="pcode" name="pcode" th:value="${dto.productDTO.pcode}" class="form-control" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목이름</span>
+                            <input type="text" id="pname" name="tname" th:value="${dto.productDTO.pname}" class="form-control" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">대분류</span>
+                            <input type="text" id="tname" name="tname" th:value="${dto.middleDTO.topDTO.tname}" class="form-control" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">소요일정</span>
+                            <input type="date" id="spdate" name="spdate" th:value="${dto.spdate}" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">소요량</span>
+                            <input type="text" id="spcount" name="spcount" th:value="${dto.spcount}" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">조달납기</span>
+                            <input type="date" id="spdelidate" name="spdelidate" th:value="${dto.spdelidate}" class="form-control">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">조달상태</span>
+                            <input type="text" id="spstate" name="spstate" th:value="${dto.spstate}" class="form-control" readonly>
+                        </div>
+                        <div class="float-end">
+                            <input class="btn btn-dark" type="button" value="수정" onclick="modify()">
+                            <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+                            <input class="btn btn-dark" type="button" id="remove" value="삭제" onclick="remove()">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>      <!-- * col 끝 * -->
+    </div>
+
+</div>
+<script layout:fragment="script" th:inline="javascript">
+
+    $(document).ready(function(){
+        var state = $("#spstate").val();
+        if(state == "조달처리중"){
+            $("#remove").css('display','none');
+            $("input[name=spdate]").prop('type',"text");
+            $("input[name=spdate]").attr('readonly',"readonly");
+            $("input[name=spcount]").attr('readonly',"readonly");
+
+        }
+    });
+
+    var link = $("#link").val();
+
+    var spno = $("#spno").val();
+
+    var objform = $("#modify");
+
+    function modify(){
+        if($("#spdate").val() == ""){
+            alert("소요일정을 입력해주세요");
+            $("#spdate").focus();
+        }else if($("#spcount").val() == ""){
+            alert("소요량을 입력해주세요");
+            $("#spcount").focus();
+        }else if(isNaN($("#spcount"))||$("#spcount").val() <= 0) {
+            alert("1개 이상의 숫자를 입력해주세요");
+            $("#spcount").focus();
+        }else if($("#spdelidate").val() == ""){
+            alert("조달납기일을 입력해주세요");
+            $("#spdelidate").focus();
+        }else{
+            objform.submit();
+        }
+    }
+
+
+
+    function back(){
+        location.href = '/supportplan/list?'+link;
+    }
+
+    function remove(){
+        var result = confirm("삭제하시겠습니까");
+        if(result) {
+            location.href = '/supportplan/remove?spno=' + spno + '&' + link;
+        }
+    }
+
+</script>
+<body>
+
+</body>
+</html>

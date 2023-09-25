@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div layout:fragment="content">
+
+    <div class="row-mt-3">
+        <div class="col">
+            <div class="card" style="width: 50%; margin: auto">
+                <div class="card-header">
+                    <h6>사원목록</h6>
+                </div>
+                <div class="card-body" >
+
+                    <table class="table" >
+                        <thead>
+                        <tr>
+                            <th scope="col">사원 이메일</th>
+                            <th scope="col">사원 이름</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="list:${list}">
+                            <td>
+                                <a th:text="${list.email}"></a>
+                            </td>
+                            <td th:text="${list.name}"></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>      <!-- * card-body끝 *-->
+            </div>      <!-- * card 끝 *-->
+        </div>      <!-- * col 끝 * -->
+    </div>
+    <!--/*<div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">조달완료</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col">
+                        <span>품목코드</span>
+                        <input type="hidden" id="modalspno" name="modalspno">
+                        <input type="text" class="form-control" id="modalpcode" name="modalpcode" readonly>
+                    </div>
+                    <div class="col">
+                        <span>품목이름</span>
+                        <textarea class="form-control" id="modalpname" name="modalpname" readonly></textarea>
+                    </div>
+                    <div class="col">
+                        <span>대분류</span>
+                        <input type="text" class="form-control" id="modaltname" name="modaltname" readonly>
+                    </div>
+                    <div class="col">
+                        <span>소요량</span>
+                        <input type="text" class="form-control" id="modalspcount" name="modalspcount" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>*/-->
+
+</div>
+<body>
+
+</body>
+</html>

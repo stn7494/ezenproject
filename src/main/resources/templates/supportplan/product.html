@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>조달-품목관리</title>
+  <link th:href="@{/css/styles.css}" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+<body>
+      <div class="row mt-3">
+        <div class="col">
+          <form action="/supportplan/product" method="get">
+            <div class="col">
+              <input type="hidden" name="size" th:value="${productPageRequestDTO.size}">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <select class="form-select" name="type">
+                    <option value="cm" th:selected="${productPageRequestDTO.type == 'cm'}">전체</option>
+                    <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
+                    <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
+                  </select>
+                </div>
+                <input type="text" class="form-control" name="keyword" th:value="${productPageRequestDTO.keyword}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
+                  <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="card">
+
+            <div class="card-header">
+              조달관리 - 품목페이지
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">품목관리 리스트</h5>
+
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">글번호</th>
+                  <th scope="col">품목코드</th>
+                  <th scope="col">품목이름</th>
+                  <th scope="col">품목비고</th>
+                  <th scope="col">품목분류1(대분류)</th>
+                  <th scope="col">품목분류2(중분류)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dto:${responseDTO.dtoList}">
+                  <th style="color: #0d6efd" onclick="sendValue(this.id)" th:id="${dto.pno}" th:class="${dto.pno}" scope="row">[[${dto.pno}]]</th>
+                  <td th:class="${dto.pno}">[[${dto.pcode}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.pname}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.pnote}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.topDTO.tname}]]</td>
+                  <td th:class="${dto.pno}">[[${dto.middleDTO.mname}]]</td>
+                  <td style="display: none;" th:class="${dto.pno}">[[${dto.middleDTO.mcode}]]</td>
+                  <td style="display: none;" th:class="${dto.pno}">[[${dto.topDTO.tcode}]]</td>
+
+                </tr>
+                </tbody>
+              </table>
+
+              <div class="float-end">
+                <ul class="pagination flex-wrap">
+
+                  <li class="page-item" th:if="${responseDTO.prev}">
+                    <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                  </li>
+
+                  <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                    <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
+                      <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                    </li>
+                  </th:block>
+                  <li class="page-item" th:if="${responseDTO.next}">
+                    <a class="page-link" th:data-num="${responseDTO.end + 1}">Next</a>
+                  </li>
+                </ul>
+              </div>
+            </div><!--end card body-->
+          </div><!--end card-->
+        </div><!--end col-->
+      </div><!--end row-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.querySelector(".pagination").addEventListener("click", function(e){
+    e.preventDefault()
+    e.stopPropagation()
+
+    const target = e.target
+
+    const num = target.getAttribute("data-num")
+
+    const formObj = document.querySelector("form")
+
+    formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+
+    formObj.submit();
+  }, false)
+
+  document.querySelector(".clearBtn").addEventListener("click", function (e){
+    e.preventDefault()
+    e.stopPropagation()
+
+    self.location = '/supportplan/product'
+  },false)
+
+  function sendValue(e) {
+    var date = document.getElementsByClassName(e);
+    console.log(date);
+    window.opener.document.getElementById("pno").value = date[0].innerHTML;
+    window.opener.document.getElementById("pcode").value = date[1].innerHTML;
+    window.opener.document.getElementById("pname").value =  date[2].innerHTML;
+    window.opener.document.getElementById("tname").value = date[4].innerHTML;
+    window.opener.document.getElementById("mcode").value = date[6].innerHTML;
+    window.opener.document.getElementById("tcode").value = date[7].innerHTML;
+    window.close();
+  }
+
+
+</script>
+</body>
+</html>

@@ -15,48 +15,51 @@
                         <h5>계약등록</h5>
                     </div>
                     <div class="card-body">
-                        <div class="col">
-                            <h2>계약정보</h2>
-                            <span></span>
+                        <div class="input-group mb-3">
+                            <h3>계약 정보</h3>
                         </div>
-                        <div class="col">
-                            <span>계약코드</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">계약코드</span>
                             <input type="text" class="form-control" id="ccode" th:value="${dto.ccode}" readonly>
                         </div>
-                        <div class="col">
-                            <span>계약일자</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">계약일자</span>
                             <input type="date" class="form-control" th:value="${dto.cdate}" readonly>
                         </div>
-                        <div class="col">
-                            <span>계약상태</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">계약상태</span>
                             <input type="text" class="form-control" th:value="${dto.cstate}" readonly>
                         </div>
-                        <span>양도양수조건</span>
-                        <textarea style="width: 100%; height: 200px;" class="form-control" th:text="${dto.ccontent}" readonly></textarea>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">양도양수조건</span>
+                            <textarea class="form-control col-sm-5" th:text="${dto.ccontent}" readonly></textarea>
+                        </div>
                     </div>      <!-- * card-body끝 *-->
                 </div>      <!-- * card 끝 *-->
 
                 <div class="card" style="margin-bottom: 5%">
                     <div class="card-body">
-                        <div class="col">
-                            <h2>품목 정보</h2>
-                            <span>품목코드</span>
+                        <div class="input-group mb-3">
+                            <h3>품목 정보</h3>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목코드</span>
                             <input type="text" class="form-control" th:value="${dto.productDTO.pcode}" readonly>
                         </div>
-                        <div class="col">
-                            <span>품목이름</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목이름</span>
                             <input type="text" class="form-control" th:value="${dto.productDTO.pname}" readonly>
                         </div>
-                        <div class="col">
-                            <span>품목분류1</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목분류1</span>
                             <input type="text" class="form-control" th:value="${dto.productDTO.topDTO.tname}" readonly>
                         </div>
-                        <div class="col">
-                            <span>품목분류2</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목분류2</span>
                             <input type="text" class="form-control" th:value="${dto.productDTO.middleDTO.mname}" readonly>
                         </div>
-                        <div class="col">
-                            <span>공급단가</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">공급단가</span>
                             <input type="text" class="form-control" th:value="${dto.cprice}" readonly>
                         </div>
                     </div>
@@ -64,37 +67,37 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="col">
-                            <h2>납품업체 정보</h2>
+                        <div class="input-group mb-3">
+                            <h3>납품업체 정보</h3>
                         </div>
-                        <div class="col">
-                            <span>사업자 등록번호</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">사업자 등록번호</span>
                             <input type="text" readonly class="form-control" th:value="${dto.partnerDTO.ptno}">
                         </div>
-                        <div class="col">
-                            <span>상호</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">상호</span>
                             <input type="text" readonly class="form-control" th:value="${dto.partnerDTO.ptname}">
                         </div>
-                        <div class="col">
-                            <span>대표자</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">대표자</span>
                             <input type="text" readonly class="form-control" th:value="${dto.partnerDTO.ptceoname}">
                         </div>
-                        <div class="col">
-                            <span>주소</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">주소</span>
                             <input type="text" readonly class="form-control" th:value="${dto.partnerDTO.ptadd}">
                         </div>
-                        <div class="col">
-                            <span>전화번호</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">전화번호</span>
                             <input type="text" readonly class="form-control" th:value="${dto.partnerDTO.ptnum}">
                         </div>
-                        <div class="col">
-                            <span>팩스</span>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">팩스</span>
                             <input type="text" readonly class="form-control" th:value="${dto.partnerDTO.ptfax}">
                         </div>
                         <div class="float-end" th:with="link = ${contractPageRequestDTO.getLink()}">
                             <input type="hidden" th:value="${link}" id="link">
-                            <input class="btn btn-dark" type="button" value="수정" onclick="modify()">
                             <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+                            <input class="btn btn-primary" type="button" value="수정" onclick="modify()">
                         </div>
                     </div>       <!-- * card-body끝 *-->
                 </div>

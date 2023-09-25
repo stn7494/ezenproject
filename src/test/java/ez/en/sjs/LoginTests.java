@@ -1,12 +1,16 @@
 package ez.en.sjs;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.login.domain.Login;
 import ez.en.login.domain.MemberRole;
 import ez.en.login.domain.Role;
 import ez.en.login.repository.LoginRepository;
 import ez.en.login.repository.RoleRepository;
+import ez.en.stock.domain.Dailystock;
 import ez.en.stock.domain.Stock;
 import ez.en.stock.dto.StockDTO;
+import ez.en.stock.repository.DailyStockRepository;
 import ez.en.stock.repository.StockRepository;
 import ez.en.stock.service.StockService;
 import lombok.extern.log4j.Log4j2;
@@ -35,9 +39,10 @@ public class LoginTests {
     private LoginRepository loginRepository;
     @Autowired
     private StockRepository stockRepository;
-
     @Autowired
     private StockService stockService;
+    @Autowired
+    private DailyStockRepository dailyStockRepository;
 
     @Test
     public void testLogin() {
@@ -54,9 +59,9 @@ public class LoginTests {
 
         IntStream.rangeClosed(1,1).forEach(i -> {
             Login member = Login.builder()
-                    .email("admin")
-                    .pw(passwordEncoder.encode("admin"))
-                    .name("관리자")
+                    .name("테스트")
+                    .pw(passwordEncoder.encode("test"))
+                    .email("test")
                     .build();
 
             member.addRole(MemberRole.ADMIN);
@@ -70,7 +75,7 @@ public class LoginTests {
     @Test
     public void testRead() {
 
-        Optional<Login> result = loginRepository.getWithRolesLogin("user01@naver.com");
+        Optional<Login> result = loginRepository.getWithRolesLogin("admin");
 
         Login member = result.orElseThrow();
 
@@ -90,45 +95,70 @@ public class LoginTests {
         log.info(login);
     }
     @Test
-    public void testSelect() {
-        int sno = 1;
+    public void testAll() {
 
-        Optional<Stock> result = stockRepository.findById(sno);
+        List<Login> result = loginRepository.getAll();
 
-        Stock stock = result.orElseThrow();
-
-        log.info(stock);
+        for (int i = 0; i < result.size(); i++) {
+            log.info(result.get(i).getEmail());
+            log.info(result.get(i).getName());
+        }
     }
+//    @Test
+//    public void testfail() {
+//
+//        String email = "user01@naver.com";
+//
+//        loginRepository.failLogin(email);
+//
+//    }
+//    @Test
+//    public void testLock() {
+//
+//        String email = "test";
+//
+//        loginRepository.loginLock(email);
+//    }
+//    @Test
+//    public void testcntLock() {
+//        String email = "user01@naver.com";
+//
+//        int list = loginRepository.checkCnt(email);
+//
+//        log.info(list);
+//    }
     @Test
-    public void testPaging() {
+    public void testDelete() {
+        String email = "test";
 
-        Pageable pageable = PageRequest.of(0, 3, Sort.by("sno").descending());
+        loginRepository.deleteById(email);
 
-        Page<Stock> result = stockRepository.findAll(pageable);
-
-        log.info(result.getTotalElements());
     }
+//    @Test
+//    public void testCheckPrison() {
+//        String email = "test";
+//
+//        int check = loginRepository.checkPrison(email);
+//
+//        log.info(check+"============================");
+//    }
     @Test
-    public void testSearchAll() {
-        String[] types = {"t"};
+    public void testListALL() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
 
-        String keyword = "1";
+        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
 
-        Pageable pageable = PageRequest.of(0, 3, Sort.by("sno").descending());
+        List<StockDTO> list = responseDTO.getDtoList();
 
-        Page<Stock> result = stockRepository.searchAll(types, keyword, pageable);
+        for (StockDTO stockDTO:list){
+            log.info(stockDTO);
+        }
 
-        //total pages
-        log.info(result.getTotalElements());
-        //pag size
-        log.info(result.getSize());
-        //pageNumber
-        log.info(result.getNumber());
-        //prev next
-        log.info(result.hasPrevious() + " : "  + result.hasNext());
-
-        result.getContent().forEach(stock -> log.info(stock));
     }
+
 //    @Test
 //    public void testRegister() {
 //

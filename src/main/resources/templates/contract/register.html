@@ -19,12 +19,14 @@
                     <div class="col">
                         <h2>계약정보</h2>
                     </div>
-                    <div class="col">
-                        <span>계약일자</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">계약일자</span>
                         <input type="date" id="cdate" name="cdate" class="form-control">
                     </div>
-                    <span>양도양수조건</span>
-                    <textarea style="width: 100%; height: 200px;" class="form-control" id="ccontent" name="ccontent"></textarea>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">양도양수조건</span>
+                        <textarea rows="5" class="form-control" id="ccontent" name="ccontent"></textarea>
+                    </div>
                 </div>      <!-- * card-body끝 *-->
             </div>      <!-- * card 끝 *-->
 
@@ -32,26 +34,28 @@
                 <div class="card-body">
                     <div class="col">
                         <h2>품목 정보</h2>
-                        <span>품목코드</span>
-                        <input type="hidden" id="pno" name="pno">
-                        <input type="hidden" id="tcode" name="tcode">
-                        <input type="hidden" id="mcode" name="mcode">
-                        <input type="text" id="pcode" name="pcode" class="form-control" readonly placeholder="클릭하세요!!!">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목코드</span>
+                            <input type="hidden" id="pno" name="pno">
+                            <input type="hidden" id="tcode" name="tcode">
+                            <input type="hidden" id="mcode" name="mcode">
+                            <input type="text" id="pcode" name="pcode" class="form-control" readonly placeholder="클릭하세요!!!">
+                        </div>
                     </div>
-                    <div class="col">
-                        <span>품목이름</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목이름</span>
                         <input type="text" id="pname" name="pname" class="form-control" readonly>
                     </div>
-                    <div class="col">
-                        <span>품목분류1</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목분류1</span>
                         <input type="text" id="mname" name="mname" class="form-control" readonly>
                     </div>
-                    <div class="col">
-                        <span>품목분류2</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">품목분류2</span>
                         <input type="text" id="tname" name="tname" class="form-control" readonly>
                     </div>
-                    <div class="col">
-                        <span>공급단가</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">공급단가</span>
                         <input type="text" id="cprice" name="cprice" class="form-control">
                     </div>
                 </div>
@@ -62,33 +66,33 @@
                     <div class="col">
                         <h2>납품업체 정보</h2>
                     </div>
-                    <div class="col">
-                        <span>사업자 등록번호</span>
-                        <input type="text" id="ptno" name="ptno" readonly class="form-control">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">사업자 등록번호</span>
+                        <input type="text" id="ptno" name="ptno" readonly class="form-control" placeholder="클릭하세요!!!">
                     </div>
-                    <div class="col">
-                        <span>상호</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">상호</span>
                         <input type="text" id="ptname" name="ptname" readonly class="form-control">
                     </div>
-                    <div class="col">
-                        <span>대표자</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">대표자</span>
                         <input type="text" id="ptceoname" name="ptceoname" readonly class="form-control">
                     </div>
-                    <div class="col">
-                        <span>주소</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">주소</span>
                         <input type="text" id="ptadd" name="ptadd" readonly class="form-control">
                     </div>
-                    <div class="col">
-                        <span>전화번호</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">전화번호</span>
                         <input type="text" id="ptnum" name="ptnum" readonly class="form-control">
                     </div>
-                    <div class="col">
-                        <span>팩스</span>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">팩스</span>
                         <input type="text" id="ptfax" name="ptfax" readonly class="form-control">
                     </div>
                     <div class="float-end">
-                        <input class="btn btn-dark" type="button" value="등록" onclick="register()">
                         <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+                        <input class="btn btn-primary" type="button" value="등록" onclick="register()">
                     </div>
                 </div>       <!-- * card-body끝 *-->
             </div>
@@ -100,22 +104,30 @@
 <script layout:fragment="script" th:inline="javascript">
     function register(){
         var objform = $("#register");
-        var cdate = $("#cdate").val();
-        var cprice = $("#cprice").val();
-        var ccontent = $("#ccontent").val();
-        var ptno = $("#ptno").val();
-        var pno = $("#pno").val();
+        var cdate = $("#cdate")
+        var cprice = $("#cprice")
+        var ccontent = $("#ccontent")
+        var ptno = $("#ptno")
+        var pno = $("#pno")
 
-        if(pno == ""){
+        if(pno.val() == ""){
             alert("품목을 선택해주세요");
-        }else if(ptno == ""){
+            pno.focus();
+        }else if(ptno.val() == ""){
             alert("업체를 선택해주세요");
-        }else if(cdate == ""){
-            alert("계약일을 작성해주세요")
-        }else if(cprice == ""){
+            ptno.focus();
+        }else if(cdate.val() == ""){
+            alert("계약일을 작성해주세요");
+            cdate.focus();
+        }else if(cprice.val() == ""){
             alert("공급단가를 입력해주세요");
-        }else if(ccontent == ""){
+            cprice.focus();
+        }else if(isNaN($(cprice.val()))||$(cprice.val()).val() <= 0) {
+            alert("올바른 가격을 입력해주세요");
+            $("#spcount").focus();
+        }else if(ccontent.val() == ""){
             alert("계약내용을 입력해주세요");
+            ccontent.focus();
         }else{
             objform.submit();
         }

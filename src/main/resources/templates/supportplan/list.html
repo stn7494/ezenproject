@@ -10,21 +10,201 @@
 
     <div class="row-mt-3">
         <div class="col">
+            <form action="/supportplan/list" method="get">
+                <div class="col">
+                    <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                    <div class="col">
+                        <div class="input-group">
+                            <span style="margin-top: auto;margin-right: 2%">일반검색</span>
+                            <div class="input-group-prepend">
+                                <select class="form-select" name="type" id="type">
+                                    <option th:selected="${pageRequestDTO.type == 'a'}" value="a">전체</option>
+                                    <option th:selected="${pageRequestDTO.type == 'c'}" value="c">품목코드</option>
+                                    <option th:selected="${pageRequestDTO.type == 'n'}" value="n">품목이름</option>
+                                    <option th:selected="${pageRequestDTO.type == 't'}" value="t">대분류</option>
+                                </select>
+                            </div>
+                            <input type="text" class="form-control" name="keyword" id="keyword" th:value="${pageRequestDTO.keyword}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary searchBtn" id="searchBtn" type="submit">검색</button>
+                                <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                            </div>
+                        </div><br/>
+                    </div>
+                </div>
+            </form>
             <div class="card">
-
                 <div class="card-header">
-                    <h5>메인템플랫</h5>
+                    <h6>조달계획관리</h6>
                 </div>
                 <div class="card-body">
-                    <h2></h2>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">품목코드</th>
+                            <th scope="col">품목이름</th>
+                            <th scope="col">자재소요공정</th>
+                            <th scope="col">조달납기</th>
+                            <th scope="col">자재소요랑</th>
+                            <th scope="col">자재소요일정</th>
+                        </tr>
+                        </thead>
+                        <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                        <input type="hidden" id="link" name="link" th:value="${link}">
+                        <tr th:each="dto:${responseDTO.dtoList}">
+                            <td>
+                                <input type="radio" id="spno" name="spno" th:value="${dto.spno}">
+                            </td>
+                            <td>
+                                <a th:href="|@{/supportplan/detail(spno=${dto.spno})}&${link}|">[[${dto.product.pcode}]]</a>
+                            </td>
+                            <td th:text="${dto.product.pname}"></td>
+                            <td th:text="${dto.product.middle.top.tname}"></td>
+                            <td th:text="${dto.spdelidate}"></td>
+                            <td th:text="${dto.spcount}"></td>
+                            <td th:text="${dto.spdate}"></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <div>
+                        <button class="btn btn-primary" id="register">조달계획등록</button>
+                        <button class="btn btn-dark" id="complete">조달완료처리</button>
+                    </div>
+                    <div class="float-end">
+                        <ul class="pagination flex-wrap">
+
+                            <li class="page-item" th:if="${responseDTO.prev}">
+                                <a class="page-link" th:data-num="${responseDTO.start -1}">맨앞으로</a>
+                            </li>
+
+                            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                <li th:class="${responseDTO.page == i}?'page-item active':'page-ietn'">
+                                    <a th:class="page-link" th:data-num="${i}" th:text="${i}"></a>
+                                </li>
+                            </th:block>
+
+                            <li th:class="page-item" th:if="${responseDTO.next}">
+                                <a th:class="page-link" th:data-num="${responseDTO.end+1}">다음</a>
+                            </li>
+                        </ul>
+
+
+                    </div>
+
                 </div>      <!-- * card-body끝 *-->
             </div>      <!-- * card 끝 *-->
         </div>      <!-- * col 끝 * -->
+    </div>
+    <div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">조달완료</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col">
+                        <span>품목코드</span>
+                        <input type="hidden" id="modalspno" name="modalspno">
+                        <input type="text" class="form-control" id="modalpcode" name="modalpcode" readonly>
+                    </div>
+                    <div class="col">
+                        <span>품목이름</span>
+                        <textarea class="form-control" id="modalpname" name="modalpname" readonly style="resize: none"></textarea>
+                    </div>
+                    <div class="col">
+                        <span>대분류</span>
+                        <input type="text" class="form-control" id="modaltname" name="modaltname" readonly>
+                    </div>
+                    <div class="col">
+                        <span>소요량</span>
+                        <input type="text" class="form-control" id="modalspcount" name="modalspcount" readonly>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="state">완료</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
 <script layout:fragment="script" th:inline="javascript">
 
+    const modal = new bootstrap.Modal(document.querySelector(".modal"));
+
+    $("#register").click(function(){
+        location.href='/supportplan/register';
+    });
+
+    $("#complete").click(function(){
+
+        var checkval = $("input[name=spno]:checked").val();
+
+        if(checkval == null){
+            alert("계획을 선택해주세요");
+            return false;
+        }
+
+        var data = {"data" : checkval};
+
+        $.ajax({
+            type:'post',
+            data:data,
+            dataType:'json',
+            url:'/supportplan/modal',
+            success:function(e){
+                $("#modalpcode").val(e.productDTO.pcode);
+                $("#modalspno").val(e.spno);
+                $("#modalpname").val(e.productDTO.pname);
+                $("#modaltname").val(e.middleDTO.topDTO.tname);
+                $("#modalspcount").val(e.spcount);
+                console.log(e);
+            },
+            error:function(){
+                alert("실패");
+            }
+        });
+
+       modal.show();
+    });
+
+    $("#state").click(function(){
+        let checkval = $("input[name=spno]:checked").val();
+
+        let link = $("#link").val();
+
+        location.href = '/supportplan/state?spno='+checkval+'&'+link+'&state=조달완료';
+    });
+
+    document.querySelector(".pagination").addEventListener("click", function(e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        const num = target.getAttribute("data-num")
+
+        const formObj = document.querySelector("form")
+
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+
+        formObj.submit();
+    }, false)
+
+    document.querySelector(".clearBtn").addEventListener("click", function(e){
+        //클릭해도 이벤트 동작이 하지않게 막아줌
+        e.preventDefault()
+        // 이벤트가 동작시 상위 엘리먼트에게 전달되지 않고 해당 위치에서만 실행함
+        e.stopPropagation()
+
+        self.location = '/supportplan/list'
+
+    }, false)
 </script>
 <body>
 

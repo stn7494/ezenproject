@@ -40,13 +40,11 @@ public class OrderServiceImpl implements OrderService{
         orderDTO.setContract(Contract.builder().cno(orderDTO.getCno()).build());
         orderDTO.setSupportplan(Supportplan.builder().spno(orderDTO.getSpno()).build());
         orderDTO.setLogin(Login.builder().email(orderDTO.getEmail()).build());
-        log.info("=================="+orderDTO);
+        log.info("service register orderDTO : "+orderDTO);
         Orders orders = modelMapper.map(orderDTO, Orders.class);
         log.info("service register orders : "+ orders);
         int ono = orderRepository.save(orders).getOno();
         return ono;
-
-
     }
 
     @Override
@@ -103,4 +101,5 @@ public class OrderServiceImpl implements OrderService{
                 .collect(Collectors.toList());
         return dtoList;
     }
+
 }

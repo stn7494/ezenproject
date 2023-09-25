@@ -11,7 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Entity
-@ToString
+@ToString(exclude = "roleSet")
 public class Login {
 
     @Id
@@ -23,6 +23,7 @@ public class Login {
     @Column
     private String pw;
 
+
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
@@ -33,5 +34,4 @@ public class Login {
     public void clearRoles() {
         this.roleSet.clear();
     }
-
 }

@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Log4j2
 @Configuration
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final AuthenticationFailureHandler customFailureHandler;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -44,11 +47,12 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin()
                 .loginPage("/login")
+                .failureHandler(customFailureHandler)
                 .defaultSuccessUrl("/");
 
 
-        http.csrf().disable();
 
+        http.csrf().disable();
         http.logout()
                 .logoutSuccessUrl("/login");
 

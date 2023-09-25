@@ -20,14 +20,14 @@
                             <div class="input-group"> <!--검색!!-->
                                 <div class="input-group-prepend">
                                     <select class="form-select" name="type">
-                                        <option value="">품목검색</option>
+                                        <option value="cm" th:selected="${productPageRequestDTO.type == 'cm'}">전체</option>
                                         <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
                                         <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
                                     </select>
                                 </div>
                                 <input type="text" class="form-control" name="keyword" th:value="${productPageRequestDTO.keyword}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
+                                    <button class="btn btn-outline-secondary searchBtn" type="submit">검색</button>
                                     <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
                                 </div>
                             </div><br/>
@@ -41,7 +41,7 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col">글번호</th>
+                                    <th scope="col">품목번호</th>
                                     <th scope="col">품목코드</th>
                                     <th scope="col">품목이름</th>
                                     <th scope="col">품목비고</th>
@@ -65,7 +65,7 @@
                                 </tbody>
                             </table>
                             <div class="my-4">
-                                 <button type="button" class="btn btn-secondary" onclick="location.href='register'" >품목등록</button>
+                                 <button type="button" class="btn btn-primary" onclick="location.href='register'" >품목등록</button>
                             </div>
                             <div class="float-end">
                                 <ul class="pagination flex-wrap">

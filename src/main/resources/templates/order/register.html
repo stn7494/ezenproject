@@ -26,7 +26,7 @@
 
                         <input type="hidden" name="spno" id="spno" class="form-control">
                         <input type="hidden" name="cno" id="cno" class="form-control">
-                        <input type="hidden" name="email" class="form-control" value="admin">
+                        <input type="hidden" name="email" class="form-control" th:value="${#authentication.principal.username}">
 
                         <div class="input-group mb-3">
                             <span class="input-group-text">납기 일자</span>

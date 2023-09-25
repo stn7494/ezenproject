@@ -1,5 +1,7 @@
 package ez.en.stock.controller;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.order.dto.OrderDTO;
 import ez.en.stock.dto.StockDTO;
 import ez.en.stock.dto.StockInDTO;
@@ -62,13 +64,12 @@ public class StockController {
         model.addAttribute("dto",order);
     }
 
+
     @PostMapping("/stock/stockIn")
     @ResponseBody
     public void stockIn(int ono, String email, int pno, int sicount){
         String sidate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")); // 날짜 포맷
         stockService.insertIn(ono, email,sidate,pno,sicount); // 입고완료시 입고테이블에 데이터추가
         stockService.updateOstate(ono); // 발주상태 입고완료로 변경
-
-
     }
 }

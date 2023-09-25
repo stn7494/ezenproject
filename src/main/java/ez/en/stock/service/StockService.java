@@ -1,5 +1,7 @@
 package ez.en.stock.service;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
 import ez.en.stock.dto.StockDTO;
@@ -19,4 +21,5 @@ public interface StockService {
     void sicountAll(int pno,int sicountAll); // 입고총량 입력
     
     List<StockDTO> getStock(); // 자재리스트
+
 }

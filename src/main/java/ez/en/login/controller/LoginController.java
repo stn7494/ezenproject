@@ -1,10 +1,18 @@
 package ez.en.login.controller;
 
+import ez.en.login.domain.Login;
+import ez.en.login.repository.LoginRepository;
 import ez.en.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -15,13 +23,31 @@ public class LoginController {
     private final LoginService service;
 
     @GetMapping("/login")
-    public void login(String error, String logout){
-        log.info("login get......................");
-        log.info("logout : " + logout);
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "exception", required = false) String exception,
+                        Model model){
 
-        if (logout != null) {
-            log.info("user logout..........");
-        }
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
+        return "/login";
+
+    }
+
+    @GetMapping("/admin/list")
+    public String list(Model model) {
+
+        List<Login> list = service.listAll();
+
+        model.addAttribute("list", list);
+        return "/list";
+    }
+
+    @GetMapping("/detail")
+    public String detail(@RequestParam("email")String email,Model model) {
+        Optional<Login> list = service.detail(email);
+
+        model.addAttribute("list", list);
+        return "/detail";
     }
 //    @GetMapping("/logout")
 //    public String logout(HttpSession session) {
@@ -52,9 +78,5 @@ public class LoginController {
 //        return mav;
 //        }
 //    }
-    @GetMapping("/fileupload")
-    public void file() {
-
-    }
 
 }

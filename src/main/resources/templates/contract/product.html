@@ -15,6 +15,7 @@
               <div class="input-group">
                 <div class="input-group-prepend">
                   <select class="form-select" name="type">
+                    <option value="cm" th:selected="${productPageRequestDTO.type == 'cm'}">전체</option>
                     <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
                     <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
                   </select>
@@ -30,14 +31,9 @@
           <div class="card">
 
             <div class="card-header">
-              조달관리 - 품목페이지
-            </div>
-            <div class="card-header">
-              검색
+              <h5>품목 [전체조회]</h5>
             </div>
             <div class="card-body">
-              <h5 class="card-title">품목관리 리스트</h5>
-
               <table class="table">
                 <thead>
                 <tr>
@@ -51,7 +47,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="dto:${responseDTO.dtoList}">
-                  <th onclick="sendValue(this.id)" th:id="${dto.pno}" th:class="${dto.pno}" scope="row">[[${dto.pno}]]</th>
+                  <th style="color: #0d6efd" onclick="sendValue(this.id)" th:id="${dto.pno}" th:class="${dto.pno}" scope="row">[[${dto.pno}]]</th>
                   <td th:class="${dto.pno}">[[${dto.pcode}]]</td>
                   <td th:class="${dto.pno}">[[${dto.pname}]]</td>
                   <td th:class="${dto.pno}">[[${dto.pnote}]]</td>

@@ -8,11 +8,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SupportplanRepository extends JpaRepository<Supportplan, Integer>, SupportplanSearch {
 
-    @Query(value = "select sp from Supportplan sp join fetch sp.product")
-    List<Supportplan> joinList();
+    @Query(value = "select sp from Supportplan sp join fetch sp.product join fetch sp.middle where sp.spno = :spno")
+    Supportplan selectOne(int spno);
 
 
 //    발주시 조달 계획 목록 팝업 메소드

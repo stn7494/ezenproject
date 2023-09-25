@@ -66,7 +66,9 @@
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">발주 상태</span>
-                        <input type="text" class="form-control" th:value="${dto.ostate}" readonly>
+                        <form class="osFromPi" method="post">
+                        <input type="text" class="form-control" name="ostate" id="ostate" th:value="${dto.ostate}" readonly>
+                        </form>
                         <button type="button" class="btn btn-primary viewOstate">발주 상태 관리</button>
                         <button th:if="${dto.ostate=='발주확인' || dto.ostate=='진척검수'}" type="button" class="btn btn-danger openInspection">진척 검수</button>
                     </div>
@@ -263,6 +265,7 @@
             return
         }
         document.querySelector(".osForm").submit()
+
     }, false)
 
     document.querySelector(".submitOdetailBtn").addEventListener("click", function (e){
@@ -278,7 +281,7 @@
     document.querySelector(".openInspection").addEventListener("click", function (e) {
         var url = "/order/popInspection?ono="+document.querySelector("input[name='ono']").value
         var name = "진척 검수 관리"
-        var option = "width=1200,height=720"
+        var option = "width=600,height=960"
         window.open(url,name,option)
     })
 

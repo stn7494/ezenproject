@@ -3,9 +3,14 @@ package ez.en.khy;
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.login.domain.Login;
+import ez.en.order.domain.Orders;
+import ez.en.order.domain.Progressinspection;
 import ez.en.order.dto.OrderDTO;
+import ez.en.order.dto.ProgressInspectionDTO;
 import ez.en.order.repository.OrderRepository;
+import ez.en.order.repository.ProgressInspectionRepository;
 import ez.en.order.service.OrderService;
+import ez.en.order.service.ProgressInspectionService;
 import ez.en.support.domain.Contract;
 import ez.en.support.domain.Supportplan;
 import ez.en.support.repository.ContractRepository;
@@ -20,10 +25,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @Log4j2
-
 public class OrderTest {
 
     @Autowired
@@ -37,6 +42,12 @@ public class OrderTest {
 
     @Autowired
     SupportplanRepository supportplanRepository;
+
+    @Autowired
+    ProgressInspectionService progressInspectionService;
+
+    @Autowired
+    ProgressInspectionRepository progressInspectionRepository;
 
 
     @Test
@@ -82,7 +93,6 @@ public class OrderTest {
     }
 
     @Test
-    @Transactional
     public void orderDetailTest(){
         int ono = 10;
         OrderDTO orderDTO = orderService.detail(ono);
@@ -116,6 +126,35 @@ public class OrderTest {
     @Test
     public void popSpTest(){
         log.info(orderService.popSplanList());
+    }
+
+    @Test
+    public void piSaveTest(){
+        ProgressInspectionDTO progressInspectionDTO = ProgressInspectionDTO.builder()
+                .pidate("2023-09-30")
+                .pidetail("test 124213213")
+                .pisequence(1)
+                .piprogress(50)
+                .email("admin")
+                .ono(25)
+                .build();
+        log.info(progressInspectionDTO);
+        log.info("save result pino : "+progressInspectionService.save(progressInspectionDTO));
+    }
+
+    @Test
+    public void piFindTest(){
+        Optional<Progressinspection> result = progressInspectionRepository.findById(1);
+        Progressinspection progressinspection = result.orElseThrow();
+        log.info(progressinspection);
+    }
+
+    @Transactional
+    @Test
+    public void popPiTest(){
+        int ono = 25;
+        List<ProgressInspectionDTO> dtoList = progressInspectionService.popPiList(ono);
+        log.info(dtoList);
     }
 
 

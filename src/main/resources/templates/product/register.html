@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>품목 등록</title>
 </head>
+
 <div layout:fragment="content">
     <div class="row-mt-3">
         <div class="col">
@@ -15,12 +16,12 @@
                 </div>
                 <div class="card-body">
                     <h2>품목정보를 입력해주세요</h2>
-                    <form action="/product/register" method="post" id="insert">
+                    <form action="/product/register" method="post" id="insert" enctype="multipart/form-data">
                         <select name="tcode" id="tcode" onchange="product_tvalue()">
                             <option value="">-품목분류1(대분류)-</option>
                             <option value="T01">데스크탑</option>
                             <option value="T02">악세사리</option>
-                            <option value="T03">ETC</option>
+                            <option value="T03">기타</option>
                         </select>
 
                         <select name="mcode" id="mcode" onchange="product_mvalue()"></select>
@@ -42,11 +43,19 @@
                             <span class="input-group-text">비고</span>
                             <textarea class="form-control col-sm-5" rows="5" name="pnote"></textarea>
                         </div>
-
+                             <!--파일업로드-->
+                             <!--파일 선택추가-->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목사진</span>
+                            <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
+                        </div>
                         <div class="my-4">
                             <div class="float-end">
+                                <a th:href="|@{/product/list}|" class="text-decoration-none">
+                                    <button type="button" class="btn btn-secondary">목록</button>
+                                </a>
                                 <button type="button" class="btn btn-primary" onclick="insert()">품목등록완료</button>
-                                <button type="reset" class="btn btn-secondary">리셋</button>
+                                <button type="reset" class="btn btn-danger">리셋</button>
                             </div>
                         </div>
                     </form>
@@ -128,8 +137,6 @@
             var insertt = document.getElementById("insert")
             insertt.submit();
         }
-
-
 
     </script>
 </div>

@@ -1,7 +1,6 @@
 package ez.en.support.controller;
 
 
-import ez.en.support.domain.Middle;
 import ez.en.support.dto.MiddleDTO;
 import ez.en.support.dto.ProductDTO;
 import ez.en.support.dto.ProductPageRequestDTO;
@@ -9,16 +8,18 @@ import ez.en.support.dto.ProductPageResponseDTO;
 import ez.en.support.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.aspectj.weaver.patterns.TypePatternQuestions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Arrays;
+import java.io.File;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/product")
@@ -43,12 +44,13 @@ public class ProductController {
     }
 
     @PostMapping("/register")
-    public String productregisterPOST(ProductDTO productDTO, MiddleDTO middleDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String productregisterPOST(ProductDTO productDTO, MiddleDTO middleDTO, BindingResult bindingResult,
+                                      MultipartFile file, RedirectAttributes redirectAttributes) throws Exception{
         log.info("product POST register.....");
         productDTO.setMiddleDTO(middleDTO);
         log.info(productDTO.getMiddleDTO());
 
-        int pno = productService.productregister(productDTO);
+        int pno = productService.productregister(productDTO, file);
         redirectAttributes.addFlashAttribute("result", pno);
         return "redirect:/product/list";
     }
@@ -63,13 +65,17 @@ public class ProductController {
 
     //품목 수정
     @PostMapping("/modify")
-    public String productmodify(ProductPageRequestDTO productPageRequestDTO, ProductDTO productDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String productmodify(ProductPageRequestDTO productPageRequestDTO, ProductDTO productDTO, BindingResult bindingResult,
+                                MultipartFile file,RedirectAttributes redirectAttributes) throws Exception{
         log.info("product modify post........" + productDTO);
         productService.productmodify(productDTO);
         redirectAttributes.addFlashAttribute("result", "modified");
         redirectAttributes.addAttribute("pno", productDTO.getPno());
+        redirectAttributes.addAttribute("size", productPageRequestDTO.getSize());
+        redirectAttributes.addAttribute("page", productPageRequestDTO.getPage());
+        redirectAttributes.addAttribute("type", productPageRequestDTO.getType());
+        redirectAttributes.addAttribute("keyword", productPageRequestDTO.getKeyword());
         return "redirect:/product/detail";
-
     }
 
     // 품목 삭제
