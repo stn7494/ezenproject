@@ -73,9 +73,7 @@
         e.preventDefault()
         e.stopPropagation()
 
-        formObj.action = `/product/list`
-        formObj.method = `get`
-        formObj.submit()
+        location.href=`/product/list?${link}`
     }, false)
 
     document.querySelector(".modBtn").addEventListener("click", function (e) {
