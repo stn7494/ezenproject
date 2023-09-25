@@ -7,10 +7,12 @@ import ez.en.order.dto.PopContractDTO;
 import ez.en.order.repository.OrderRepository;
 import ez.en.stock.domain.Stock;
 import ez.en.stock.domain.Stockin;
+import ez.en.stock.domain.Stockout;
 import ez.en.stock.dto.StockDTO;
 import ez.en.stock.dto.StockInDTO;
 import ez.en.stock.repository.StockRepository;
 import ez.en.stock.repository.StockinRepository;
+import ez.en.stock.repository.StockoutRepository;
 import ez.en.support.domain.Contract;
 import ez.en.support.domain.Product;
 import ez.en.support.domain.Supportplan;
@@ -37,6 +39,8 @@ public class StockServiceImpl implements StockService{
 
     private final StockRepository stockRepository;
     private final StockinRepository stockinRepository;
+
+    private final StockoutRepository stockoutRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
@@ -62,7 +66,7 @@ public class StockServiceImpl implements StockService{
     public void updateOstate(int ono) {
         orderRepository.updateOstate(ono);
     }
-    @Override
+    @Override // 입고테이블 등록
     public void insertIn(int ono, String email, String sidate, int pno, int sicount) {
         Stockin stockin = Stockin.builder()
                 .order(Orders.builder().ono(ono).build())
@@ -72,6 +76,17 @@ public class StockServiceImpl implements StockService{
                 .sicount(sicount)
                 .build();
         stockinRepository.save(stockin);
+
+    }
+    @Override // 입고테이블 등록
+    public void insertOut(int sno, String email, String sodate,int socount) {
+        Stockout stockout = Stockout.builder()
+                .stock(Stock.builder().sno(sno).build())
+                .login(Login.builder().email(email).build())
+                .sodate(sodate)
+                .socount(socount)
+                .build();
+        stockoutRepository.save(stockout);
 
     }
     @Override
@@ -92,6 +107,7 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public void sicountAll(int pno, int sicountAll) {
+
         stockRepository.sicountAll(pno,sicountAll);
     }
 

@@ -16,6 +16,7 @@ public interface StockService {
     List<StockInDTO> getIn();
     void updateOstate(int ono);
     void insertIn(int ono, String email, String sidate, int pno,int sicount); //입고테이블 입력
+    void insertOut(int sno, String email, String sodate, int socount); // 출고테이블 입력
     List<Integer> getPno();
     int getSicountAll(int pno); // 입고총량 가져오기
     void sicountAll(int pno,int sicountAll); // 입고총량 입력

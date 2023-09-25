@@ -22,7 +22,7 @@ public class Stockout {
     private int socount;
 
     @Column
-    private LocalDateTime sodate;
+    private String sodate;
 
     @ManyToOne
     @JoinColumn(name = "sno")

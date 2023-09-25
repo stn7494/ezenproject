@@ -44,7 +44,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="sList,status:${sList}">
-                            <th><input type="radio" name="orderCheck" th:value="${status.index}"></th>
+                            <th><input type="radio" name="stockCheck" th:value="${status.index}"></th>
                             <th>[[${sList.product.pcode}]]</th>
                             <th>[[${sList.product.pname}]]</th>
                             <th>[[${sList.product.middle.top.tname}]]</th>
@@ -59,7 +59,7 @@
                     </table>
                     <div class="float-end">
                         <button type="button" class="btn btn-dark">리포트</button>
-                        <button type="button" class="btn btn-dark">자재출고</button>
+                        <button type="button" id="stockOut" class="btn btn-dark">자재출고</button>
                         <button type="button" class="btn btn-dark">재고마감</button>
                     </div>
                 </div>      <!-- * card-body끝 *-->
@@ -69,7 +69,12 @@
 
 </div>
 <script layout:fragment="script" th:inline="javascript">
-
+    $("#stockOut").click(function(){
+        if($('input:radio[name=stockCheck]').is(":checked")){
+            var index = $('input[name=stockCheck]:checked').val();
+            location.href = '/stock/stockOut?index='+index;
+        }
+    })
 </script>
 <body>
 
