@@ -28,25 +28,50 @@
 <body>
 <script layout:fragment="script" type="text/javascript">
     // 차트를 그럴 영역을 dom요소로 가져온다.
+    $(document).ready(function () {
     var chartArea = document.getElementById('myChart').getContext('2d');
+    var list = [[${list.get(0).dscount}]]
+    var list1 = [[${list.get(1).dscount}]]
+    var list2 = [[${list.get(2).dscount}]]
+    var list3 = [[${list.get(3).dscount}]]
+    var list4 = [[${list.get(4).dscount}]]
+    var list5 = [[${list.get(5).dscount}]]
+    var date = [[${#temporals.format(list.get(0).dsDate, 'yyMMdd')}]]
+    var date1 = [[${#temporals.format(list.get(1).dsDate, 'yyMMdd')}]]
+    var date2 = [[${#temporals.format(list.get(2).dsDate, 'yyMMdd')}]]
+    var date3 = [[${#temporals.format(list.get(3).dsDate, 'yyMMdd')}]]
+    var date4 = [[${#temporals.format(list.get(4).dsDate, 'yyMMdd')}]]
+    var date5 = [[${#temporals.format(list.get(5).dsDate, 'yyMMdd')}]]
+
     // 차트를 생성한다.
     var myChart = new Chart(chartArea, {
         // ①차트의 종류(String)
-        type: 'line',
+        type: 'bar',
         // ②차트의 데이터(Object)
         data: {
             // ③x축에 들어갈 이름들(Array)
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: [date, date1, date2, date3, date4, date5],
             // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
             datasets: [{
                 // ⑤dataset의 이름(String)
-                label: '# of Votes',
+                label: '자재 일일 현황(최근 일주일 기준)',
                 // ⑥dataset값(Array)
-                data: [15, 19, 3, 5, 2, 3],
+                data: [list, list1, list2, list3, list4, list5],
                 // ⑦dataset의 배경색(rgba값을 String으로 표현)
-                backgroundColor: 'rgb(133,231,192)',
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'],
                 // ⑧dataset의 선 색(rgba값을 String으로 표현)
-                borderColor: 'rgba(133, 231, 191)',
+                borderColor: ['rgb(255, 99, 132,1.5)',
+                    'rgba(54, 162, 235, 1.5)',
+                    'rgba(255, 206, 86, 1.5)',
+                    'rgba(75, 192, 192, 1.5)',
+                    'rgba(153, 102, 255, 1.5)',
+                    'rgba(255, 159, 64, 1.5)'],
                 // ⑨dataset의 선 두께(Number)
                 borderWidth: 3
             }]
@@ -63,6 +88,7 @@
                 }
             }
         }
+    });
     });
 </script>
 </body>
