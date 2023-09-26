@@ -68,15 +68,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th></th>
-                            <th>1</th>
-                            <th>2</th>
-                            <th>3</th>
-                            <th>4</th>
-                            <th>5</th>
-                            <th>6</th>
-                            <th>7</th>
+                        <tr th:each="outlist,status:${outList}">
+                            <th>[[${status.index+1}]]</th>
+                            <th>[[${outlist.stock.product.pcode}]]</th>
+                            <th>[[${outlist.stock.product.pname}]]</th>
+                            <th>[[${outlist.stock.product.middle.top.tname}]]</th>
+                            <th>[[${outlist.stock.product.middle.mname}]]</th>
+                            <th>[[${outlist.socount}]]</th>
+                            <th>[[${outlist.stock.contract.cprice}]]</th>
+                            <th>[[${outlist.sodate}]]</th>
                         </tr>
                         </tbody>
                     </table>
