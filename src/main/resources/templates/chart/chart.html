@@ -5,31 +5,95 @@
     <title>Title</title>
 </head>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <body>
 <div>
+
+    <div>
+        <select id="year" name="year">
+            <option value="">년도</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+        </select>
+        <select id="month" name="month">
+            <option value="">월</option>
+            <option value="01">1</option>
+            <option value="02">2</option>
+            <option value="03">3</option>
+            <option value="04">4</option>
+            <option value="05">5</option>
+            <option value="06">6</option>
+            <option value="07">7</option>
+            <option value="08">8</option>
+            <option value="09">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        <button onclick="check()">조회</button>
+    </div>
+
     <canvas id="myChart"></canvas>
 </div>
 </body>
 <script>
-    const ctx = document.getElementById('myChart');
 
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+    function check(){
+        var year = $("#year").val();
+        var month = $("#month").val();
+        var checkday = year + '-' + month + '-' + '01';
+        if(year == "" || month == ""){
+            alert("년월을 선택해주세요");
+            return;
         }
-    });
+
+        var data = {
+            "data" : checkday
+        }
+
+        $.ajax({
+            url:"/chart/show",
+            data:data,
+            dataType:"json",
+            type: "post",
+            success:function(e){
+                const ctx = document.getElementById('myChart');
+                console.log(e.dsDate);
+                console.log(e.dsCount);
+                const dsDate = e.dsDate;
+                const dsCount = e.dsCount;
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dsDate,
+                        datasets: [{
+                            label: '제품재고현황',
+                            data: dsCount,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            },
+            error:function(){
+                alert("실패");
+            }
+        });
+    }
+
+
+
+
+
+
+
+
 </script>
 </html>
