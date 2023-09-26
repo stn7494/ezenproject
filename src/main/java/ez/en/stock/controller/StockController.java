@@ -1,8 +1,11 @@
 package ez.en.stock.controller;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.order.dto.OrderDTO;
 import ez.en.stock.dto.StockDTO;
 import ez.en.stock.dto.StockInDTO;
+import ez.en.stock.dto.StockOutDTO;
 import ez.en.stock.service.StockService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,13 +34,20 @@ public class StockController {
 
 
     @GetMapping("/stock/stockList")
-    public void stockList(Model model){
+    public void stockList(PageRequestDTO pageRequestDTO, Model model){
         List<Integer> pnoList = stockService.getPno();
         for(int i:pnoList){
-            int all = stockService.getSicountAll(i);
-            stockService.sicountAll(i,all);
+            int siAll = stockService.getSicountAll(i);
+            stockService.sicountAll(i,siAll);
         }
 
+        List<Integer> snoList = stockService.getSno();
+        for(int i:snoList){
+            int soAll = stockService.getSocountAll(i);
+            stockService.socountAll(i,soAll);
+        }
+        PageResponseDTO<StockDTO> responseDTO = stockService.sList(pageRequestDTO);
+        model.addAttribute("responseDTO", responseDTO);
         List<StockDTO> sList = stockService.getStock();
         model.addAttribute("sList",sList);
     }
@@ -52,6 +62,9 @@ public class StockController {
     public void ioList(Model model){
         List<StockInDTO> inList = stockService.getIn();
         model.addAttribute("inList",inList);
+
+        List<StockOutDTO> outList = stockService.getOut();
+        model.addAttribute("outList",outList);
     }
 
     @GetMapping("/stock/stockIn")

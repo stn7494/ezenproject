@@ -11,8 +11,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface StockinRepository extends JpaRepository<Stockin, Integer> {
-    @EntityGraph(attributePaths = {"order"})
-    @Query(value = "select s from Stockin s where s.order.ostate = '입고완료'")
+
+    @Query(value = "select s from Stockin s")
     List<Stockin> getIn();
 
     @Query(value= "select COALESCE(sum(s.sicount),0) from Stockin s where s.product.pno=:pno") //입고총량가져오기

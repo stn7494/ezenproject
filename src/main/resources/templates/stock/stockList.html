@@ -43,7 +43,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="sList,status:${sList}">
+                        <tr th:each="sList,status:${responseDTO.dtoList}">
                             <th><input type="radio" name="stockCheck" th:value="${status.index}"></th>
                             <th>[[${sList.product.pcode}]]</th>
                             <th>[[${sList.product.pname}]]</th>
@@ -57,10 +57,13 @@
                         </tr>
                         </tbody>
                     </table>
-                    <div class="float-end">
+                    <div class="my-4">
                         <button type="button" class="btn btn-dark">리포트</button>
                         <button type="button" id="stockOut" class="btn btn-dark">자재출고</button>
                         <button type="button" class="btn btn-dark">재고마감</button>
+                    </div>
+                    <div class="float-end">
+
                     </div>
                 </div>      <!-- * card-body끝 *-->
             </div>      <!-- * card 끝 *-->

@@ -1,5 +1,7 @@
 package ez.en.stock.service;
 
+import ez.en.config.PageRequestDTO;
+import ez.en.config.PageResponseDTO;
 import ez.en.login.domain.Login;
 import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
@@ -10,6 +12,7 @@ import ez.en.stock.domain.Stockin;
 import ez.en.stock.domain.Stockout;
 import ez.en.stock.dto.StockDTO;
 import ez.en.stock.dto.StockInDTO;
+import ez.en.stock.dto.StockOutDTO;
 import ez.en.stock.repository.StockRepository;
 import ez.en.stock.repository.StockinRepository;
 import ez.en.stock.repository.StockoutRepository;
@@ -35,11 +38,44 @@ import java.util.stream.Collectors;
 @Transactional
 public class StockServiceImpl implements StockService{
 
+    @Override
+    public PageResponseDTO<StockDTO> sList(PageRequestDTO pageRequestDTO) {
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("sno");
+
+        Page<Stock> result = stockRepository.searchAll(types, keyword, pageable);
+
+        List<StockDTO> sList = result.getContent().stream()
+                .map(i -> modelMapper.map(i,StockDTO.class))
+                .collect(Collectors.toList());
+
+        return PageResponseDTO.<StockDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(sList)
+                .total((int)result.getTotalElements())
+                .build();
+    }
+
+    @Override
+    public PageResponseDTO<StockInDTO> inList(PageRequestDTO pageRequestDTO) {
+        return null;
+    }
+
+    @Override
+    public PageResponseDTO<StockOutDTO> outList(PageRequestDTO pageRequestDTO) {
+        return null;
+    }
+
+    @Override
+    public PageResponseDTO<OrderDTO> oList(PageRequestDTO pageRequestDTO) {
+        return null;
+    }
+
     private final ModelMapper modelMapper;
 
     private final StockRepository stockRepository;
     private final StockinRepository stockinRepository;
-
     private final StockoutRepository stockoutRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
@@ -53,7 +89,7 @@ public class StockServiceImpl implements StockService{
 
         return oList;
     }
-    @Override
+    @Override // 입고목록
     public List<StockInDTO> getIn() {
         List<Stockin> result = stockinRepository.getIn();
         List<StockInDTO> inList = result.stream()
@@ -61,6 +97,15 @@ public class StockServiceImpl implements StockService{
                 .collect(Collectors.toList());
 
         return inList;
+    }
+    @Override // 출고목록
+    public List<StockOutDTO> getOut() {
+        List<Stockout> result = stockoutRepository.getOut();
+        List<StockOutDTO> outList = result.stream()
+                .map(i -> modelMapper.map(i,StockOutDTO.class))
+                .collect(Collectors.toList());
+
+        return outList;
     }
     @Override
     public void updateOstate(int ono) {
@@ -100,8 +145,24 @@ public class StockServiceImpl implements StockService{
     }
 
     @Override
+    public List<Integer> getSno() {
+        List<Stock> result = stockRepository.getStock();
+        List<Integer> snoList = result.stream()
+                .map(i -> modelMapper.map(i.getSno(),Integer.class))
+                .collect(Collectors.toList());
+
+        return snoList;
+    }
+
+    @Override
     public int getSicountAll(int pno) {
         int all = stockinRepository.getSicountAll(pno);
+        return all;
+    }
+
+    @Override
+    public int getSocountAll(int sno) {
+        int all = stockoutRepository.getSocountAll(sno);
         return all;
     }
 
@@ -109,6 +170,11 @@ public class StockServiceImpl implements StockService{
     public void sicountAll(int pno, int sicountAll) {
 
         stockRepository.sicountAll(pno,sicountAll);
+    }
+    @Override
+    public void socountAll(int sno, int socountAll) {
+
+        stockRepository.socountAll(sno,socountAll);
     }
 
     @Override
@@ -119,4 +185,6 @@ public class StockServiceImpl implements StockService{
                 .collect(Collectors.toList());
         return sList;
     }
+
+
 }
