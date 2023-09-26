@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @SpringBootTest
@@ -19,13 +20,21 @@ public class ChartRepositoryTests {
 
     @Test
     public void chart(){
-        List<Dailystock> list = repository.findByDscodeOrderByDsDateAsc("P20230914T01M01CP01");
+//        List<Dailystock> list = repository.findByDscodeOrderByDsDateAsc("P20230914T01M01CP01");
+
+        LocalDate date = LocalDate.parse("2023-09-01");
+
+        String last = date.withDayOfMonth(date.lengthOfMonth()).toString();
 
 
-        for(Dailystock dailystock: list){
+        List<Dailystock> list1 = repository.list("2023-09-01", last, "P20230914T01M01CP01");
+
+
+
+        for(Dailystock dailystock: list1){
             log.info(dailystock);
             log.info(dailystock.getDsDate());
-        } 
+        }
     }
 
 
