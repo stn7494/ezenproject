@@ -20,8 +20,11 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title">계약 목록</h5>
-
-                <table class="table">
+                <div th:if="${#lists.isEmpty(cDTO)}">
+                    <hr>
+                    <h3 class="card-title">해당 제품의 계약이 없습니다.</h3>
+                </div>
+                <table class="table"  th:if="${!#lists.isEmpty(cDTO)}">
                     <thead>
                     <tr>
                         <th scope="col">계약 번호</th>
@@ -32,7 +35,6 @@
                         <th scope="col">소재지</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <tr th:each="dto:${cDTO}">
                         <td>[[${dto.cno}]]</td>
@@ -52,7 +54,6 @@
                     </tr>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>
@@ -60,6 +61,8 @@
 </body>
 
 <script th:inline="javascript">
+
+
 
     function returnParent(cno, cprice, ptname) {
         opener.document.getElementById("cno").value=cno

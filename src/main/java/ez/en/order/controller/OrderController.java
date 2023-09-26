@@ -11,12 +11,7 @@ import ez.en.order.dto.PopSplanDTO;
 import ez.en.order.dto.ProgressInspectionDTO;
 import ez.en.order.service.OrderService;
 import ez.en.order.service.ProgressInspectionService;
-import ez.en.support.domain.Contract;
 import ez.en.support.domain.Supportplan;
-import ez.en.support.dto.ContractPageRequestDTO;
-import ez.en.support.dto.ContractPageResponseDTO;
-import ez.en.support.dto.SupportPlanDTO;
-import ez.en.support.service.ContractService;
 import ez.en.support.service.SupportPlanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
@@ -43,7 +37,7 @@ public class OrderController {
     private final SupportPlanService supportPlanService;
     private final LoginService loginService;
 
-//    발주 목록 (선택 정렬 기능 미완성)
+//    발주 목록
     @GetMapping("/order/list")
     public void listGet(PageRequestDTO pageRequestDTO, Model model){
         String sortNow="ono";
@@ -132,6 +126,7 @@ public class OrderController {
         model.addAttribute("memDTO", memberDTO);
     }
 
+//    발주 상세 확인에서 진척 검수 등록
     @PostMapping("/order/popInspection")
     public String popInspectionPost(ProgressInspectionDTO progressInspectionDTO){
         progressInspectionService.save(progressInspectionDTO);

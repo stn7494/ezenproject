@@ -7,23 +7,18 @@
     <title>ORDER REGISTER</title>
 </head>
 <div layout:fragment="content">
-
     <div class="row mt-3">
         <div class="col">
             <div class="card">
                 <div class="card-header">
                 </div>
-
                 <div class="card-body">
                     <h5 class="card-title">발주 등록</h5>
                     <form action="/order/register" method="post">
-
                         <div>
                             <button type="button" class="btn btn-secondary" onclick="openSplan()">조달 계획 선택</button>
                             <hr>
                         </div>
-
-
                         <input type="hidden" name="spno" id="spno" class="form-control">
                         <input type="hidden" name="cno" id="cno" class="form-control">
                         <input type="hidden" name="email" class="form-control" th:value="${#authentication.principal.username}">
@@ -44,12 +39,10 @@
                             <span class="input-group-text">계획 수량</span>
                             <input type="text" name="spcount" id="spcount" class="form-control" placeholder="조달 계획 선택" readonly>
                         </div>
-
                         <div>
                             <button type="button" class="btn btn-secondary" onclick="openContract()">계약 업체 선택</button>
                             <hr>
                         </div>
-
                         <div class="input-group mb-3">
                             <span class="input-group-text">업체 이름</span>
                             <input type="text" name="ptname" id="ptname" class="form-control" placeholder="계약 업체 선택" readonly>
@@ -66,7 +59,6 @@
                             <span class="input-group-text">발주 기타 사항</span>
                             <textarea class="form-control col-sm-5" rows="5" name="odetail"></textarea>
                         </div>
-
                         <div class="my-4">
                             <div class="float-end">
                                 <button type="button" class="btn btn-primary submitBtn">발주 등록</button>
@@ -78,9 +70,6 @@
             </div>
         </div>
     </div>
-
-
-
 </div> <!--* content 끝 *-->
 
 
@@ -130,8 +119,6 @@
         else document.querySelector("form").submit()
     }, false)
 
-
-    
 
 </script>
 </html>

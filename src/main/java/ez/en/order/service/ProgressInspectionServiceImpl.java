@@ -26,6 +26,7 @@ public class ProgressInspectionServiceImpl implements ProgressInspectionService{
     private final ModelMapper modelMapper;
 
 
+//    팝업창 진척검수 리스트 불러오기 메소드
     @Override
     public List<ProgressInspectionDTO> popPiList(int ono) {
         log.info("popPiList ono : "+ono);
@@ -36,6 +37,7 @@ public class ProgressInspectionServiceImpl implements ProgressInspectionService{
         return dtoList;
     }
 
+//    팝업창 진척검수 등록 메소드
     @Override
     public int save(ProgressInspectionDTO progressInspectionDTO) {
         progressInspectionDTO.setOrders(Orders.builder().ono(progressInspectionDTO.getOno()).build());
