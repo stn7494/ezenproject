@@ -20,6 +20,11 @@ public interface StockRepository extends JpaRepository<Stock, Integer>, StockSea
     @Transactional
     @Query(value = "update Stock s set s.sicountall = :sicountAll where s.product.pno = :pno")
     void sicountAll(int pno,int sicountAll);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update Stock s set s.socountall = :socountAll where s.sno = :sno")
+    void socountAll(int sno,int socountAll);
   
     @EntityGraph(attributePaths = {"contract"})
     @Query(value = "select s from Stock s")

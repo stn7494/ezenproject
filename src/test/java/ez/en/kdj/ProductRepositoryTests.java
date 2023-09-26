@@ -48,14 +48,14 @@ public class ProductRepositoryTests {
         result.getContent().forEach(product -> log.info(product));
     }
 
-    @Test
-    public void testproductUpdate() {
-        int pno = 38;
-        Optional<Product> result = productRepository.findById(pno);
-        Product product = result.orElseThrow();
-        product.productchange("업데이트 삼성 키보드","업데이트 테스트임...", "수정한거임" );
-        productRepository.save(product);
-    }
+//    @Test
+//    public void testproductUpdate() {
+//        int pno = 38;
+//        Optional<Product> result = productRepository.findById(pno);
+//        Product product = result.orElseThrow();
+//        product.productchange("업데이트 삼성 키보드","업데이트 테스트임...", "수정한거임" );
+//        productRepository.save(product);
+//    }
 
 //    @Test
 //    public void testInsertWithImages() {

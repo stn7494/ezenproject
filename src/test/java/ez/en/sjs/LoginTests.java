@@ -142,24 +142,24 @@ public class LoginTests {
 //
 //        log.info(check+"============================");
 //    }
-    @Test
-    public void testListALL() {
-        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-                .page(1)
-                .size(10)
-                .build();
-
-        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
-
-        List<StockDTO> list = responseDTO.getDtoList();
-
-        for (StockDTO stockDTO:list){
-            log.info(stockDTO);
-        }
-
-    }
-
 //    @Test
+//    public void testListALL() {
+//        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+//                .page(1)
+//                .size(10)
+//                .build();
+//
+//        PageResponseDTO<StockDTO> responseDTO = stockService.list(pageRequestDTO);
+//
+//        List<StockDTO> list = responseDTO.getDtoList();
+//
+//        for (StockDTO stockDTO:list){
+//            log.info(stockDTO);
+//        }
+//
+//    }
+
+    //    @Test
 //    public void testRegister() {
 //
 //        StockDTO stockDTO = StockDTO.builder()
@@ -172,4 +172,14 @@ public class LoginTests {
 //
 //        log.info("sno : " + sno);
 //    }
+    @Test
+    public void testDaily() {
+
+        List<Dailystock> list = dailyStockRepository.listAll();
+        List<Dailystock> list2 = dailyStockRepository.listAll();
+        for (int i = list.size() - 6; i < list.size(); i++) {
+           log.info(list2.get(i));
+        }
+
+    }
 }

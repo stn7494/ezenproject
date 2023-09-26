@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
@@ -48,7 +48,10 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목사진</span>
                             <img th:src="${dto.filepath}" width="200px;" height="200px;" style="margin: auto;">
+                            <span class="input-group-text">품목사진 수정하기</span>
+                            <pre>┌──────────────────변경할 사진을 선택해주세요.──────────────────┐
                             <input type="file" name="file">
+                            </pre>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목등록날짜</span>
