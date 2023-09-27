@@ -1,5 +1,6 @@
 package ez.en.stock.service;
 
+import com.querydsl.core.types.Order;
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.login.domain.Login;
@@ -38,13 +39,20 @@ import java.util.stream.Collectors;
 @Transactional
 public class StockServiceImpl implements StockService{
 
+    private final ModelMapper modelMapper;
+    private final StockRepository stockRepository;
+    private final StockinRepository stockinRepository;
+    private final StockoutRepository stockoutRepository;
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+
     @Override
     public PageResponseDTO<StockDTO> sList(PageRequestDTO pageRequestDTO) {
         String[] types = pageRequestDTO.getTypes();
         String keyword = pageRequestDTO.getKeyword();
         Pageable pageable = pageRequestDTO.getPageable("sno");
 
-        Page<Stock> result = stockRepository.searchAll(types, keyword, pageable);
+        Page<Stock> result = stockRepository.searchStock(types, keyword, pageable);
 
         List<StockDTO> sList = result.getContent().stream()
                 .map(i -> modelMapper.map(i,StockDTO.class))
@@ -59,36 +67,70 @@ public class StockServiceImpl implements StockService{
 
     @Override
     public PageResponseDTO<StockInDTO> inList(PageRequestDTO pageRequestDTO) {
-        return null;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("sino");
+
+        Page<Stockin> result = stockinRepository.searchIn(types, keyword, pageable);
+
+        List<StockInDTO> inList = result.getContent().stream()
+                .map(i -> modelMapper.map(i,StockInDTO.class))
+                .collect(Collectors.toList());
+
+        return PageResponseDTO.<StockInDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(inList)
+                .total((int)result.getTotalElements())
+                .build();
     }
 
     @Override
     public PageResponseDTO<StockOutDTO> outList(PageRequestDTO pageRequestDTO) {
-        return null;
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("sono");
+
+        Page<Stockout> result = stockoutRepository.searchOut(types, keyword, pageable);
+
+        List<StockOutDTO> outList = result.getContent().stream()
+                .map(i -> modelMapper.map(i,StockOutDTO.class))
+                .collect(Collectors.toList());
+
+        return PageResponseDTO.<StockOutDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(outList)
+                .total((int)result.getTotalElements())
+                .build();
     }
 
     @Override
     public PageResponseDTO<OrderDTO> oList(PageRequestDTO pageRequestDTO) {
-        return null;
-    }
+        String[] types = pageRequestDTO.getTypes();
+        String keyword = pageRequestDTO.getKeyword();
+        Pageable pageable = pageRequestDTO.getPageable("ono");
 
-    private final ModelMapper modelMapper;
+        Page<Orders> result = orderRepository.searchOrder(types, keyword, pageable);
 
-    private final StockRepository stockRepository;
-    private final StockinRepository stockinRepository;
-    private final StockoutRepository stockoutRepository;
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-
-    @Override
-    public List<OrderDTO> getOrder() {
-        List<Orders> result = orderRepository.getOrder();
-        List<OrderDTO> oList = result.stream()
+        List<OrderDTO> oList = result.getContent().stream()
                 .map(i -> modelMapper.map(i,OrderDTO.class))
                 .collect(Collectors.toList());
 
-        return oList;
+        return PageResponseDTO.<OrderDTO>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(oList)
+                .total((int)result.getTotalElements())
+                .build();
     }
+
+//    @Override
+//    public List<OrderDTO> getOrder() {
+//        List<Orders> result = orderRepository.getOrder();
+//        List<OrderDTO> oList = result.stream()
+//                .map(i -> modelMapper.map(i,OrderDTO.class))
+//                .collect(Collectors.toList());
+//
+//        return oList;
+//    }
     @Override // 입고목록
     public List<StockInDTO> getIn() {
         List<Stockin> result = stockinRepository.getIn();
@@ -107,6 +149,25 @@ public class StockServiceImpl implements StockService{
 
         return outList;
     }
+    @Override // 자재디테일
+    public List<StockDTO> stockDetail(int sno) {
+        List<Stock> result = stockRepository.stockDetail(sno);
+        List<StockDTO> detail = result.stream()
+                .map(i -> modelMapper.map(i,StockDTO.class))
+                .collect(Collectors.toList());
+
+        return detail;
+    }
+
+    @Override // 발주디테일
+    public List<OrderDTO> orderDetail(int ono) {
+        List<Orders> result = orderRepository.orderDetail(ono);
+        List<OrderDTO> detail = result.stream()
+                .map(i -> modelMapper.map(i,OrderDTO.class))
+                .collect(Collectors.toList());
+
+        return detail;
+    }
     @Override
     public void updateOstate(int ono) {
         orderRepository.updateOstate(ono);
@@ -123,7 +184,7 @@ public class StockServiceImpl implements StockService{
         stockinRepository.save(stockin);
 
     }
-    @Override // 입고테이블 등록
+    @Override // 출고테이블 등록
     public void insertOut(int sno, String email, String sodate,int socount) {
         Stockout stockout = Stockout.builder()
                 .stock(Stock.builder().sno(sno).build())
@@ -176,15 +237,5 @@ public class StockServiceImpl implements StockService{
 
         stockRepository.socountAll(sno,socountAll);
     }
-
-    @Override
-    public List<StockDTO> getStock() {
-        List<Stock> result = stockRepository.getStock();
-        List<StockDTO> sList = result.stream()
-                .map(i -> modelMapper.map(i,StockDTO.class))
-                .collect(Collectors.toList());
-        return sList;
-    }
-
 
 }

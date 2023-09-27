@@ -48,28 +48,30 @@ public class StockController {
         }
         PageResponseDTO<StockDTO> responseDTO = stockService.sList(pageRequestDTO);
         model.addAttribute("responseDTO", responseDTO);
-        List<StockDTO> sList = stockService.getStock();
-        model.addAttribute("sList",sList);
     }
 
     @GetMapping("/stock/orderList")
-    public void orderList(Model model){
-        List<OrderDTO> list = stockService.getOrder();
-        model.addAttribute("oList",list);
+    public void orderList(PageRequestDTO pageRequestDTO,Model model){
+        PageResponseDTO<OrderDTO> responseDTO = stockService.oList(pageRequestDTO);
+        model.addAttribute("oList",responseDTO);
     }
 
-    @GetMapping("/stock/ioList")
-    public void ioList(Model model){
-        List<StockInDTO> inList = stockService.getIn();
-        model.addAttribute("inList",inList);
+    @GetMapping("/stock/inList")
+    public void inList(PageRequestDTO pageRequestDTO,Model model){
+        PageResponseDTO<StockInDTO> responseDTO = stockService.inList(pageRequestDTO);
+        model.addAttribute("inList",responseDTO);
 
-        List<StockOutDTO> outList = stockService.getOut();
-        model.addAttribute("outList",outList);
+    }
+
+    @GetMapping("/stock/outList")
+    public void outList(PageRequestDTO pageRequestDTO,Model model){
+        PageResponseDTO<StockOutDTO> responseDTO = stockService.outList(pageRequestDTO);
+        model.addAttribute("outList",responseDTO);
     }
 
     @GetMapping("/stock/stockIn")
-    public void stockIn(int index,Model model){
-        OrderDTO order = stockService.getOrder().get(index);
+    public void stockIn(int ono,Model model){
+        OrderDTO order = stockService.orderDetail(ono).get(0);
         model.addAttribute("dto",order);
     }
 
@@ -83,9 +85,9 @@ public class StockController {
     }
 
     @GetMapping("/stock/stockOut")
-    public void stockOut(int index,Model model){
-        StockDTO stock = stockService.getStock().get(index);
-        model.addAttribute("dto",stock);
+    public void stockOut(int sno,Model model){
+        StockDTO dto = stockService.stockDetail(sno).get(0);
+        model.addAttribute("dto",dto);
     }
 
     @PostMapping("/stock/stockOut")
