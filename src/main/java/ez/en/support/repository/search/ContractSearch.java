@@ -15,5 +15,7 @@ public interface ContractSearch {
 
     Page<Contract> search(String keyword, String type, String state ,Pageable pageable);
 
+    Page<Contract> search(String keyword, String type, Pageable pageable);
+
     List<Contract> selectOne(String keyword);
 }

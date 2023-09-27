@@ -56,6 +56,25 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public ContractPageResponseDTO<Contract> spList(ContractPageRequestDTO pageRequestDTO) {
+
+        String keyword = pageRequestDTO.getKeyword();
+
+        String type = pageRequestDTO.getType();
+
+        Pageable pageable = pageRequestDTO.getPageable("cno");
+
+        Page<Contract> result = contractSearch.search(keyword,type,pageable);
+
+        List<Contract> list = result.getContent();
+        return ContractPageResponseDTO.<Contract>withAll()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(list)
+                .total((int)result.getTotalElements())
+                .build();
+    }
+
+    @Override
     public PageResponseDTO<Partner> list(PageRequestDTO pageRequestDTO) {
 
         String keyword = pageRequestDTO.getKeyword();

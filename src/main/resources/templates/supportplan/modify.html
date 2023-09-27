@@ -41,7 +41,7 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">소요량</span>
-                            <input type="text" id="spcount" name="spcount" th:value="${dto.spcount}" class="form-control">
+                            <input type="number" id="spcount" name="spcount" th:value="${dto.spcount}" class="form-control">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">조달납기</span>
@@ -83,18 +83,21 @@
     var objform = $("#modify");
 
     function modify(){
+
         if($("#spdate").val() == ""){
             alert("소요일정을 입력해주세요");
             $("#spdate").focus();
         }else if($("#spcount").val() == ""){
             alert("소요량을 입력해주세요");
             $("#spcount").focus();
-        }else if(isNaN($("#spcount"))||$("#spcount").val() <= 0) {
+        }else if($("#spcount").val() <= 0) {
             alert("1개 이상의 숫자를 입력해주세요");
             $("#spcount").focus();
         }else if($("#spdelidate").val() == ""){
             alert("조달납기일을 입력해주세요");
             $("#spdelidate").focus();
+        }else if($("#spdelidate").val() > $("#spdate").val()){
+            alert("조달납기일이 소요일정보다 빠를수 없습니다");
         }else{
             objform.submit();
         }

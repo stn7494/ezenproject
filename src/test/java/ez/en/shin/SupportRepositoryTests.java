@@ -2,6 +2,8 @@ package ez.en.shin;
 
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
+import ez.en.stock.domain.Stock;
+import ez.en.stock.repository.StockRepository;
 import ez.en.support.domain.*;
 import ez.en.support.dto.*;
 import ez.en.support.repository.*;
@@ -11,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +26,9 @@ import java.util.Optional;
 @Log4j2
 public class SupportRepositoryTests {
 
+
+    @Autowired
+    private StockRepository repository;
 
     @Autowired
     private ContractRepository contractRepository;
@@ -123,4 +129,21 @@ public class SupportRepositoryTests {
         log.info(list2);
     }
 
+    @Test
+    public void tes(){
+
+        Pageable pageable = PageRequest.of(0,10,Sort.by("sno").descending());
+
+        Page<Stock> result = repository.searchAll(new String[]{"t","c"},"",pageable);
+
+        log.info("조회개수 : " + result.getTotalElements());
+
+        List<Stock> list = result.getContent();
+
+        log.info("길이 : "+ list.size());
+
+        for(Stock stock: list){
+            log.info(stock);
+        }
+    }
 }

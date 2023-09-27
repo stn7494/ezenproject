@@ -15,12 +15,19 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <link th:href="@{/css/styles.css}" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
     <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light">구매관리시스템</div>
+        <div class="sidebar-heading border-bottom bg-light"><img src="/img/integer_black.png"></div>
         <div class="list-group list-group-flush">
             <th:block sec:authorize="hasAnyRole('ORDER','ADMIN')">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/list">발주관리</a>

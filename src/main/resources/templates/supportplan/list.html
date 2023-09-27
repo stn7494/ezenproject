@@ -158,19 +158,21 @@
             dataType:'json',
             url:'/supportplan/modal',
             success:function(e){
+                if(e.spstate == '조달요청'){
+                    alert("해당 제품은 아직 입고되지 않았습니다.");
+                    return;
+                }
                 $("#modalpcode").val(e.productDTO.pcode);
                 $("#modalspno").val(e.spno);
                 $("#modalpname").val(e.productDTO.pname);
                 $("#modaltname").val(e.middleDTO.topDTO.tname);
                 $("#modalspcount").val(e.spcount);
-                console.log(e);
+                modal.show();
             },
             error:function(){
                 alert("실패");
             }
         });
-
-       modal.show();
     });
 
     $("#state").click(function(){

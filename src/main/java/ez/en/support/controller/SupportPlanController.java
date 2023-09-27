@@ -2,8 +2,10 @@ package ez.en.support.controller;
 
 import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
+import ez.en.support.domain.Contract;
 import ez.en.support.domain.Supportplan;
 import ez.en.support.dto.*;
+import ez.en.support.service.ContractServiceImpl;
 import ez.en.support.service.ProductServiceImpl;
 import ez.en.support.service.SupportPlanServiceImpl;
 import lombok.extern.log4j.Log4j2;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -22,7 +25,7 @@ public class SupportPlanController {
     private SupportPlanServiceImpl service;
 
     @Autowired
-    private ProductServiceImpl productService;
+    private ContractServiceImpl contractService;
 
     @GetMapping("/list")
     public void list(PageRequestDTO pageRequestDTO, Model model){
@@ -46,12 +49,22 @@ public class SupportPlanController {
 
         return "redirect:/supportplan/list";
     }
+
     @GetMapping("/product")
-    public void product(ProductPageRequestDTO pageRequestDTO, Model model){
+    public ModelAndView contractList(ContractPageRequestDTO pageRequestDTO){
+        ModelAndView mav = new ModelAndView();
 
-        ProductPageResponseDTO<ProductDTO> responseDTO = productService.list(pageRequestDTO);
+        log.info(pageRequestDTO.getState());
+        log.info(pageRequestDTO.getKeyword());
+        log.info(pageRequestDTO.getType());
 
-        model.addAttribute("responseDTO", responseDTO);
+        ContractPageResponseDTO<Contract> responseDTO = contractService.spList(pageRequestDTO);
+
+        mav.addObject("responseDTO", responseDTO);
+
+        mav.setViewName("/supportplan/product");
+
+        return mav;
 
     }
 
