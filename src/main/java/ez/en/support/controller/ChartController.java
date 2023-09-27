@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,16 +26,16 @@ public class ChartController {
     @GetMapping("/chart")
     public void chart(Model model){
         List<Dailystock> list = repository.findByDscodeOrderByDsDateAsc("P20230914T01M01CP01");
-        List<Integer> dscount = new ArrayList<>();
-        List<String> dsdate = new ArrayList<>();
+        List<Integer> dsCount = new ArrayList<>();
+        List<String> dsDate = new ArrayList<>();
         for (Dailystock dailystock:list
              ) {
             String date = dailystock.getDsDate().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-            dscount.add(dailystock.getDscount());
-            dsdate.add(date);
+            dsCount.add(dailystock.getDscount());
+            dsDate.add(date);
         }
-        model.addAttribute("dscount",dscount);
-        model.addAttribute("dsdate",dsdate);
+        model.addAttribute("dsCount",dsCount);
+        model.addAttribute("dsDate",dsDate);
     }
 
     @ResponseBody

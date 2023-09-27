@@ -10,6 +10,8 @@ public interface ContractService {
 
     ContractPageResponseDTO<Contract> list(ContractPageRequestDTO pageRequestDTO);
 
+    ContractPageResponseDTO<Contract> spList(ContractPageRequestDTO pageRequestDTO);
+
     PageResponseDTO<Partner> list(PageRequestDTO pageRequestDTO);
 
     void insert(ContractDTO contractDTO);

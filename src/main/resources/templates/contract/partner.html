@@ -47,7 +47,7 @@
                     </thead>
                     <tbody th:with="link = ${pageRequestDTO.getLink()}">
                     <tr th:each="dto:${responseDTO.dtoList}">
-                        <td style="color: #0d6efd" th:id="${dto.ptno}" th:class="${dto.ptno}" onclick="sendValue(this.id)" th:text="${dto.ptno}">
+                        <td style="color: #0d6efd;" th:id="${dto.ptno}" th:class="${dto.ptno}" onclick="sendValue(this.id)" th:text="${dto.ptno}">
                         </td>
                         <td th:class="${dto.ptno}" th:text="${dto.ptname}"></td>
                         <td th:class="${dto.ptno}" th:text="${dto.ptceoname}"></td>

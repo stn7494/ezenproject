@@ -93,6 +93,43 @@ public class ContractSearchImpl extends QuerydslRepositorySupport implements Con
     }
 
     @Override
+    public Page<Contract> search(String keyword, String type, Pageable pageable) {
+
+        QContract contract = QContract.contract;
+
+        BooleanBuilder builder = new BooleanBuilder();
+
+        JPQLQuery<Contract> query = from(contract);
+
+        if(type != null && keyword!= null){
+            if(type.equals("all")){
+                builder.or(contract.product.pcode.contains(keyword))
+                        .or(contract.product.pname.contains(keyword));
+                query.where(builder);
+            }else{
+                switch (type){
+                    case "pcode":
+                        builder.or(contract.product.pcode.contains(keyword));
+                        break;
+                    case "pname":
+                        builder.or(contract.product.pname.contains(keyword));
+                        break;
+                }
+                query.where(builder);
+            }
+        }
+        query.where(contract.cstate.eq("계약완료"));
+
+        this.getQuerydsl().applyPagination(pageable, query);
+
+        List<Contract> list =  query.fetch();
+
+        long count = query.fetchCount();
+
+        return new PageImpl<>(list,pageable,count);
+    }
+
+    @Override
     public List<Contract> selectOne(String keyword) {
 
         QContract contract = QContract.contract;
