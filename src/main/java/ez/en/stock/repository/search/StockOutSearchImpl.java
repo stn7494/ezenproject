@@ -2,10 +2,7 @@ package ez.en.stock.repository.search;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import ez.en.stock.domain.QStock;
-import ez.en.stock.domain.QStockin;
-import ez.en.stock.domain.Stock;
-import ez.en.stock.domain.Stockin;
+import ez.en.stock.domain.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -13,17 +10,17 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.List;
 
-public class StockSearchImpl extends QuerydslRepositorySupport implements StockSearch {
+public class StockOutSearchImpl extends QuerydslRepositorySupport implements StockOutSearch {
 
-    public StockSearchImpl() {
-        super(Stock.class);
+    public StockOutSearchImpl() {
+        super(Stockout.class);
     }
 
     @Override
-    public Page<Stock> searchStock(String[] types, String keyword, Pageable pageable) {
+    public Page<Stockout> searchOut(String[] types, String keyword,Pageable pageable) {
 
-        QStock stock = QStock.stock;
-        JPQLQuery<Stock> query = from(stock);
+        QStockout stockout = QStockout.stockout;
+        JPQLQuery<Stockout> query = from(stockout);
 
         if ((types != null && types.length > 0) && keyword != null) {
 
@@ -33,10 +30,13 @@ public class StockSearchImpl extends QuerydslRepositorySupport implements StockS
 
                 switch (type) {
                     case "t":
-                        booleanBuilder.or(stock.product.pcode.contains(keyword));
+                        booleanBuilder.or(stockout.stock.product.pcode.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(stock.product.pname.contains(keyword));
+                        booleanBuilder.or(stockout.stock.product.pname.contains(keyword));
+                        break;
+                    case "d":
+                        booleanBuilder.or(stockout.sodate.contains(keyword));
                         break;
                 }
             }//end for
@@ -44,15 +44,16 @@ public class StockSearchImpl extends QuerydslRepositorySupport implements StockS
         }//end if
 
         //sno > 0
-        query.where(stock.sno.gt(0));
+        query.where(stockout.sono.gt(0));
 
         //paging
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<Stock> list = query.fetch();
+        List<Stockout> list = query.fetch();
 
         long count = query.fetchCount();
 
         return new PageImpl<>(list,pageable,count);
     }
+
 }

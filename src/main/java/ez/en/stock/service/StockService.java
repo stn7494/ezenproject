@@ -17,10 +17,11 @@ public interface StockService {
     PageResponseDTO<StockInDTO> inList(PageRequestDTO pageRequestDTO); // 입고 리스트(페이징)
     PageResponseDTO<StockOutDTO> outList(PageRequestDTO pageRequestDTO); // 출고 리스트(페이징)
     PageResponseDTO<OrderDTO> oList(PageRequestDTO pageRequestDTO); // 발주목록 리스트(페이징)
-    List<OrderDTO> getOrder(); //
+//    List<OrderDTO> getOrder();
     List<StockInDTO> getIn(); // 입고테이블 가져오기
     List<StockOutDTO> getOut(); // 출고테이블가져오기
-    List<StockDTO> getStock(); // 자재리스트
+    List<StockDTO> stockDetail(int sno); // 자재디테일
+    List<OrderDTO> orderDetail(int ono); // 발주디테일
     void updateOstate(int ono);
     void insertIn(int ono, String email, String sidate, int pno,int sicount); //입고테이블 입력
     void insertOut(int sno, String email, String sodate, int socount); // 출고테이블 입력

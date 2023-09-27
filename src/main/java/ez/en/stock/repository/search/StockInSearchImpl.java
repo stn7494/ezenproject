@@ -13,17 +13,16 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import java.util.List;
 
-public class StockSearchImpl extends QuerydslRepositorySupport implements StockSearch {
+public class StockInSearchImpl extends QuerydslRepositorySupport implements StockInSearch {
 
-    public StockSearchImpl() {
-        super(Stock.class);
+    public StockInSearchImpl() {
+        super(Stockin.class);
     }
 
     @Override
-    public Page<Stock> searchStock(String[] types, String keyword, Pageable pageable) {
-
-        QStock stock = QStock.stock;
-        JPQLQuery<Stock> query = from(stock);
+    public Page<Stockin> searchIn(String[] types, String keyword,Pageable pageable) {
+        QStockin stockin = QStockin.stockin;
+        JPQLQuery<Stockin> query = from(stockin);
 
         if ((types != null && types.length > 0) && keyword != null) {
 
@@ -33,10 +32,13 @@ public class StockSearchImpl extends QuerydslRepositorySupport implements StockS
 
                 switch (type) {
                     case "t":
-                        booleanBuilder.or(stock.product.pcode.contains(keyword));
+                        booleanBuilder.or(stockin.product.pcode.contains(keyword));
                         break;
                     case "c":
-                        booleanBuilder.or(stock.product.pname.contains(keyword));
+                        booleanBuilder.or(stockin.product.pname.contains(keyword));
+                        break;
+                    case "d":
+                        booleanBuilder.or(stockin.sidate.contains(keyword));
                         break;
                 }
             }//end for
@@ -44,15 +46,16 @@ public class StockSearchImpl extends QuerydslRepositorySupport implements StockS
         }//end if
 
         //sno > 0
-        query.where(stock.sno.gt(0));
+        query.where(stockin.sino.gt(0));
 
         //paging
         this.getQuerydsl().applyPagination(pageable, query);
 
-        List<Stock> list = query.fetch();
+        List<Stockin> list = query.fetch();
 
         long count = query.fetchCount();
 
         return new PageImpl<>(list,pageable,count);
     }
+
 }

@@ -1,6 +1,7 @@
 package ez.en.stock.repository;
 
 import ez.en.stock.domain.Stock;
+import ez.en.stock.domain.Stockout;
 import ez.en.stock.dto.StockDTO;
 import ez.en.stock.repository.search.StockSearch;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -25,8 +26,10 @@ public interface StockRepository extends JpaRepository<Stock, Integer>, StockSea
     @Transactional
     @Query(value = "update Stock s set s.socountall = :socountAll where s.sno = :sno")
     void socountAll(int sno,int socountAll);
-  
-    @EntityGraph(attributePaths = {"contract"})
+
     @Query(value = "select s from Stock s")
     List<Stock> getStock();
+
+    @Query(value = "select s from Stock s where s.sno = :sno")
+    List<Stock> stockDetail(int sno);
 }

@@ -6,13 +6,11 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-
 <div layout:fragment="content">
-
     <div class="row-mt-3">
         <div class="col">
             <br>
-            <form action="/stock/orderList" method="get">
+            <form action="/stock/inList" method="get">
                 <div class="col">
                     <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
                     <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
@@ -23,7 +21,7 @@
                                 <option value="tcd" th:selected="${pageRequestDTO.type=='tcd'}">검색</option>
                                 <option value="t" th:selected="${pageRequestDTO.type=='t'}">제품코드</option>
                                 <option value="c" th:selected="${pageRequestDTO.type=='c'}">제품이름</option>
-                                <option value="d" th:selected="${pageRequestDTO.type=='d'}">발주일자</option>
+                                <option value="d" th:selected="${pageRequestDTO.type=='d'}">입고일자</option>
                             </select>
                         </div>
                         <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
@@ -36,75 +34,63 @@
             </form>
             <br>
             <div class="card">
-
                 <div class="card-header">
-                    <h5><b>발주목록</b></h5>
+                    <h5><b>입고내역(거래명세서발행)</b></h5>
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>선택</th>
+                            <th>#</th>
                             <th>품목코드</th>
                             <th>품목이름</th>
                             <th>품목분류1</th>
                             <th>품목분류2</th>
                             <th>입고수량</th>
-                            <th>품목금액</th>
-                            <th>발주일자</th>
-                            <th>발주상태</th>
+                            <th>공급단가</th>
+                            <th>입고일자</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="olist,status:${oList.dtoList}">
-                            <th><input type="radio" name="orderCheck" th:value="${olist.ono}"></th>
-                            <th>[[${olist.contract.product.pcode}]]</th>
-                            <th>[[${olist.contract.product.pname}]]</th>
-                            <th>[[${olist.contract.product.middle.mname}]]</th>
-                            <th>[[${olist.contract.product.middle.top.tname}]]</th>
-                            <th>[[${olist.ocount}]]</th>
-                            <th>[[${olist.contract.cprice}]]</th>
-                            <th>[[${olist.odate}]]</th>
-                            <th>[[${olist.ostate}]]</th>
+                        <tr th:each="inlist,status:${inList.dtoList}">
+                            <th><input type="radio" name="orderCheck" th:value="${inlist.sino}"></th>
+                            <th>[[${inlist.order.contract.product.pcode}]]</th>
+                            <th>[[${inlist.order.contract.product.pname}]]</th>
+                            <th>[[${inlist.order.contract.product.middle.mname}]]</th>
+                            <th>[[${inlist.order.contract.product.middle.top.tname}]]</th>
+                            <th>[[${inlist.order.ocount}]]</th>
+                            <th>[[${inlist.order.contract.cprice}]]</th>
+                            <th>[[${inlist.sidate}]]</th>
                         </tr>
                         </tbody>
                     </table>
                     <div class="my-4">
-                        <button id=stockIn class="btn btn-dark">자재입고</button>
+                        <button type="button" class="btn btn-dark">거래명세서발행</button>
                     </div>
                     <div class="float-end">
                         <ul class="pagination flex-wrap">
-                            <li class="page-item" th:if="${oList.prev}">
-                                <a class="page-link" th:data-num="${oList.start -1}">Previous</a>
+                            <li class="page-item" th:if="${inList.prev}">
+                                <a class="page-link" th:data-num="${inList.start -1}">Previous</a>
                             </li>
 
-                            <th:block th:each="i:${#numbers.sequence(oList.start, oList.end)}">
-                                <li th:class="${oList.page == i}?'page-item active':'page-item'">
+                            <th:block th:each="i:${#numbers.sequence(inList.start, inList.end)}">
+                                <li th:class="${inList.page == i}?'page-item active':'page-item'">
                                     <a class="page-link" th:data-num="${i}">[[${i}]]</a>
                                 </li>
                             </th:block>
 
-                            <li class="page-item" th:if="${oList.next}">
+                            <li class="page-item" th:if="${inList.next}">
                                 <a class="page-link" th:data-num="${inList.end +1}">Next</a>
                             </li>
                         </ul>
                     </div>
-                </div>      <!-- * card-body끝 *-->
-            </div>      <!-- * card 끝 *-->
+                </div> <!--카드바디끝-->
+            </div> <!--카드끝-->
+            <br>
         </div>      <!-- * col 끝 * -->
     </div>
-
-
 </div>
 <script layout:fragment="script" th:inline="javascript">
-
-    $("#stockIn").click(function(){
-        if($('input:radio[name=orderCheck]').is(":checked")){
-            var ono = $('input[name=orderCheck]:checked').val();
-            location.href = '/stock/stockIn?ono='+ono;
-        }
-    })
-
     document.querySelector(".pagination").addEventListener("click", function (e){
         e.preventDefault()
         e.stopPropagation()
@@ -122,8 +108,9 @@
         e.preventDefault()
         e.stopPropagation()
 
-        self.location = '/stock/orderList'
+        self.location = '/stock/inList'
     },false)
+
 </script>
 <body>
 
