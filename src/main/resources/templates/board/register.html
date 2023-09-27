@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Board Register</title>
+    <style>
+        input[readonly]{
+            background-color: silver;
+        }
+    </style>
+</head>
+<div layout:fragment="content">
+    <div class="row mt-3">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    Board Register
+                </div>
+                <div class="card-body">
+                    <form action="/board/register" id="info" method="post">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">제목</span>
+                            <input type="text" name="title" class="form-control" id="title" placeholder="제목">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">내용</span>
+                            <textarea name="content" class="form-control col-sm-5" rows="5" id="content" placeholder="내용"></textarea>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">작성자 </span>
+                            <input type="text" name="writer" class="form-control" th:value="${#authentication.principal.username}" placeholder="작성자" readonly>
+                        </div>
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button type="button" id="button1" class="btn btn-primary">등록</button>
+                                <button type="reset" class="btn btn-secondary">초기화</button>
+                            </div>
+                        </div>
+                    </form>
+                </div><!--end card body-->
+            </div><!--end card-->
+        </div><!--end col-->
+    </div><!--end row-->
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+    $("#button1").click(function () {
+        if ($("#title").val() == "" || $("#content").val() == "") {
+            alert("제목 혹은 내용은 비어있을수 없습니다.");
+            return;
+        }
+        $("#info").submit();
+    });
+
+</script>
+<body>
+
+</body>
+</html>
