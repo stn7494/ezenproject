@@ -1,7 +1,6 @@
 package ez.en.login.controller;
 
 import ez.en.login.domain.Login;
-import ez.en.login.repository.LoginRepository;
 import ez.en.login.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -10,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +27,7 @@ public class LoginController {
 
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
-        return "/login";
+        return "login";
 
     }
 

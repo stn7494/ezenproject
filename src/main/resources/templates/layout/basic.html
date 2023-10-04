@@ -27,7 +27,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div class="d-flex" id="wrapper">
     <!-- Sidebar-->
     <div class="border-end bg-white" id="sidebar-wrapper">
-        <div class="sidebar-heading border-bottom bg-light"><img src="/img/integer_black.png"></div>
+        <div class="sidebar-heading border-bottom bg-light"><a href="/"> <img src="/img/integer_black.png"></a></div>
         <div class="list-group list-group-flush">
             <th:block sec:authorize="hasAnyRole('ORDER','ADMIN')">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/list">발주관리</a>
