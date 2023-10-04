@@ -70,7 +70,8 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text">발주 상태</span>
                         <form class="osFromPi" method="post">
-                        <input type="text" class="form-control" name="ostate" id="ostate" th:value="${dto.ostate}" readonly>
+                            <input type="text" class="form-control" name="ostate" id="ostate" th:value="${dto.ostate}" readonly>
+                            <input type="hidden" name="odetail" th:value="${dto.odetail}" readonly>
                         </form>
                         <button type="button" class="btn btn-primary viewOstate">발주 상태 관리</button>
                         <button th:if="${dto.ostate=='발주확인' || dto.ostate=='진척검수'}" type="button" class="btn btn-danger openInspection">진척 검수</button>
