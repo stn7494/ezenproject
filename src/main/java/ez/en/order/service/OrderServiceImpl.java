@@ -35,6 +35,7 @@ public class OrderServiceImpl implements OrderService{
     private final SupportplanRepository supportplanRepository;
     private final ModelMapper modelMapper;
 
+//    발주 등록 메소드
     @Override
     public int register(OrderDTO orderDTO) {
         orderDTO.setContract(Contract.builder().cno(orderDTO.getCno()).build());
@@ -47,6 +48,7 @@ public class OrderServiceImpl implements OrderService{
         return ono;
     }
 
+//    발주 수정 메소드
     @Override
     public int modify(OrderDTO orderDTO) {
         Optional<Orders> result = orderRepository.findById(orderDTO.getOno());
@@ -57,6 +59,7 @@ public class OrderServiceImpl implements OrderService{
         return ono;
     }
 
+//    발주 리스트 메소드
     @Override
     public PageResponseDTO<OrderDTO> orderList(PageRequestDTO pageRequestDTO, String sort) {
         String[] types = pageRequestDTO.getTypes();
@@ -74,6 +77,7 @@ public class OrderServiceImpl implements OrderService{
                 .build();
     }
 
+//    발주 상세 메소드
     @Override
     public OrderDTO detail(int ono) {
         Optional<Orders> result = orderRepository.findById(ono);
@@ -84,6 +88,7 @@ public class OrderServiceImpl implements OrderService{
         return orderDTO;
     }
 
+//    팝업창 계약 리스트 불러오기 메소드
     @Override
     public List<PopContractDTO> popContractList(String pcode) {
         List<Contract> result = contractRepository.popContractList(pcode, "계약완료");
@@ -93,6 +98,7 @@ public class OrderServiceImpl implements OrderService{
         return dtoList;
     }
 
+//    팝업창 조달계획 리스트 불러오기 메소드
     @Override
     public List<PopSplanDTO> popSplanList() {
         List<Supportplan> result = supportplanRepository.popSplanList("조달요청");

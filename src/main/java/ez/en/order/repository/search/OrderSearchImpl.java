@@ -16,6 +16,7 @@ public class OrderSearchImpl extends QuerydslRepositorySupport implements OrderS
         super(Orders.class);
     }
 
+//    발주 리스트 검색 메소드
     @Override
     public Page<Orders> search(String[] types, String keyword, Pageable pageable) {
         QOrders orders = QOrders.orders;
@@ -29,6 +30,9 @@ public class OrderSearchImpl extends QuerydslRepositorySupport implements OrderS
                         break;
                     case "t":
                         booleanBuilder.or(orders.contract.partner.ptname.contains(keyword));
+                        break;
+                    case "s":
+                        booleanBuilder.or(orders.ostate.contains(keyword));
                         break;
                 }
             }

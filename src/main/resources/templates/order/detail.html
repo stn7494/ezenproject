@@ -15,12 +15,14 @@
 </head>
 
 <div layout:fragment="content">
+    <body>
     <div class="row mt-3">
         <div class="col">
             <div class="card">
                 <div class="card-header">
                 </div>
                 <div class="card-body">
+                    <div id="printOut"> <!-- print 영역 시작 -->
                     <h5 class="card-title">발주 상세</h5>
                     <hr>
                     <input type="hidden" name="ono" th:value="${dto.ono}">
@@ -64,6 +66,7 @@
                         <span class="input-group-text">발주 기타 사항</span>
                         <textarea class="form-control col-sm-5 viewOdetail" rows="5" style="font-weight: bold" name="odetail" readonly>[[${dto.odetail}]]</textarea>
                     </div>
+                    </div>  <!-- print 영역 끝 -->
                     <div class="input-group mb-3">
                         <span class="input-group-text">발주 상태</span>
                         <form class="osFromPi" method="post">
@@ -78,15 +81,15 @@
                                 <button type="button" class="btn btn-primary">목록으로</button>
                             </a>
                             <a class="text-decoration-none">
-                                <button type="button" class="btn btn-secondary" onclick="window.print()">인쇄</button>
+                                <button type="button" class="btn btn-secondary" onclick="printOut()">인쇄</button>
                             </a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
+    </body>
 
 <!--업체 정보 모달-->
     <div class="modal partnerModal" tabindex="-1">
@@ -282,7 +285,16 @@
         window.open(url,name,option)
     })
 
-
+    function printOut(){
+        var initBody = document.body.innerHTML;
+        window.onbeforeprint = function () {
+            document.body.innerHTML = document.getElementById('printOut').innerHTML;
+        }
+        window.onafterprint = function () {
+            document.body.innerHTML = initBody;
+        }
+        window.print();
+    }
 
 
 </script>
