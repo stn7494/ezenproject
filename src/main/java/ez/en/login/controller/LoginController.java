@@ -20,6 +20,11 @@ public class LoginController {
 
     private final LoginService service;
 
+    @GetMapping("/")
+    public String landging(){
+        return "langding";
+    }
+
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "exception", required = false) String exception,
@@ -28,6 +33,11 @@ public class LoginController {
         model.addAttribute("error", error);
         model.addAttribute("exception", exception);
         return "login";
+
+    }
+
+    @GetMapping("/index")
+    public void index(){
 
     }
 
