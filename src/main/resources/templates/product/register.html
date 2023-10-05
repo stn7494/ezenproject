@@ -35,7 +35,7 @@
 
                         <select name="mcode" id="mcode" onchange="product_mvalue()"></select>
 
-                        <div>품목코드<span id='ppcode'></span></div>
+                        <div><span id='ppcode'></span></div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">품목코드</span>
                             <input type="text" id="pcode" name="pcode" class="form-control" placeholder="품목분류 선택시 자동으로 생성이 됩니다." readonly>
@@ -80,7 +80,7 @@
         var now = today.toLocaleDateString('ko-KR');
 
         let date = today.getFullYear()
-            + ((today.getMonth()+1) < 10 ? "0" + (today.getMonth()+1) : (today.getMonth()+1))
+            + ((today.getMonth()+1) < 10 ? "0" + (today.getMonth()+1) : (today.getMonth()+1).toString())
             + ((today.getDate()) < 9 ? "0" + (today.getDate()) : (today.getDate()));
 
         console.log(now);
