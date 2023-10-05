@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Simple Sidebar - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <style>
+        body{
+            background-image: url('https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fz8QZo%2FbtqDwemyFyI%2FXjjt1rN0QBYwMrzXQBWKxK%2Fimg.jpg');
+            background-repeat: no-repeat;
+            background-size: 1920px 1050px;
+        }
+    </style>
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+
+        <!-- Page content-->
+        <div style="text-align: center; margin-top: 200px;">
+            <img src="/img/integer_biglogo_white.png" style="margin-bottom: 100px;"><br>
+            <button id="login" class="btn btn-light" style="width: 200px; height: 100px; font-size: xx-large; color: #47a1d1; margin-right: 50px;">로그인</button>
+            <button id="guide" class="btn btn-light" style="width: 200px; height: 100px; font-size: xx-large; color: #47a1d1">가이드영상</button>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script>
+$("#login").click(function(){
+    location.href = '/login';
+});
+$("#guide").click(function (){
+    location.href='#';
+});
+</script>
+</body>
+</html>

@@ -31,10 +31,11 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
 
                 //접근허용 페이지
-                .antMatchers("/").authenticated()
+                .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/css/**", "/img/**", "/js/**", "/vendor/**", "/vendor/tools/**").permitAll()
+                .antMatchers("/index").authenticated()
 
                 //STOCK
                 .antMatchers("/stock/**").hasRole("STOCK")
@@ -48,13 +49,13 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/login")
                 .failureHandler(customFailureHandler)
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/index");
 
 
 
         http.csrf().disable();
         http.logout()
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl("/");
 
     }
 
