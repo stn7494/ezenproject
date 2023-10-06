@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/basic.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>자재관리</strong> | 입고내역</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="col">
+                            <form action="/stock/inList" method="get">
+                                <div class="col">
+                                    <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                                    <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
+
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <select class="form-select" name="type">
+                                                <option value="tcd" th:selected="${pageRequestDTO.type=='tcd'}">검색
+                                                </option>
+                                                <option value="t" th:selected="${pageRequestDTO.type=='t'}">제품코드
+                                                </option>
+                                                <option value="c" th:selected="${pageRequestDTO.type=='c'}">제품이름
+                                                </option>
+                                                <option value="d" th:selected="${pageRequestDTO.type=='d'}">입고일자
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="form-control" name="keyword"
+                                               th:value="${pageRequestDTO.keyword}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary searchBtn" type="submit">검색
+                                            </button>
+                                            <button class="btn btn-dark clearBtn" type="button">초기화
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <br>
+
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>품목코드</th>
+                                <th>품목이름</th>
+                                <th>품목분류1</th>
+                                <th>품목분류2</th>
+                                <th>입고수량</th>
+                                <th>공급단가</th>
+                                <th>입고일자</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="inlist,status:${inList.dtoList}">
+                                <td><input type="radio" name="orderCheck" th:value="${inlist.sino}"></td>
+                                <td>[[${inlist.order.contract.product.pcode}]]</td>
+                                <td>[[${inlist.order.contract.product.pname}]]</td>
+                                <td>[[${inlist.order.contract.product.middle.mname}]]</td>
+                                <td>[[${inlist.order.contract.product.middle.top.tname}]]</td>
+                                <td>[[${inlist.order.ocount}]]</td>
+                                <td>[[${inlist.order.contract.cprice}]]</td>
+                                <td>[[${inlist.sidate}]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="d-flex justify-content-between">
+
+                            <div class="ui-button">
+                                <ul class="pagination flex-wrap">
+                                    <li class="page-item" th:if="${inList.prev}">
+                                        <a class="page-link" th:data-num="${inList.start -1}">Previous</a>
+                                    </li>
+
+                                    <th:block th:each="i:${#numbers.sequence(inList.start, inList.end)}">
+                                        <li th:class="${inList.page == i}?'page-item active':'page-item'">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+
+                                    <li class="page-item" th:if="${inList.next}">
+                                        <a class="page-link" th:data-num="${inList.end +1}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="ui-button">
+                                <button type="button" class="btn btn-dark d-none">거래명세서발행</button>
+                            </div>
+                        </div> <!--카드바디끝-->
+                    </div> <!--카드끝-->
+                    <br>
+                </div>      <!-- * col 끝 * -->
+            </div>
+        </div>
+    </div>
+</div>
+    <script layout:fragment="script" th:inline="javascript">
+        document.querySelector(".pagination").addEventListener("click", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            const target = e.target
+            if (target.tagName !== 'A') {
+                return
+            }
+            const num = target.getAttribute("data-num")
+            const formObj = document.querySelector("form")
+            formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+            formObj.submit();
+        }, false)
+
+        document.querySelector(".clearBtn").addEventListener("click", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+
+            self.location = '/stock/inList'
+        }, false)
+
+    </script>
+    <body>
+
+    </body>
+</html>
