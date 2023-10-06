@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
     <title>Simple Sidebar - Start Bootstrap Template</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <link th:href="@{/css/styles.min.css}" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
     <style>
@@ -24,35 +25,40 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     </style>
 </head>
 <body>
+
+<!-- Sidebar-->
 <div class="d-flex" id="wrapper">
-    <!-- Sidebar-->
     <div class="border-end bg-white" id="sidebar-wrapper">
+
         <div class="sidebar-heading border-bottom bg-light"><a href="/"> <img src="/img/integer_black.png"></a></div>
         <div class="list-group list-group-flush">
             <th:block sec:authorize="hasAnyRole('ORDER','ADMIN')">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/order/list">발주관리</a>
             </th:block>
-                <th:block  sec:authorize="hasAnyRole('SUPPORT','ADMIN')">
-                    <div class ="dropdown"> <!--자재관리드롭다운-->
-                        <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle" href="/stock/stockList" role="button" data-bs-toggle="dropdown" aria-expanded="false">조달관리</a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="/product/list">품목관리</a></li>
-                            <li><a class="dropdown-item" href="/contract/list">계약관리</a></li>
-                            <li><a class="dropdown-item" href="/supportplan/list">조달계획관리</a></li>
-                        </ul>
-                    </div> <!--드롭다운끝-->
-                </th:block>
-                <th:block sec:authorize="hasAnyRole('STOCK','ADMIN')">
-                    <div class ="dropdown"> <!--자재관리드롭다운-->
-                      <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle" href="/stock/stockList" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">자재관리</a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li><a class="dropdown-item" href="/stock/stockList">자재목록</a></li>
-                            <li><a class="dropdown-item" href="/stock/orderList">발주목록</a></li>
-                            <li><a class="dropdown-item" href="/stock/inList">입고내역</a></li>
-                            <li><a class="dropdown-item" href="/stock/outList">출고내역</a></li>
-                        </ul>
-                    </div> <!--드롭다운끝-->
-                </th:block>
+            <th:block sec:authorize="hasAnyRole('SUPPORT','ADMIN')">
+                <div class="dropdown"> <!--자재관리드롭다운-->
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle"
+                       href="/stock/stockList" role="button" data-bs-toggle="dropdown" aria-expanded="false">조달관리</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="/product/list">품목목록</a></li>
+                        <li><a class="dropdown-item" href="/contract/list">계약관리</a></li>
+                        <li><a class="dropdown-item" href="/supportplan/list">조달계획관리</a></li>
+                    </ul>
+                </div> <!--드롭다운끝-->
+            </th:block>
+            <th:block sec:authorize="hasAnyRole('STOCK','ADMIN')">
+                <div class="dropdown"> <!--자재관리드롭다운-->
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 dropdown-toggle"
+                       href="/stock/stockList" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                       aria-expanded="false">자재관리</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="/stock/stockList">자재목록</a></li>
+                        <li><a class="dropdown-item" href="/stock/orderList">발주목록</a></li>
+                        <li><a class="dropdown-item" href="/stock/inList">입고내역</a></li>
+                        <li><a class="dropdown-item" href="/stock/outList">출고내역</a></li>
+                    </ul>
+                </div> <!--드롭다운끝-->
+            </th:block>
             <th:block sec:authorize="hasRole('ADMIN')">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" href="/admin/list">사원목록</a>
             </th:block>
@@ -62,18 +68,26 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         </div>
     </div>
     <!-- Page content wrapper-->
-    <div id="page-content-wrapper">
+    <div class="container-body" id="page-content-wrapper" >
         <!-- Top navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
                         <th:block>
                             <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                            <li class="nav-item active" sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">로그아웃</a></li>
-                            <li class="nav-item active" sec:authorize="isAnonymous()"><a class="nav-link" href="/login">로그인</a></li>
-                            <li class="nav-item active" sec:authorize="isAuthenticated()"><span sec:authentication="principal.username"></span></li>
+                            <li class="nav-item active" sec:authorize="isAuthenticated()"><a class="nav-link"
+                                                                                             href="/logout">로그아웃</a>
+                            </li>
+                            <li class="nav-item active" sec:authorize="isAnonymous()"><a class="nav-link" href="/login">로그인</a>
+                            </li>
+                            <li class="nav-link" sec:authorize="isAuthenticated()"><strong><span
+                                    sec:authentication="principal.username"></span></strong>님 환영합니다.
+                            </li>
                         </th:block>
                     </ul>
                 </div>
@@ -82,7 +96,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <!-- Page content-->
         <div class="container-fluid" layout:fragment="content">
             <h1 class="mt-4">Simple Sidebar</h1>
-            <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
+            <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on
+                larger screens. When toggled using the button below, the menu will change.</p>
             <p>
                 Make sure to keep all page content within the
                 <code>#page-content-wrapper</code>
@@ -92,6 +107,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </p>
         </div>
     </div>
+</div>
 </div>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

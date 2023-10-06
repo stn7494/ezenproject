@@ -1,114 +1,157 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="http://www.w3.org/1999/html"
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
     <title>계약리스트</title>
+    <style>
+        label {
+            margin-right: 2%
+        }
+
+    </style>
+
 </head>
+<body>
 <div layout:fragment="content">
-
-    <div class="row-mt-3">
-        <div class="col">
-            <form action="/contract/list" method="get">
-                <div class="col">
-                    <input type="hidden" name="size" th:value="${contractPageRequestDTO.size}">
-                    <div class="input-group">
-                        <span style="margin-top: auto;margin-right: 2%">계약상태</span>
-                        <div class="input-group-prepend">
-                            <select class="form-select" name="state" id="state">
-                                <option th:selected="${contractPageRequestDTO.state == 'all'}" value="all">전체</option>
-                                <option th:selected="${contractPageRequestDTO.state == 'complete'}"value="complete">계약완료</option>
-                                <option th:selected="${contractPageRequestDTO.state == 'end'}" value="end">계약종료</option>
-                            </select>
-                        </div>
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>조달관리</strong> | 계약관리</h5>
                     </div>
-                    <div class="col">
-                        <div class="input-group">
-                            <span style="margin-top: auto;margin-right: 2%">일반검색</span>
-                            <div class="input-group-prepend">
-                                <select class="form-select" name="type" id="type">
-                                    <option th:selected="${contractPageRequestDTO.type == 'all'}" value="all">전체</option>
-                                    <option th:selected="${contractPageRequestDTO.type == 'ccode'}" value="ccode">계약코드</option>
-                                    <option th:selected="${contractPageRequestDTO.type == 'pcode'}" value="pcode">품목코드</option>
-                                    <option th:selected="${contractPageRequestDTO.type == 'pname'}" value="pname">품목이름</option>
-                                    <option th:selected="${contractPageRequestDTO.type == 'ptname'}" value="ptname">납품업체</option>
-                                </select>
+                    <div class="card-body">
+                        <div class="col">
+                            <form action="/contract/list" method="get">
+                                <div class="col">
+                                    <input type="hidden" name="size" th:value="${contractPageRequestDTO.size}">
+                                    <div class="input-group">
+                                        <label><strong>계약상태</strong></label>
+                                        <div class="input-group-prepend">
+                                            <select class="form-select" name="state" id="state">
+                                                <option th:selected="${contractPageRequestDTO.state == 'all'}"
+                                                        value="all">전체
+                                                </option>
+                                                <option th:selected="${contractPageRequestDTO.state == 'complete'}"
+                                                        value="complete">계약완료
+                                                </option>
+                                                <option th:selected="${contractPageRequestDTO.state == 'end'}"
+                                                        value="end">계약종료
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="input-group">
+                                            <label><strong>일반검색</strong></label>
+                                            <div class="input-group-prepend">
+                                                <select class="form-select" name="type" id="type">
+                                                    <option th:selected="${contractPageRequestDTO.type == 'all'}"
+                                                            value="all">전체
+                                                    </option>
+                                                    <option th:selected="${contractPageRequestDTO.type == 'ccode'}"
+                                                            value="ccode">
+                                                        계약코드
+                                                    </option>
+                                                    <option th:selected="${contractPageRequestDTO.type == 'pcode'}"
+                                                            value="pcode">
+                                                        품목코드
+                                                    </option>
+                                                    <option th:selected="${contractPageRequestDTO.type == 'pname'}"
+                                                            value="pname">
+                                                        품목이름
+                                                    </option>
+                                                    <option th:selected="${contractPageRequestDTO.type == 'ptname'}"
+                                                            value="ptname">
+                                                        납품업체
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <input type="text" class="form-control" name="keyword" id="keyword"
+                                                   th:value="${contractPageRequestDTO.keyword}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary searchBtn" id="searchBtn"
+                                                        type="submit">
+                                                    검색
+                                                </button>
+                                                <button class="btn btn-dark clearBtn" type="button">초기화
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">계약코드</th>
+                                    <th scope="col">품목코드</th>
+                                    <th scope="col">품목이름</th>
+                                    <th scope="col">공급단가</th>
+                                    <th scope="col">납품업체</th>
+                                    <th scope="col">계약상태</th>
+                                </tr>
+                                </thead>
+                                <tbody th:with="link = ${contractPageRequestDTO.getLink()}">
+                                <tr th:each="dto:${responseDTO.dtoList}">
+                                    <td>
+                                        <a th:href="|@{/contract/detail(ccode=${dto.getCcode()})}&${link}|">[[${dto.ccode}]]</a>
+                                    </td>
+                                    <td th:text="${dto.getProduct().getPcode()}"></td>
+                                    <td th:text="${dto.getProduct().getPname()}"></td>
+                                    <td th:text="${dto.getCprice()}"></td>
+                                    <td th:text="${dto.getPartner().getPtname()}"></td>
+                                    <td th:text="${dto.getCstate()}"></td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                            <div class="d-flex justify-content-between">
+                                <div class="ui-button">
+                                    <ul style="margin: 0 auto" class="pagination flex-wrap">
+                                        <li class="page-item" th:if="${responseDTO.prev}">
+                                            <a class="page-link" th:data-num="${responseDTO.start -1}">맨앞으로</a>
+                                        </li>
+
+                                        <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                            <li th:class="${responseDTO.page == i}?'page-item active':'page-ietn'">
+                                                <a th:class="page-link" th:data-num="${i}" th:text="${i}"></a>
+                                            </li>
+                                        </th:block>
+
+                                        <li th:class="page-item" th:if="${responseDTO.next}">
+                                            <a th:class="page-link" th:data-num="${responseDTO.end+1}">다음</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="ui-button">
+                                    <button class="btn btn-primary" id="btn">계약등록</button>
+                                </div>
+
                             </div>
-                            <input type="text" class="form-control" name="keyword" id="keyword" th:value="${contractPageRequestDTO.keyword}">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary searchBtn" id="searchBtn" type="submit">검색</button>
-                                <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
-                            </div>
-                        </div><br/>
+                        </div>      <!-- * card-body끝 *-->
                     </div>
-                </div>
-            </form>
-            <div class="card">
-                <div class="card-header">
-                    <h6>계약관리</h6>
-                </div>
-                <div class="card-body">
-
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">계약코드</th>
-                            <th scope="col">품목코드</th>
-                            <th scope="col">품목이름</th>
-                            <th scope="col">공급단가</th>
-                            <th scope="col">납품업체</th>
-                            <th scope="col">계약상태</th>
-                        </tr>
-                        </thead>
-                        <tbody th:with="link = ${contractPageRequestDTO.getLink()}">
-                        <tr th:each="dto:${responseDTO.dtoList}">
-                            <td>
-                                <a th:href="|@{/contract/detail(ccode=${dto.getCcode()})}&${link}|">[[${dto.ccode}]]</a>
-                            </td>
-                            <td th:text="${dto.getProduct().getPcode()}"></td>
-                            <td th:text="${dto.getProduct().getPname()}"></td>
-                            <td th:text="${dto.getCprice()}"></td>
-                            <td th:text="${dto.getPartner().getPtname()}"></td>
-                            <td th:text="${dto.getCstate()}"></td>
-                        </tr>
-                        </tbody>
-
-                    </table>
-                    <div>
-                        <button class="btn btn-primary" id="btn">계약등록</button>
-                    </div>
-                    <div class="float-end">
-                        <ul style="margin: 0 auto" class="pagination flex-wrap">
-
-                            <li class="page-item" th:if="${responseDTO.prev}">
-                                <a class="page-link" th:data-num="${responseDTO.start -1}">맨앞으로</a>
-                            </li>
-
-                            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                                <li th:class="${responseDTO.page == i}?'page-item active':'page-ietn'">
-                                    <a th:class="page-link" th:data-num="${i}" th:text="${i}"></a>
-                                </li>
-                            </th:block>
-
-                            <li th:class="page-item" th:if="${responseDTO.next}">
-                                <a th:class="page-link" th:data-num="${responseDTO.end+1}">다음</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>      <!-- * card-body끝 *-->
-            </div>      <!-- * card 끝 *-->
-        </div>      <!-- * col 끝 * -->
+                </div>      <!-- * card 끝 *-->
+            </div>      <!-- * col 끝 * -->
+        </div>
     </div>
-
 </div>
+
+
+</body>
 <script layout:fragment="script" th:inline="javascript">
 
-    $("#btn").click(function(){
-       location.href='/contract/register';
+    $("#btn").click(function () {
+        location.href = '/contract/register';
     });
 
-    document.querySelector(".pagination").addEventListener("click", function(e){
+    document.querySelector(".pagination").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
 
@@ -123,7 +166,7 @@
         formObj.submit();
     }, false)
 
-    document.querySelector(".clearBtn").addEventListener("click", function(e){
+    document.querySelector(".clearBtn").addEventListener("click", function (e) {
         //클릭해도 이벤트 동작이 하지않게 막아줌
         e.preventDefault()
         // 이벤트가 동작시 상위 엘리먼트에게 전달되지 않고 해당 위치에서만 실행함
@@ -133,7 +176,4 @@
 
     }, false)
 </script>
-<body>
-
-</body>
 </html>

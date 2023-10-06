@@ -1,122 +1,129 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>조달-품목관리</title>
-  <link th:href="@{/css/styles.css}" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <meta charset="UTF-8">
+    <title>조달-품목관리</title>
+    <link th:href="@{/css/styles.css}" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
-      <div class="row mt-3">
+<div class="container-fluid">
+    <div class="row mt-4">
         <div class="col">
-          <form action="/supportplan/product" method="get">
-            <div class="col">
-              <input type="hidden" name="size" th:value="${contractPageRequestDTO.size}">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <select class="form-select" name="type">
-                    <option th:selected="${contractPageRequestDTO.type == 'all'}" value="all">전체</option>
-                    <option th:selected="${contractPageRequestDTO.type == 'pcode'}" value="pcode">품목코드</option>
-                    <option th:selected="${contractPageRequestDTO.type == 'pname'}" value="pname">품목이름</option>
-                  </select>
+            <form action="/supportplan/product" method="get">
+                <div class="col">
+                    <input type="hidden" name="size" th:value="${contractPageRequestDTO.size}">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <select class="form-select" name="type">
+                                <option th:selected="${contractPageRequestDTO.type == 'all'}" value="all">전체</option>
+                                <option th:selected="${contractPageRequestDTO.type == 'pcode'}" value="pcode">품목코드
+                                </option>
+                                <option th:selected="${contractPageRequestDTO.type == 'pname'}" value="pname">품목이름
+                                </option>
+                            </select>
+                        </div>
+                        <input type="text" class="form-control" name="keyword"
+                               th:value="${contractPageRequestDTO.keyword}">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
+                            <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                        </div>
+                    </div>
                 </div>
-                <input type="text" class="form-control" name="keyword" th:value="${contractPageRequestDTO.keyword}">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary searchBtn" type="submit">찾기</button>
-                  <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+            </form>
+            <div class="card">
+
+                <div class="card-header">
+                    조달관리 - 품목페이지
                 </div>
-              </div>
-            </div>
-          </form>
-          <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">품목관리 리스트</h5>
 
-            <div class="card-header">
-              조달관리 - 품목페이지
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">품목관리 리스트</h5>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">품목코드</th>
+                            <th scope="col">품목이름</th>
+                            <th scope="col">품목비고</th>
+                            <th scope="col">품목분류1(대분류)</th>
+                            <th scope="col">품목분류2(중분류)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="dto:${responseDTO.dtoList}">
+                            <th style="color: #0d6efd" onclick="sendValue(this.id)" th:id="${dto.getProduct().getPno()}"
+                                th:class="${dto.getProduct().getPno()}" scope="row">[[${dto.product.pno}]]
+                            </th>
+                            <td th:class="${dto.getProduct().getPno()}">[[${dto.product.pcode}]]</td>
+                            <td th:class="${dto.getProduct().getPno()}">[[${dto.product.pname}]]</td>
+                            <td th:class="${dto.getProduct().getPno()}">[[${dto.product.pnote}]]</td>
+                            <td th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.top.tname}]]</td>
+                            <td th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.mname}]]</td>
+                            <td style="display: none;" th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.mcode}]]</td>
+                            <td style="display: none;" th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.top.tcode}]]</td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-              <table class="table">
-                <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">품목코드</th>
-                  <th scope="col">품목이름</th>
-                  <th scope="col">품목비고</th>
-                  <th scope="col">품목분류1(대분류)</th>
-                  <th scope="col">품목분류2(중분류)</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="dto:${responseDTO.dtoList}">
-                  <th style="color: #0d6efd" onclick="sendValue(this.id)" th:id="${dto.getProduct().getPno()}" th:class="${dto.getProduct().getPno()}" scope="row">[[${dto.product.pno}]]</th>
-                  <td th:class="${dto.getProduct().getPno()}">[[${dto.product.pcode}]]</td>
-                  <td th:class="${dto.getProduct().getPno()}">[[${dto.product.pname}]]</td>
-                  <td th:class="${dto.getProduct().getPno()}">[[${dto.product.pnote}]]</td>
-                  <td th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.top.tname}]]</td>
-                  <td th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.mname}]]</td>
-                  <td style="display: none;" th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.mcode}]]</td>
-                  <td style="display: none;" th:class="${dto.getProduct().getPno()}">[[${dto.product.middle.top.tcode}]]</td>
-                </tr>
-                </tbody>
-              </table>
+                    <div class="float-end">
+                        <ul class="pagination flex-wrap">
 
-              <div class="float-end">
-                <ul class="pagination flex-wrap">
+                            <li class="page-item" th:if="${responseDTO.prev}">
+                                <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                            </li>
 
-                  <li class="page-item" th:if="${responseDTO.prev}">
-                    <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
-                  </li>
-
-                  <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                    <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
-                      <a class="page-link" th:data-num="${i}">[[${i}]]</a>
-                    </li>
-                  </th:block>
-                  <li class="page-item" th:if="${responseDTO.next}">
-                    <a class="page-link" th:data-num="${responseDTO.end + 1}">Next</a>
-                  </li>
-                </ul>
-              </div>
-            </div><!--end card body-->
-          </div><!--end card-->
+                            <th:block th:each="i: ${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                <li th:class="${responseDTO.page==i}?'page-item active':'page-item'">
+                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                </li>
+                            </th:block>
+                            <li class="page-item" th:if="${responseDTO.next}">
+                                <a class="page-link" th:data-num="${responseDTO.end + 1}">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div><!--end card body-->
+            </div><!--end card-->
         </div><!--end col-->
-      </div><!--end row-->
+    </div><!--end row-->
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-  document.querySelector(".pagination").addEventListener("click", function(e){
-    e.preventDefault()
-    e.stopPropagation()
+    document.querySelector(".pagination").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
 
-    const target = e.target
+        const target = e.target
 
-    const num = target.getAttribute("data-num")
+        const num = target.getAttribute("data-num")
 
-    const formObj = document.querySelector("form")
+        const formObj = document.querySelector("form")
 
-    formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
 
-    formObj.submit();
-  }, false)
+        formObj.submit();
+    }, false)
 
-  document.querySelector(".clearBtn").addEventListener("click", function (e){
-    e.preventDefault()
-    e.stopPropagation()
+    document.querySelector(".clearBtn").addEventListener("click", function (e) {
+        e.preventDefault()
+        e.stopPropagation()
 
-    self.location = '/supportplan/product'
-  },false)
+        self.location = '/supportplan/product'
+    }, false)
 
-  function sendValue(e) {
-    var date = document.getElementsByClassName(e);
-    console.log(date);
-    window.opener.document.getElementById("pno").value = date[0].innerHTML;
-    window.opener.document.getElementById("pcode").value = date[1].innerHTML;
-    window.opener.document.getElementById("pname").value =  date[2].innerHTML;
-    window.opener.document.getElementById("tname").value = date[4].innerHTML;
-    window.opener.document.getElementById("mcode").value = date[6].innerHTML;
-    window.opener.document.getElementById("tcode").value = date[7].innerHTML;
-    window.close();
-  }
+    function sendValue(e) {
+        var date = document.getElementsByClassName(e);
+        console.log(date);
+        window.opener.document.getElementById("pno").value = date[0].innerHTML;
+        window.opener.document.getElementById("pcode").value = date[1].innerHTML;
+        window.opener.document.getElementById("pname").value = date[2].innerHTML;
+        window.opener.document.getElementById("tname").value = date[4].innerHTML;
+        window.opener.document.getElementById("mcode").value = date[6].innerHTML;
+        window.opener.document.getElementById("tcode").value = date[7].innerHTML;
+        window.close();
+    }
 
 
 </script>

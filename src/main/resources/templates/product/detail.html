@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>품목 상세조회</title>
     <style>
-        span{
+        label {
             width: 150px;
             display: inline-block;
             text-align: center;
@@ -17,60 +17,63 @@
 </head>
 
 <div layout:fragment="content">
-    <div class="row-mt-3">
+    <div class="container-fluid"></div>
+    <div class="row mt-4">
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h5>품목 [상세조회]</h5>
+                    <h5><strong>조달관리</strong> | 품목상세조회</h5>
                 </div>
                 <div class="card-body">
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목순번</span>
+                        <label class="input-group-text">품목순번</label>
                         <input type="text" class="form-control" th:value="${dto.pno}" readonly>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목코드</span>
+                        <label class="input-group-text">품목코드</label>
                         <input type="text" class="form-control" th:value="${dto.pcode}" readonly>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목이름</span>
+                        <label class="input-group-text">품목이름</label>
                         <input type="text" class="form-control" th:value="${dto.pname}" readonly>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목분류1(대분류)</span>
+                        <label class="input-group-text">품목분류1(대분류)</label>
                         <input type="text" class="form-control" th:value="${dto.topDTO.tname}" readonly>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목분류2(중분류)</span>
+                        <label class="input-group-text">품목분류2(중분류)</label>
                         <input type="text" class="form-control" th:value="${dto.middleDTO.mname}" readonly>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목설명</span>
+                        <label class="input-group-text">품목설명</label>
                         <textarea class="form-control col-sm-5" rows="5" readonly>[[${dto.pcontent}]]</textarea>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목비고</span>
+                        <label class="input-group-text">품목비고</label>
                         <textarea class="form-control col-sm-5" rows="3" readonly>[[${dto.pnote}]]</textarea>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목사진</span>
-                            <img th:src="${dto.filepath}" width="200px;" height="200px;" style="margin: auto;">
+                        <label class="input-group-text">품목사진</label>
+                        <img th:src="${dto.filepath}" width="200px;" height="200px;" style="margin: auto;">
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목등록날짜</span>
-                        <input type="text" class="form-control" th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                        <label class="input-group-text">품목등록날짜</label>
+                        <input type="text" class="form-control"
+                               th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                     </div>
                     <div class="input-group mb-3">
-                        <span class="input-group-text">품목수정날짜</span>
-                        <input type="text" class="form-control" th:value="${#temporals.format(dto.pmoddate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
+                        <label class="input-group-text">품목수정날짜</label>
+                        <input type="text" class="form-control"
+                               th:value="${#temporals.format(dto.pmoddate, 'yyyy-MM-dd HH:mm:ss')}" readonly>
                     </div>
                     <div class="my-4">
                         <div class="float-end" th:with="link=${productPageRequestDTO.getLink()}">
                             <a th:href="|@{/product/list}?${link}|" class="text-decoration-none">
-                                <button type="button" class="btn btn-secondary">전체목록</button>
+                                <button type="button" class="btn btn-primary">전체목록</button>
                             </a>
                             <a th:href="|@{/product/modify(pno=${dto.pno})}&${link}|" class="text-decoration-none">
-                                <button type="button" class="btn btn-primary">품목수정</button>
+                                <button type="button" class="btn btn-dark">품목수정</button>
                             </a>
                         </div>
                     </div>
@@ -86,8 +89,6 @@
     if (result) {
         alert("품목 수정이 완료되었습니다.")
     }
-
-
 
 
 </script>

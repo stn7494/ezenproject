@@ -5,7 +5,7 @@
 <head>
     <title>ORDER DETAIL</title>
     <style>
-        span{
+        span {
             display: inline-block;
             width: 130px;
             justify-content: center;
@@ -15,44 +15,51 @@
 </head>
 
 <div layout:fragment="content">
-    <div class="row mt-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">자재 출고</h5>
-                    <hr>
-                    <input type="hidden" id="sno" name="sno" th:value="${dto.sno}">
-                    <input type="hidden" id="email" name="email" value="admin">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">품목코드</span>
-                        <input type="text" class="form-control" name="pcode" th:value="${dto.product.pcode}" readonly>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">품목이름</span>
-                        <input type="text" class="form-control viewPartner" style="font-weight: bold" name="pname" th:value="${dto.product.pname}" readonly>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">품목분류1</span>
-                        <input type="text" class="form-control" name="tname" th:value="${dto.product.middle.top.tname}" readonly>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">품목분류2</span>
-                        <input type="text" class="form-control" name="mname" th:value="${dto.product.middle.mname}" readonly>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">재고수량</span>
-                        <input type="text" class="form-control" name="cprice" th:value="${dto.sicountall-dto.socountall}" readonly>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">출고수량</span>
-                        <input type="text" class="form-control" name="socount" id="socount" >
-                    </div>
-                    <div class="my-4">
-                        <div class="float-end">
-                            <button id=btn1 class="btn btn-primary">목록으로</button>
-                            <button id=btn2 class="btn btn-dark">출고완료</button>
+                    <div class="card-body">
+                        <h5 class="card-title">자재 출고</h5>
+                        <hr>
+                        <input type="hidden" id="sno" name="sno" th:value="${dto.sno}">
+                        <input type="hidden" id="email" name="email" value="admin">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목코드</span>
+                            <input type="text" class="form-control" name="pcode" th:value="${dto.product.pcode}"
+                                   readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목이름</span>
+                            <input type="text" class="form-control viewPartner" style="font-weight: bold" name="pname"
+                                   th:value="${dto.product.pname}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목분류1</span>
+                            <input type="text" class="form-control" name="tname"
+                                   th:value="${dto.product.middle.top.tname}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">품목분류2</span>
+                            <input type="text" class="form-control" name="mname" th:value="${dto.product.middle.mname}"
+                                   readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">재고수량</span>
+                            <input type="text" class="form-control" name="cprice"
+                                   th:value="${dto.sicountall-dto.socountall}" readonly>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">출고수량</span>
+                            <input type="text" class="form-control" name="socount" id="socount">
+                        </div>
+                        <div class="my-4">
+                            <div class="float-end">
+                                <button id=btn1 class="btn btn-primary">목록으로</button>
+                                <button id=btn2 class="btn btn-dark">출고완료</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -63,29 +70,27 @@
 
 <script layout:fragment="script" th:inline="javascript">
 
-    $("#btn2").click(function(){
+    $("#btn2").click(function () {
         $.ajax({
             type: 'post',
-            url : '/stock/stockOut',
+            url: '/stock/stockOut',
             data: {
-                sno : $('#sno').val(),
-                email : $('#email').val(),
-                socount : $('#socount').val(),
-                },
-            success : function() {
+                sno: $('#sno').val(),
+                email: $('#email').val(),
+                socount: $('#socount').val(),
+            },
+            success: function () {
                 location.href = '/stock/stockList';
             },
-            error : function() {
+            error: function () {
                 alert("error");
             }
         })
     })
 
-    $("#btn1").click(function(){
+    $("#btn1").click(function () {
         location.href = '/stock/stockList';
     })
-
-
 
 
 </script>

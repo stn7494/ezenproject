@@ -7,139 +7,151 @@
     <title>ORDER LIST</title>
 </head>
 <div layout:fragment="content">
-
-    <div class="row mt-3">
-        <form class="sortForm" action="/order/list" method="get">
+    <div class="container-fluid">
+        <div class="row mt-4">
             <div class="col">
-                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
-                <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                    <select class="form-select" onchange="state(this.value)">
-                        <option>발주 상태</option>
-                        <option value="발주신청">발주신청</option>
-                        <option value="발주확인">발주확인</option>
-                        <option value="진척검수">진척검수</option>
-                        <option value="검수완료">검수완료</option>
-                        <option value="입고완료">입고완료</option>
-                        <option value="발주취소">발주취소</option>
-                    </select>
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>발주 관리</strong> | 목록</h5>
                     </div>
-                    <div class="input-group-prepend">
-                        <select class="form-select" name="type">
-                            <option value="spt" th:selected="${pageRequestDTO.type=='spt'}">검색</option>
-                            <option value="sp" th:selected="${pageRequestDTO.type=='sp'}">제품명</option>
-                            <option value="st" th:selected="${pageRequestDTO.type=='st'}">업체명</option>
-                        </select>
-                    </div>
-                    <input type="text" class="form-control" name="keyword" id="keyword" th:value="${pageRequestDTO.keyword}">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary searchBtn" type="submit">검색</button>
-                        <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+                    <div class="card-body">
+                        <form class="sortForm" action="/order/list" method="get">
+                            <div class="col">
+                                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                                <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select class="form-select" onchange="state(this.value)">
+                                        <option>발주 상태 선택</option>
+                                        <option value="발주신청">발주신청</option>
+                                        <option value="발주확인">발주확인</option>
+                                        <option value="진척검수">진척검수</option>
+                                        <option value="검수완료">검수완료</option>
+                                        <option value="입고완료">입고완료</option>
+                                        <option value="발주취소">발주취소</option>
+                                    </select>
+                                </div>
+                            <div class="col">
+                                <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <select class="form-select" name="type">
+                                        <option value="spt" th:selected="${pageRequestDTO.type=='spt'}">통합 검색
+                                        </option>
+                                        <option value="sp" th:selected="${pageRequestDTO.type=='sp'}">제품명 검색
+                                        </option>
+                                        <option value="st" th:selected="${pageRequestDTO.type=='st'}">업체명 검색
+                                        </option>
+                                    </select>
+                                </div>
+                                <input type="text" class="form-control" name="keyword" id="keyword"
+                                       th:value="${pageRequestDTO.keyword}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary searchBtn" type="submit">검색</button>
+                                    <button class="btn btn-dark clearBtn" type="button">초기화</button>
+                                </div>
+                                </div>
+                            </div><br/>
+                            </div>
+                            <br/>
+                        </form>
 
-    <div class="row mt-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">발주 목록</h5>
-                    <hr>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">발주 번호</th>
-                            <th scope="col">발주 코드</th>
-                            <th scope="col">제품명</th>
-                            <th scope="col">수량</th>
-                            <th scope="col">단가</th>
-                            <th scope="col">업체명</th>
-                            <th scope="col">발주 등록일</th>
-                            <th scope="col">납기 마감일</th>
-                            <th scope="col">발주 상태</th>
-                        </tr>
-                        </thead>
-                        <tbody th:with="link = ${pageRequestDTO.getLink()}">
-                        <tr th:each="dto:${responseDTO.dtoList}">
-                            <td>[[${dto.ono}]]</td>
-                            <td>
-                                <a th:href="|@{/order/detail(ono=${dto.ono})}&${link}|" class="text-decoration-none">[[${dto.ocode}]]</a>
-                            </td>
-                            <td>[[${dto.contract.product.pname}]]</td>
-                            <td>[[${dto.ocount}]]</td>
-                            <td>[[${dto.contract.cprice}]]</td>
-                            <td>[[${dto.contract.partner.ptname}]]</td>
-                            <td>[[${dto.odate}]]</td>
-                            <td>[[${dto.supportplan.spdelidate}]]</td>
-                            <td>[[${dto.ostate}]]</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div>
-                        <button type="button" class="btn btn-primary regiBtn">발주 신청</button>
-                    </div>
-                    <div class="float-end">
-                        <ul class="pagination flex-wrap">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">발주 번호</th>
+                                <th scope="col">발주 코드</th>
+                                <th scope="col">제품명</th>
+                                <th scope="col">수량</th>
+                                <th scope="col">단가</th>
+                                <th scope="col">업체명</th>
+                                <th scope="col">발주 등록일</th>
+                                <th scope="col">납기 마감일</th>
+                                <th scope="col">발주 상태</th>
+                            </tr>
+                            </thead>
+                            <tbody th:with="link = ${pageRequestDTO.getLink()}">
+                            <tr th:each="dto:${responseDTO.dtoList}">
+                                <td>[[${dto.ono}]]</td>
+                                <td>
+                                    <a th:href="|@{/order/detail(ono=${dto.ono})}&${link}|"
+                                       class="text-decoration-none">[[${dto.ocode}]]</a>
+                                </td>
+                                <td>[[${dto.contract.product.pname}]]</td>
+                                <td>[[${dto.ocount}]]</td>
+                                <td>[[${dto.contract.cprice}]]</td>
+                                <td>[[${dto.contract.partner.ptname}]]</td>
+                                <td>[[${dto.odate}]]</td>
+                                <td>[[${dto.supportplan.spdelidate}]]</td>
+                                <td>[[${dto.ostate}]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-                            <li class="page-item" th:if="${responseDTO.prev}">
-                                <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
-                            </li>
+                        <div class="d-flex justify-content-between">
+                            <div class="ui-button">
+                                <ul class="pagination flex-wrap">
 
-                            <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                                <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
-                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
-                                </li>
-                            </th:block>
+                                    <li class="page-item" th:if="${responseDTO.prev}">
+                                        <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                                    </li>
 
-                            <li class="page-item" th:if="${responseDTO.next}">
-                                <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
-                            </li>
-                        </ul>
+                                    <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                        <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+
+                                    <li class="page-item" th:if="${responseDTO.next}">
+                                        <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="ui-button">
+                                <button type="button" class="btn btn-primary regiBtn">발주 신청</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 
 <script layout:fragment="script" th:inline="javascript">
 
-    document.querySelector(".pagination").addEventListener("click", function (e){
+    document.querySelector(".pagination").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
-        const target =e.target
-        if(target.tagName !== 'A'){
+        const target = e.target
+        if (target.tagName !== 'A') {
             return
         }
-        const num=target.getAttribute("data-num")
-        const formObj=document.querySelector("form")
-        formObj.innerHTML+=`<input type='hidden' name='page' value='${num}'>`
+        const num = target.getAttribute("data-num")
+        const formObj = document.querySelector("form")
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
         formObj.submit();
     }, false)
 
 
-    document.querySelector(".clearBtn").addEventListener("click", function (e){
+    document.querySelector(".clearBtn").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
-        self.location="/order/list"
+        self.location = "/order/list"
     }, false)
 
-    document.querySelector(".regiBtn").addEventListener("click", function (e){
+    document.querySelector(".regiBtn").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
-        self.location="/order/register"
+        self.location = "/order/register"
     }, false)
 
 
     function state(value) {
         console.log(value)
-        document.getElementById("keyword").value=value
+        document.getElementById("keyword").value = value
         document.querySelector(".sortForm").submit()
     }
 

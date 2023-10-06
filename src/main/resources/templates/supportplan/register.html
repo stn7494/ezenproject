@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        span{
+        span {
             width: 130px;
             display: inline-block;
             text-align: center;
@@ -16,85 +16,88 @@
     </style>
 </head>
 <div layout:fragment="content">
-
-    <div class="row-mt-3">
-        <div class="col">
-            <form method="post" id="register" action="/supportplan/register">
-                <div class="card" style="margin-bottom: 5%">
-                    <div class="card-header">
-                        <h5>조달계획 등록하기</h5>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <form method="post" id="register" action="/supportplan/register">
+                    <div class="card" style="margin-bottom: 5%">
+                        <div class="card-header">
+                            <h5>조달계획 등록하기</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">품목코드</span>
+                                <input type="hidden" id="pno" name="pno">
+                                <input type="hidden" id="tcode" name="tcode">
+                                <input type="hidden" id="mcode" name="mcode">
+                                <input type="text" id="pcode" name="pcode" class="form-control" readonly
+                                       placeholder="클릭하세요!!!">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">품목이름</span>
+                                <input type="text" id="pname" name="tname" class="form-control" readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">대분류</span>
+                                <input type="text" id="tname" name="tname" class="form-control" readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">소요일정</span>
+                                <input type="date" id="spdate" name="spdate" class="form-control">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">소요량</span>
+                                <input type="number" id="spcount" name="spcount" class="form-control">
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">조달납기</span>
+                                <input type="date" id="spdelidate" name="spdelidate" class="form-control">
+                            </div>
+                            <div class="float-end">
+                                <input class="btn btn-primary" type="button" value="등록" onclick="register()">
+                                <input class="btn btn-dark" type="button" value="목록" onclick="back()">
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목코드</span>
-                            <input type="hidden" id="pno" name="pno">
-                            <input type="hidden" id="tcode" name="tcode">
-                            <input type="hidden" id="mcode" name="mcode">
-                            <input type="text" id="pcode" name="pcode" class="form-control" readonly placeholder="클릭하세요!!!">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목이름</span>
-                            <input type="text" id="pname" name="tname" class="form-control" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">대분류</span>
-                            <input type="text" id="tname" name="tname" class="form-control" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">소요일정</span>
-                            <input type="date" id="spdate" name="spdate" class="form-control">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">소요량</span>
-                            <input type="number" id="spcount" name="spcount" class="form-control">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">조달납기</span>
-                            <input type="date" id="spdelidate" name="spdelidate" class="form-control">
-                        </div>
-                        <div class="float-end">
-                            <input class="btn btn-primary" type="button" value="등록" onclick="register()">
-                            <input class="btn btn-dark" type="button" value="목록" onclick="back()">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>      <!-- * col 끝 * -->
+                </form>
+            </div>      <!-- * col 끝 * -->
+        </div>
     </div>
-
 </div>
 <script layout:fragment="script" th:inline="javascript">
-    function register(){
+    function register() {
         console.log(typeof $("#spcount").val());
         var objform = $("#register");
-        if($("#pcode").val() == ""){
+        if ($("#pcode").val() == "") {
             alert("품목을 선택해주세요");
             $("#pcode").focus();
-        }else if($("#spdate").val() == ""){
+        } else if ($("#spdate").val() == "") {
             alert("소요일정을 입력해주세요");
             $("#spdate").focus();
-        }else if($("#spcount").val() == ""){
+        } else if ($("#spcount").val() == "") {
             alert("소요량을 입력해주세요");
             $("#spcount").focus();
-        }else if($("#spcount").val() <= 0) {
+        } else if ($("#spcount").val() <= 0) {
             alert("1개 이상의 숫자를 입력해주세요");
             $("#spcount").focus();
-        }else if($("#spdelidate").val() == ""){
+        } else if ($("#spdelidate").val() == "") {
             alert("조달납기일을 입력해주세요");
             $("#spdelidate").focus();
-        }else if($("#spdelidate").val() > $("#spdate").val()){
+        } else if ($("#spdelidate").val() > $("#spdate").val()) {
             alert("조달납기일이 소요일정보다 빠를수 없습니다");
-        }else{
+        } else {
+            alert($("#mcode").val());
             objform.submit();
         }
 
     }
 
-    function back(){
+    function back() {
         location.href = '/supportplan/list';
     }
-    $("#pcode").click(function(){
-        window.open("/supportplan/product","product","width=1000, height=700");
+
+    $("#pcode").click(function () {
+        window.open("/supportplan/product", "product", "width=1000, height=700");
     })
 </script>
 <body>
