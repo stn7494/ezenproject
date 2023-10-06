@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>품목 등록</title>
     <style>
-        span{
+        label {
             width: 150px;
             display: inline-block;
             text-align: center;
@@ -17,60 +17,74 @@
 </head>
 
 <div layout:fragment="content">
-    <div class="row-mt-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <h5>품목 [등록]</h5>
-                </div>
-                <div class="card-body">
-                    <h2>품목정보를 입력해주세요</h2>
-                    <form action="/product/register" method="post" id="insert" enctype="multipart/form-data">
-                        <select name="tcode" id="tcode" onchange="product_tvalue()">
-                            <option value="">-품목분류1(대분류)-</option>
-                            <option value="T01">데스크탑</option>
-                            <option value="T02">악세사리</option>
-                            <option value="T03">기타</option>
-                        </select>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>자재관리</strong> | 품목등록</h5>
+                    </div>
+                    <div class="card-body">
 
-                        <select name="mcode" id="mcode" onchange="product_mvalue()"></select>
+                        <form action="/product/register" method="post" id="insert" enctype="multipart/form-data">
 
-                        <div><span id='ppcode'></span></div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목코드</span>
-                            <input type="text" id="pcode" name="pcode" class="form-control" placeholder="품목분류 선택시 자동으로 생성이 됩니다." readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목이름</span>
-                            <input type="text" id="pname" name="pname" class="form-control" placeholder="품목이름을 입력해주세요">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목설명</span>
-                            <textarea class="form-control col-sm-5" rows="5" name="pcontent" id="pcontent"></textarea>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">비고</span>
-                            <textarea class="form-control col-sm-5" rows="5" name="pnote"></textarea>
-                        </div>
-                             <!--파일업로드-->
-                             <!--파일 선택추가-->
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목사진</span>
-                            <input type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
-                        </div>
-                        <div class="my-4">
-                            <div class="float-end">
-                                <a th:href="|@{/product/list}|" class="text-decoration-none">
-                                    <button type="button" class="btn btn-secondary">목록</button>
-                                </a>
-                                <button type="button" class="btn btn-primary" onclick="insert()">품목등록완료</button>
-                                <button type="reset" class="btn btn-danger">리셋</button>
+                                <div class="ui-button">
+                                    <select class="form-select" name="tcode" id="tcode" onchange="product_tvalue()" >
+                                        <option value="T00" selected>대분류</option>
+                                        <optgroup label="──────────────"></optgroup>
+                                        <option value="T01">- 데스크탑</option>
+                                        <option value="T02">- 악세사리</option>
+                                        <option value="T03">- 기타</option>
+                                    </select>
+                                </div>
+                                <div class="ui-button">
+                                <select class="form-select" name="mcode" id="mcode"
+                                        onchange="product_mvalue()">
+                                    <option value="" selected>대분류를 선택해주세요</option>
+                                </select>
+                                </div>
+
+
+                            <div><label id='ppcode' ca></label></div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목코드</label>
+                                <input type="text" id="pcode" name="pcode" class="form-control"
+                                       placeholder="품목분류 선택시 자동으로 생성이 됩니다." readonly>
                             </div>
-                        </div>
-                    </form>
-                </div>      <!-- * card-body끝 *-->
-            </div>      <!-- * card 끝 *-->
-        </div>      <!-- * col 끝 * -->
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목이름</label>
+                                <input type="text" id="pname" name="pname" class="form-control"
+                                       placeholder="품목이름을 입력해주세요">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목설명</label>
+                                <textarea class="form-control col-sm-5" rows="5" name="pcontent"
+                                          id="pcontent"></textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">비고</label>
+                                <textarea class="form-control col-sm-5" rows="5" name="pnote"></textarea>
+                            </div>
+                            <!--파일업로드-->
+                            <!--파일 선택추가-->
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목사진</label>
+                                <input class="form-control" type="file" name="file"> <!--name이름을 controller의 매개변수 이름과 동일하게 설정-->
+                            </div>
+                            <div class="my-4">
+                                <div class="float-end">
+                                    <button type="button" class="btn btn-primary" onclick="insert()">품목등록완료</button>
+                                    <a th:href="|@{/product/list}|" class="text-decoration-none">
+                                        <button type="button" class="btn btn-dark">목록</button>
+                                    </a>
+                                    <button type="reset" class="btn btn-dark">초기화</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>      <!-- * card-body끝 *-->
+                </div>      <!-- * card 끝 *-->
+            </div>
+        </div><!-- * col 끝 * -->
     </div>
 
     <script layout:fragment="script" th:inline="javascript">
@@ -80,65 +94,71 @@
         var now = today.toLocaleDateString('ko-KR');
 
         let date = today.getFullYear()
-            + ((today.getMonth()+1) < 10 ? "0" + (today.getMonth()+1) : (today.getMonth()+1).toString())
+            + ((today.getMonth() + 1) < 10 ? "0" + (today.getMonth() + 1) : (today.getMonth() + 1).toString())
             + ((today.getDate()) < 9 ? "0" + (today.getDate()) : (today.getDate()));
 
         console.log(now);
 
         //2. 품목코드 selectBox
-        function product_tvalue(){
+        function product_tvalue() {
             let mopk = document.getElementById('mcode');
             let topk = document.getElementById('tcode');
             mopk.innerHTML = '';
-            if(topk.value == "T01"){
-                mopk.innerHTML += '<option value="">-품목분류2(중분류)-</option>';
-                mopk.innerHTML += '<option value="M01">CPU</option>';
-                mopk.innerHTML += '<option value="M02">메인보드</option>';
-                mopk.innerHTML += '<option value="M03">메모리</option>';
-                mopk.innerHTML += '<option value="M04">그래픽카드</option>';
-                mopk.innerHTML += '<option value="M05">SSD</option>';
+            if (topk.value == "T01") {
+                mopk.innerHTML += '<option value="" selected>중분류</option>';
+                mopk.innerHTML += '<optgroup label="──────────────"></optgroup>';
+                mopk.innerHTML += '<option value="M01">- CPU</option>';
+                mopk.innerHTML += '<option value="M02">- 메인보드</option>';
+                mopk.innerHTML += '<option value="M03">- 메모리</option>';
+                mopk.innerHTML += '<option value="M04">- 그래픽카드</option>';
+                mopk.innerHTML += '<option value="M05">- SSD</option>';
 
-            }else if (topk.value == "T02"){
-                mopk.innerHTML += '<option value="">-품목분류2(중분류)-</option>';
-                mopk.innerHTML += '<option value="M11">키보드</option>';
-                mopk.innerHTML += '<option value="M12">마우스</option>';
-                mopk.innerHTML += '<option value="M13">스피커</option>';
-                mopk.innerHTML += '<option value="M14">공유기</option>';
-                mopk.innerHTML += '<option value="M15">모니터</option>';
-            }else if (topk.value == "T03"){
-                mopk.innerHTML += '<option value="">-품목분류2(중분류)-</option>';
-                mopk.innerHTML += '<option value="M21">USB</option>';
-                mopk.innerHTML += '<option value="M22">메모리</option>';
-                mopk.innerHTML += '<option value="M23">케이블</option>';
+            } else if (topk.value == "T02") {
+                mopk.innerHTML += '<option value="" selected>중분류</option>';
+                mopk.innerHTML += '<optgroup label="──────────────"></optgroup>';
+                mopk.innerHTML += '<option value="M11">- 키보드</option>';
+                mopk.innerHTML += '<option value="M12">- 마우스</option>';
+                mopk.innerHTML += '<option value="M13">- 스피커</option>';
+                mopk.innerHTML += '<option value="M14">- 공유기</option>';
+                mopk.innerHTML += '<option value="M15">- 모니터</option>';
+            } else if (topk.value == "T03") {
+                mopk.innerHTML += '<option value="" selected>중분류</option>';
+                mopk.innerHTML += '<optgroup label="──────────────">중분류</optgroup>';
+                mopk.innerHTML += '<option value="M21">- USB</option>';
+                mopk.innerHTML += '<option value="M22">- 메모리</option>';
+                mopk.innerHTML += '<option value="M23">- 케이블</option>';
+            } else if (topk.value == "T00") {
+                mopk.innerHTML += '<option value="" selected>대분류를 선택해주세요</option>';
             }
         }
 
-        function product_mvalue(){
+        function product_mvalue() {
             let tcode = $("#tcode option:selected").val();
             let mcode = $("#mcode option:selected").val();
-            now = now.replaceAll('.','');
-            now = now.replaceAll(' ','');
+            now = now.replaceAll('.', '');
+            now = now.replaceAll(' ', '');
 
             //3. 품목코드 랜덤 문자열 생성
             var code = " QWERTYUIOPLKJHGFDSAZXCVBNM";
-            var random1 = Math.floor(Math.random()*26);
-            var random2 = Math.floor(Math.random()*26);
+            var random1 = Math.floor(Math.random() * 26);
+            var random2 = Math.floor(Math.random() * 26);
 
             //4. 품목코드 랜덤 숫자 생성
-            const random3 = Math.floor(Math.random()*10);
-            const random4 = Math.floor(Math.random()*10);
+            const random3 = Math.floor(Math.random() * 10);
+            const random4 = Math.floor(Math.random() * 10);
 
-            $("#pcode").val("P"+date+tcode+mcode+code[random1]+code[random2]+random3+random4);
+            $("#pcode").val("P" + date + tcode + mcode + code[random1] + code[random2] + random3 + random4);
         }
+
         // 유효성 검사
         function insert() {
-            if($("#pcode").val()==""){
+            if ($("#pcode").val() == "") {
                 alert("[품목분류]를 선택해주세요")
                 return false;
-            }else if ($("#pname").val()==""){
+            } else if ($("#pname").val() == "") {
                 alert("[품목이름]을 입력해주세요")
                 return false;
-            }else if($("#pcontent").val()==""){
+            } else if ($("#pcontent").val() == "") {
                 alert("[품목설명]을 입력해주세요")
                 return false;
             }

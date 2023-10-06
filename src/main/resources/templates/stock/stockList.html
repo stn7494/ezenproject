@@ -7,126 +7,129 @@
     <title>Title</title>
 </head>
 <div layout:fragment="content">
-    <div class="row mt-3">
-        <form action="/stock/stockList" method="get">
+    <div class="container-fluid">
+        <div class="row mt-4">
             <div class="col">
-                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
-                <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
+                <div class="card">
 
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <select class="form-select" name="type">
-                            <option value="tc" th:selected="${pageRequestDTO.type=='tc'}">검색</option>
-                            <option value="t" th:selected="${pageRequestDTO.type=='t'}">제품코드</option>
-                            <option value="c" th:selected="${pageRequestDTO.type=='c'}">제품이름</option>
-                        </select>
+                    <div class="card-header">
+                        <h5><strong>자재관리</strong> | 자재목록</h5>
                     </div>
-                    <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary searchBtn" type="submit">검색</button>
-                        <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
-                    </div>
-                </div>
-            </div>
-        </form>
+                    <div class="card-body">
+                        <form action="/stock/stockList" method="get">
+                            <div class="col">
+                                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                                <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
+
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <select class="form-select" name="type">
+                                            <option value="tc" th:selected="${pageRequestDTO.type=='tc'}">검색</option>
+                                            <option value="t" th:selected="${pageRequestDTO.type=='t'}">제품코드</option>
+                                            <option value="c" th:selected="${pageRequestDTO.type=='c'}">제품이름</option>
+                                        </select>
+                                    </div>
+                                    <input type="text" class="form-control" name="keyword"
+                                           th:value="${pageRequestDTO.keyword}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary searchBtn" type="submit">검색</button>
+                                        <button class="btn btn-dark clearBtn" type="button">초기화</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>번호</th>
+                                <th>품목코드</th>
+                                <th>품목이름</th>
+                                <th>품목분류1</th>
+                                <th>품목분류2</th>
+                                <th>입고수량</th>
+                                <th>출고수량</th>
+                                <th>재고수량</th>
+                                <th>공급단가</th>
+                                <th>재고금액</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="sList,status:${responseDTO.dtoList}">
+                                <td><input type="radio" name="stockCheck" th:value="${sList.sno}"></td>
+                                <td>[[${status.index+1}]]</td>
+                                <td>[[${sList.product.pcode}]]</td>
+                                <td>[[${sList.product.pname}]]</td>
+                                <td>[[${sList.product.middle.top.tname}]]</td>
+                                <td>[[${sList.product.middle.mname}]]</td>
+                                <td>[[${sList.sicountall}]]개</td>
+                                <td>[[${sList.socountall}]]개</td>
+                                <td>[[${sList.sicountall-sList.socountall}]]개</td>
+                                <td>[[${sList.contract.cprice}]]원</td>
+                                <td>[[${(sList.sicountall-sList.socountall)*sList.contract.cprice}]]원</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between">
+                            <div class="ui-button">
+                                <ul class="pagination flex-wrap">
+                                    <li class="page-item" th:if="${responseDTO.prev}">
+                                        <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
+                                    </li>
+
+                                    <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
+                                        <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+
+                                    <li class="page-item" th:if="${responseDTO.next}">
+                                        <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="ui-button">
+                                    <button type="button" class="btn btn-primary d-none">리포트</button>
+                                    <button type="button" id="stockOut" class="btn btn-dark">자재출고</button>
+                                    <button type="button" class="btn btn-dark d-none">재고마감</button>
+                            </div>
+                        </div>
+                    </div>      <!-- * card-body끝 *-->
+                </div>      <!-- * card 끝 *-->
+            </div>      <!-- * col 끝 * -->
+        </div>
     </div>
-    <div class="row-mt-3">
-        <div class="col">
-            <br>
-            <div class="card">
-
-                <div class="card-header">
-                    <h5><b>자재목록</b></h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>번호</th>
-                            <th>품목코드</th>
-                            <th>품목이름</th>
-                            <th>품목분류1</th>
-                            <th>품목분류2</th>
-                            <th>입고수량</th>
-                            <th>출고수량</th>
-                            <th>재고수량</th>
-                            <th>공급단가</th>
-                            <th>재고금액</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="sList,status:${responseDTO.dtoList}">
-                            <th><input type="radio" name="stockCheck" th:value="${sList.sno}"></th>
-                            <th>[[${status.index+1}]]</th>
-                            <th>[[${sList.product.pcode}]]</th>
-                            <th>[[${sList.product.pname}]]</th>
-                            <th>[[${sList.product.middle.top.tname}]]</th>
-                            <th>[[${sList.product.middle.mname}]]</th>
-                            <th>[[${sList.sicountall}]]개</th>
-                            <th>[[${sList.socountall}]]개</th>
-                            <th>[[${sList.sicountall-sList.socountall}]]개</th>
-                            <th>[[${sList.contract.cprice}]]원</th>
-                            <th>[[${(sList.sicountall-sList.socountall)*sList.contract.cprice}]]원</th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="my-4">
-                        <button type="button" class="btn btn-dark">리포트</button>
-                        <button type="button" id="stockOut" class="btn btn-dark">자재출고</button>
-                        <button type="button" class="btn btn-dark">재고마감</button>
-                    </div>
-                    <div class="float-end">
-                        <ul class="pagination flex-wrap">
-                            <li class="page-item" th:if="${responseDTO.prev}">
-                                <a class="page-link" th:data-num="${responseDTO.start -1}">Previous</a>
-                            </li>
-
-                            <th:block th:each="i:${#numbers.sequence(responseDTO.start, responseDTO.end)}">
-                                <li th:class="${responseDTO.page == i}?'page-item active':'page-item'">
-                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
-                                </li>
-                            </th:block>
-
-                            <li class="page-item" th:if="${responseDTO.next}">
-                                <a class="page-link" th:data-num="${responseDTO.end +1}">Next</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>      <!-- * card-body끝 *-->
-            </div>      <!-- * card 끝 *-->
-        </div>      <!-- * col 끝 * -->
-    </div>
-
 </div>
 <script layout:fragment="script" th:inline="javascript">
 
-    document.querySelector(".pagination").addEventListener("click", function (e){
+    document.querySelector(".pagination").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
-        const target =e.target
-        if(target.tagName !== 'A'){
+        const target = e.target
+        if (target.tagName !== 'A') {
             return
         }
-        const num=target.getAttribute("data-num")
-        const formObj=document.querySelector("form")
-        formObj.innerHTML+=`<input type='hidden' name='page' value='${num}'>`
+        const num = target.getAttribute("data-num")
+        const formObj = document.querySelector("form")
+        formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
         formObj.submit();
     }, false)
 
-    $("#stockOut").click(function(){
-        if($('input:radio[name=stockCheck]').is(":checked")){
+    $("#stockOut").click(function () {
+        if ($('input:radio[name=stockCheck]').is(":checked")) {
             var sno = $('input[name=stockCheck]:checked').val();
-            location.href = '/stock/stockOut?sno='+sno;
+            location.href = '/stock/stockOut?sno=' + sno;
         }
     })
 
-    document.querySelector(".clearBtn").addEventListener("click", function (e){
+    document.querySelector(".clearBtn").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
 
         self.location = '/stock/stockList'
-    },false)
+    }, false)
 </script>
 <body>
 

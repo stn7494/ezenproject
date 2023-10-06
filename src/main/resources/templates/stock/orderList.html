@@ -8,124 +8,122 @@
 </head>
 
 <div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
 
-    <div class="row-mt-3">
-        <div class="col">
-            <br>
-            <form action="/stock/orderList" method="get">
-                <div class="col">
-                    <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
-                    <input type="hidden" name="sort" th:value="${pageRequestDTO.sort}">
+                <div class="card">
 
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <select class="form-select" name="type">
-                                <option value="tcd" th:selected="${pageRequestDTO.type=='tcd'}">검색</option>
-                                <option value="t" th:selected="${pageRequestDTO.type=='t'}">제품코드</option>
-                                <option value="c" th:selected="${pageRequestDTO.type=='c'}">제품이름</option>
-                                <option value="d" th:selected="${pageRequestDTO.type=='d'}">발주일자</option>
-                            </select>
+                    <div class="card-header">
+                        <h5><strong>자재관리</strong> | 발주목록</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <select class="form-select" name="type">
+                                    <option value="tcd" th:selected="${pageRequestDTO.type=='tcd'}">검색</option>
+                                    <option value="t" th:selected="${pageRequestDTO.type=='t'}">제품코드</option>
+                                    <option value="c" th:selected="${pageRequestDTO.type=='c'}">제품이름</option>
+                                    <option value="d" th:selected="${pageRequestDTO.type=='d'}">발주일자</option>
+                                </select>
+                            </div>
+                            <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary searchBtn" type="submit">검색</button>
+                                <button class="btn btn-dark clearBtn" type="button">초기화</button>
+                            </div>
                         </div>
-                        <input type="text" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-secondary searchBtn" type="submit">검색</button>
-                            <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <br>
-            <div class="card">
+                        <br>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>선택</th>
+                                <th>품목코드</th>
+                                <th>품목이름</th>
+                                <th>품목분류1</th>
+                                <th>품목분류2</th>
+                                <th>입고수량</th>
+                                <th>품목금액</th>
+                                <th>발주일자</th>
+                                <th>발주상태</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="olist,status:${oList.dtoList}">
+                                <td><input type="radio" name="orderCheck" th:value="${olist.ono}"></td>
+                                <td>[[${olist.contract.product.pcode}]]</td>
+                                <td>[[${olist.contract.product.pname}]]</td>
+                                <td>[[${olist.contract.product.middle.mname}]]</td>
+                                <td>[[${olist.contract.product.middle.top.tname}]]</td>
+                                <td>[[${olist.ocount}]]</td>
+                                <td>[[${olist.contract.cprice}]]</td>
+                                <td>[[${olist.odate}]]</td>
+                                <td>[[${olist.ostate}]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between">
 
-                <div class="card-header">
-                    <h5><b>발주목록</b></h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>선택</th>
-                            <th>품목코드</th>
-                            <th>품목이름</th>
-                            <th>품목분류1</th>
-                            <th>품목분류2</th>
-                            <th>입고수량</th>
-                            <th>품목금액</th>
-                            <th>발주일자</th>
-                            <th>발주상태</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="olist,status:${oList.dtoList}">
-                            <th><input type="radio" name="orderCheck" th:value="${olist.ono}"></th>
-                            <th>[[${olist.contract.product.pcode}]]</th>
-                            <th>[[${olist.contract.product.pname}]]</th>
-                            <th>[[${olist.contract.product.middle.mname}]]</th>
-                            <th>[[${olist.contract.product.middle.top.tname}]]</th>
-                            <th>[[${olist.ocount}]]</th>
-                            <th>[[${olist.contract.cprice}]]</th>
-                            <th>[[${olist.odate}]]</th>
-                            <th>[[${olist.ostate}]]</th>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="my-4">
-                        <button id=stockIn class="btn btn-dark">자재입고</button>
-                    </div>
-                    <div class="float-end">
-                        <ul class="pagination flex-wrap">
-                            <li class="page-item" th:if="${oList.prev}">
-                                <a class="page-link" th:data-num="${oList.start -1}">Previous</a>
-                            </li>
 
-                            <th:block th:each="i:${#numbers.sequence(oList.start, oList.end)}">
-                                <li th:class="${oList.page == i}?'page-item active':'page-item'">
-                                    <a class="page-link" th:data-num="${i}">[[${i}]]</a>
-                                </li>
-                            </th:block>
+                            <div class="ui-button">
+                                <ul class="pagination flex-wrap">
+                                    <li class="page-item" th:if="${oList.prev}">
+                                        <a class="page-link" th:data-num="${oList.start -1}">Previous</a>
+                                    </li>
 
-                            <li class="page-item" th:if="${oList.next}">
-                                <a class="page-link" th:data-num="${inList.end +1}">Next</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>      <!-- * card-body끝 *-->
-            </div>      <!-- * card 끝 *-->
-        </div>      <!-- * col 끝 * -->
+                                    <th:block th:each="i:${#numbers.sequence(oList.start, oList.end)}">
+                                        <li th:class="${oList.page == i}?'page-item active':'page-item'">
+                                            <a class="page-link" th:data-num="${i}">[[${i}]]</a>
+                                        </li>
+                                    </th:block>
+
+                                    <li class="page-item" th:if="${oList.next}">
+                                        <a class="page-link" th:data-num="${inList.end +1}">Next</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="ui-button">
+                                <button id=stockIn class="btn btn-dark d-none">자재입고</button>
+                            </div>
+
+                        </div>      <!-- * card-body끝 *-->
+                    </div>      <!-- * card 끝 *-->
+                </div>      <!-- * col 끝 * -->
+            </div>
+        </div>
     </div>
-
-
 </div>
-<script layout:fragment="script" th:inline="javascript">
+    <script layout:fragment="script" th:inline="javascript">
 
-    $("#stockIn").click(function(){
-        if($('input:radio[name=orderCheck]').is(":checked")){
-            var ono = $('input[name=orderCheck]:checked').val();
-            location.href = '/stock/stockIn?ono='+ono;
-        }
-    })
+        $("#stockIn").click(function () {
+            if ($('input:radio[name=orderCheck]').is(":checked")) {
+                var ono = $('input[name=orderCheck]:checked').val();
+                location.href = '/stock/stockIn?ono=' + ono;
+            }
+        })
 
-    document.querySelector(".pagination").addEventListener("click", function (e){
-        e.preventDefault()
-        e.stopPropagation()
-        const target =e.target
-        if(target.tagName !== 'A'){
-            return
-        }
-        const num=target.getAttribute("data-num")
-        const formObj=document.querySelector("form")
-        formObj.innerHTML+=`<input type='hidden' name='page' value='${num}'>`
-        formObj.submit();
-    }, false)
+        document.querySelector(".pagination").addEventListener("click", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            const target = e.target
+            if (target.tagName !== 'A') {
+                return
+            }
+            const num = target.getAttribute("data-num")
+            const formObj = document.querySelector("form")
+            formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
+            formObj.submit();
+        }, false)
 
-    document.querySelector(".clearBtn").addEventListener("click", function (e){
-        e.preventDefault()
-        e.stopPropagation()
+        document.querySelector(".clearBtn").addEventListener("click", function (e) {
+            e.preventDefault()
+            e.stopPropagation()
 
-        self.location = '/stock/orderList'
-    },false)
-</script>
-<body>
+            self.location = '/stock/orderList'
+        }, false)
+    </script>
+    <body>
 
-</body>
+    </body>
 </html>

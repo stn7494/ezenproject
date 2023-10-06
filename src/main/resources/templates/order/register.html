@@ -7,65 +7,76 @@
     <title>ORDER REGISTER</title>
 </head>
 <div layout:fragment="content">
-    <div class="row mt-3">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">발주 등록</h5>
-                    <form action="/order/register" method="post">
-                        <div>
-                            <button type="button" class="btn btn-secondary" onclick="openSplan()">조달 계획 선택</button>
-                            <hr>
-                        </div>
-                        <input type="hidden" name="spno" id="spno" class="form-control">
-                        <input type="hidden" name="cno" id="cno" class="form-control">
-                        <input type="hidden" name="email" class="form-control" th:value="${#authentication.principal.username}">
-
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">납기 일자</span>
-                            <input type="text" name="spdelidate" id= spdelidate class="form-control" placeholder="조달 계획 선택" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">제품 코드</span>
-                            <input type="text" name="pcode" id="pcode" class="form-control" placeholder="조달 계획 선택" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">제품 이름</span>
-                            <input type="text" name="pname" id="pname" class="form-control" placeholder="조달 계획 선택" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">계획 수량</span>
-                            <input type="text" name="spcount" id="spcount" class="form-control" placeholder="조달 계획 선택" readonly>
-                        </div>
-                        <div>
-                            <button type="button" class="btn btn-secondary" onclick="openContract()">계약 업체 선택</button>
-                            <hr>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">업체 이름</span>
-                            <input type="text" name="ptname" id="ptname" class="form-control" placeholder="계약 업체 선택" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">제품 단가</span>
-                            <input type="text" name="cprice" id="cprice" class="form-control" placeholder="계약 업체 선택" readonly>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">발주 수량</span>
-                            <input type="text" name="ocount" id="ocount" class="form-control" placeholder="발주 수량 입력">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">발주 기타 사항</span>
-                            <textarea class="form-control col-sm-5" rows="5" name="odetail"></textarea>
-                        </div>
-                        <div class="my-4">
-                            <div class="float-end">
-                                <button type="button" class="btn btn-primary submitBtn">발주 등록</button>
-                                <button type="button" class="btn btn-secondary clearBtn">초기화</button>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>발주관리</strong> | 등록</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="/order/register" method="post">
+                            <div>
+                                <button type="button" class="btn btn-primary" onclick="openSplan()">조달 계획 선택</button>
+                                <hr>
                             </div>
-                        </div>
-                    </form>
+                            <input type="hidden" name="spno" id="spno" class="form-control">
+                            <input type="hidden" name="cno" id="cno" class="form-control">
+                            <input type="hidden" name="email" class="form-control"
+                                   th:value="${#authentication.principal.username}">
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">납기 일자</span>
+                                <input type="text" name="spdelidate" id=spdelidate class="form-control"
+                                       placeholder="조달 계획 선택" readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">제품 코드</span>
+                                <input type="text" name="pcode" id="pcode" class="form-control" placeholder="조달 계획 선택"
+                                       readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">제품 이름</span>
+                                <input type="text" name="pname" id="pname" class="form-control" placeholder="조달 계획 선택"
+                                       readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">계획 수량</span>
+                                <input type="text" name="spcount" id="spcount" class="form-control"
+                                       placeholder="조달 계획 선택" readonly>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-primary" onclick="openContract()">계약 업체 선택</button>
+                                <hr>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">업체 이름</span>
+                                <input type="text" name="ptname" id="ptname" class="form-control" placeholder="계약 업체 선택"
+                                       readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">제품 단가</span>
+                                <input type="text" name="cprice" id="cprice" class="form-control" placeholder="계약 업체 선택"
+                                       readonly>
+                            </div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">발주 수량</span>
+                                <input type="text" name="ocount" id="ocount" class="form-control"
+                                       placeholder="발주 수량 입력">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">발주 기타 사항</label>
+                                <textarea class="form-control col-sm-3" rows="5" name="odetail"></textarea>
+                            </div>
+                            <div class="my-4">
+                                <div class="float-end">
+                                    <button type="button" class="btn btn-primary submitBtn">발주 등록</button>
+                                    <button type="button" class="btn btn-dark clearBtn">초기화</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -80,43 +91,42 @@
         var url = "/order/popSplan"
         var name = "조달 계획 선택"
         var option = "width=1200,height=720"
-        window.open(url,name,option)
+        window.open(url, name, option)
     }
 
     function openContract() {
         var temp = document.querySelector("input[name='pcode']").value
-        if($.isEmptyObject(temp)){
+        if ($.isEmptyObject(temp)) {
             alert("조달 계획을 선택해주세요.")
             return
         }
-        var url = "/order/popContract?pcode="+document.querySelector("input[name='pcode']").value
-        var name= "계약 업체 선택"
+        var url = "/order/popContract?pcode=" + document.querySelector("input[name='pcode']").value
+        var name = "계약 업체 선택"
         var option = "width=1200,height=720"
-        window.open(url,name,option)
+        window.open(url, name, option)
     }
 
-    document.querySelector(".clearBtn").addEventListener("click", function (e){
+    document.querySelector(".clearBtn").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
-        self.location="/order/register"
+        self.location = "/order/register"
     }, false)
 
 
-    document.querySelector(".submitBtn").addEventListener("click", function (e){
+    document.querySelector(".submitBtn").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
-        if(document.getElementById("ptname").value=="" || document.getElementById("pcode").value==""){
+        if (document.getElementById("ptname").value == "" || document.getElementById("pcode").value == "") {
             alert("모든 항목을 입력해주세요.")
             return
         }
-        if(Number(document.querySelector("input[name='ocount']").value)==NaN || Number(document.querySelector("input[name='ocount']").value)<1){
+        if (Number(document.querySelector("input[name='ocount']").value) == NaN || Number(document.querySelector("input[name='ocount']").value) < 1) {
             alert("발주 수량은 1 이상 숫자만 입력 가능합니다.")
             return;
         }
-        if(!confirm("입력 내용으로 발주를 신청합니까?")){
+        if (!confirm("입력 내용으로 발주를 신청합니까?")) {
             return
-        }
-        else document.querySelector("form").submit()
+        } else document.querySelector("form").submit()
     }, false)
 
 

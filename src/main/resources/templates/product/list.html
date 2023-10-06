@@ -4,69 +4,72 @@
       layout:decorate="~{layout/basic.html}">
 <head>
     <meta charset="UTF-8">
-    <title>품목 전체조회</title>
+    <title>조달-품목관리</title>
 </head>
 <body>
-<div class="d-flex" id="wrapper">
-    <!-- Page content wrapper-->
-    <div id="page-content-wrapper">
-        <!-- 여기부터 화면 처리!!!!!!!-->
-        <div class="container-fluid" layout:fragment="content">
-            <div class="row mt-3">
-                <div class="col">
-                    <form action="/product/list" method="get">
+<div layout:fragment="content">
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <form action="/product/list" method="get">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>조달관리</strong> | 전체조회</h5>
+                    </div>
+                    <div class="card-body">
                         <div class="col">
                             <input type="hidden" name="size" th:value="${productPageRequestDTO.size}">
                             <div class="input-group"> <!--검색!!-->
                                 <div class="input-group-prepend">
                                     <select class="form-select" name="type">
-                                        <option value="cm" th:selected="${productPageRequestDTO.type == 'cm'}">전체</option>
-                                        <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목코드</option>
-                                        <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목이름</option>
+                                        <option value="cm" th:selected="${productPageRequestDTO.type == 'cm'}">전체 검색
+                                        </option>
+                                        <option value="c" th:selected="${productPageRequestDTO.type == 'c'}">품목 코드
+                                        </option>
+                                        <option value="m" th:selected="${productPageRequestDTO.type == 'm'}">품목 이름
+                                        </option>
                                     </select>
                                 </div>
-                                <input type="text" class="form-control" name="keyword" th:value="${productPageRequestDTO.keyword}">
+                                <input type="text" class="form-control" name="keyword"
+                                       th:value="${productPageRequestDTO.keyword}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary searchBtn" type="submit">검색</button>
-                                    <button class="btn btn-outline-secondary clearBtn" type="button">초기화</button>
+                                    <button class="btn btn-primary searchBtn" type="submit">검색</button>
+                                    <button class="btn btn-dark clearBtn" type="button">초기화</button>
                                 </div>
-                            </div><br/>
-                        </div>
-                    </form>
-                    <div class="card">
-                        <div class="card-header">
-                            <h5>품목 [전체조회]</h5>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">품목번호</th>
-                                    <th scope="col">품목코드</th>
-                                    <th scope="col">품목이름</th>
-                                    <th scope="col">비고</th>
-                                    <th scope="col">품목분류1(대분류)</th>
-                                    <th scope="col">품목분류2(중분류)</th>
-                                    <th scope="col">품목등록날짜</th>
-                                </tr>
-                                </thead>
-                                <tbody th:with="link=${productPageRequestDTO.getLink()}">
-                                <tr th:each="dto:${responseDTO.dtoList}">
-                                    <th scope="row">[[${dto.pno}]]</th>
-                                    <td>
-                                        <a th:href="|@{/product/detail(pno=${dto.pno})}&${link}|">[[${dto.pcode}]]</a>
-                                    </td>
-                                    <td>[[${dto.pname}]]</td>
-                                    <td>[[${dto.pnote}]]</td>
-                                    <td>[[${dto.topDTO.tname}]]</td>
-                                    <td>[[${dto.middleDTO.mname}]]</td>
-                                    <td>[[${#temporals.format(dto.pdate, 'yyyy-MM-dd')}]]</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="my-4">
-                                 <button type="button" class="btn btn-primary" onclick="location.href='register'" >품목등록</button>
                             </div>
+                            <br/>
+                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">품목번호</th>
+                                <th scope="col">품목코드</th>
+                                <th scope="col">품목이름</th>
+                                <th scope="col">비고</th>
+                                <th scope="col">품목분류1(대분류)</th>
+                                <th scope="col">품목분류2(중분류)</th>
+                                <th scope="col">품목등록날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody th:with="link=${productPageRequestDTO.getLink()}">
+                            <tr th:each="dto:${responseDTO.dtoList}">
+                                <th scope="row">[[${dto.pno}]]</th>
+                                <td>
+                                    <a th:href="|@{/product/detail(pno=${dto.pno})}&${link}|">[[${dto.pcode}]]</a>
+                                </td>
+                                <td>[[${dto.pname}]]</td>
+                                <td>[[${dto.pnote}]]</td>
+                                <td>[[${dto.topDTO.tname}]]</td>
+                                <td>[[${dto.middleDTO.mname}]]</td>
+                                <td>[[${#temporals.format(dto.pdate, 'yyyy-MM-dd')}]]</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+
+                        <div class="d-flex justify-content-between">
+
                             <div class="float-end">
                                 <ul class="pagination flex-wrap">
 
@@ -84,12 +87,19 @@
                                     </li>
                                 </ul>
                             </div>
-                        </div><!--end card body-->
-                    </div><!--end card-->
-                </div><!--end col-->
-            </div><!--end row-->
-        </div><!--화면보여주는곳 끝-->
-    </div>
+                            <div class="ui-button">
+                            <button type="button" class="btn btn-primary" onclick="location.href='register'">품목등록
+                                </button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div><!--화면보여주는곳 끝-->
+</div>
 </div>
 </body>
 <script layout:fragment="script" th:inline="javascript">
@@ -100,7 +110,7 @@
 
         const target = e.target
 
-        if(target.tagName !== 'A') {
+        if (target.tagName !== 'A') {
             return
         }
 
@@ -108,20 +118,20 @@
         const formObj = document.querySelector("form")
         formObj.innerHTML += `<input type='hidden' name='page' value='${num}'>`
         formObj.submit();
-    },false)
+    }, false)
 
-    document.querySelector(".clearBtn").addEventListener("click", function (e){
+    document.querySelector(".clearBtn").addEventListener("click", function (e) {
         e.preventDefault()
         e.stopPropagation()
 
         self.location = '/product/list'
-    },false)
+    }, false)
 
     var result = [[${result}]]
     if (result) {
-        if(result=="removed") {
+        if (result == "removed") {
             alert("품목삭제가 완료되었습니다.")
-        }else{
+        } else {
             alert("품목등록이 완료되었습니다.")
         }
     }
