@@ -4,11 +4,13 @@ import ez.en.config.PageRequestDTO;
 import ez.en.config.PageResponseDTO;
 import ez.en.order.domain.Orders;
 import ez.en.order.dto.OrderDTO;
+import ez.en.stock.domain.Stock;
 import ez.en.stock.dto.StockDTO;
 import ez.en.stock.dto.StockInDTO;
 import ez.en.stock.dto.StockOutDTO;
 import ez.en.support.dto.ProductDTO;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface StockService {
@@ -31,6 +33,8 @@ public interface StockService {
     int getSocountAll(int sno); // 출고총량 가져오기
     void sicountAll(int pno,int sicountAll); // 입고총량 입력
     void socountAll(int sno,int socountAll); // 출고총량 입력
+    Integer checkStock(int pno); // 자재목록 체크
+    void addStock(int pno, int cno); // 자재리스트 추가
 
 
 }

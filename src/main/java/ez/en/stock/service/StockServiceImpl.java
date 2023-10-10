@@ -237,5 +237,18 @@ public class StockServiceImpl implements StockService{
 
         stockRepository.socountAll(sno,socountAll);
     }
+    @Override
+    public Integer checkStock(int pno){
 
+        Integer sno = stockRepository.checkStock(pno);
+        return sno;
+    }
+    @Override
+    public void addStock(int pno, int cno){
+        Stock stock = Stock.builder()
+                .product(Product.builder().pno(pno).build())
+                .contract(Contract.builder().cno(cno).build())
+                .build();
+        stockRepository.save(stock);
+    }
 }

@@ -32,4 +32,7 @@ public interface StockRepository extends JpaRepository<Stock, Integer>, StockSea
 
     @Query(value = "select s from Stock s where s.sno = :sno")
     List<Stock> stockDetail(int sno);
+
+    @Query(value = "select s.sno from Stock s where s.product.pno = :pno")
+    Integer checkStock(int pno);
 }

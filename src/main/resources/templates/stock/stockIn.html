@@ -27,6 +27,7 @@
                     <input type="hidden" id="ono" name="ono" th:value="${dto.ono}">
                     <input type="hidden" id="email" name="email" value="admin">
                     <input type="hidden" id="pno" name="pno" th:value="${dto.contract.product.pno}">
+                    <input type="hidden" id="cno" name="cno" th:value="${dto.contract.cno}">
                     <div class="input-group mb-3">
                         <span class="input-group-text">품목코드</span>
                         <input type="text" class="form-control" name="pcode" th:value="${dto.contract.product.pcode}" readonly>
@@ -78,6 +79,7 @@
                 ono : $('#ono').val(),
                 email : $('#email').val(),
                 pno : $('#pno').val(),
+                cno : $('#cno').val(),
                 sicount : $('#ocount').val()
                 },
             success : function() {
