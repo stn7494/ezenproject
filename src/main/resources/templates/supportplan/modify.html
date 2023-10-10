@@ -21,14 +21,14 @@
 </head>
 <div layout:fragment="content">
     <div class="container-fluid">
-        <div class="row-mt-4" th:with="dto = ${dto}, link = ${pageRequestDTO.getLink()}">
+        <div class="row mt-4" th:with="dto = ${dto}, link = ${pageRequestDTO.getLink()}">
             <div class="col">
                 <form method="post" id="modify" action="/supportplan/modify">
                     <input type="hidden" id="link" name="link" th:value="${link}">
                     <input type="hidden" id="spno" name="spno" th:value="${dto.spno}">
                     <div class="card" style="margin-bottom: 5%">
                         <div class="card-header">
-                            <h5>조달계획 수정하기</h5>
+                            <h5><strong>조달계획</strong> | 수정</h5>
                         </div>
                         <div class="card-body">
                             <div class="input-group mb-3">

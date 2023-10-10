@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>조달-품목관리</title>
     <style>
-        span{
+        label {
             width: 150px;
             display: inline-block;
             text-align: center;
@@ -16,77 +16,91 @@
     </style>
 </head>
 <div layout:fragment="content">
-    <div class="row-mt-4">
-        <div class="col">
-            <div class="card">
-                <div class="card-header">
-                    <h5>품목 [수정]</h5>
-                </div>
-                <div class="card-body">
-                    <form th:action="@{/product/modify.html}" method="post" id="f1", enctype="multipart/form-data">
-                        <input type="hidden" name="filepath"  id="filepath" th:value="${dto.filepath}">
-                        <input type="hidden" name="filename"  id="filename" th:value="${dto.filename}">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목순번</span>
-                            <input type="text" class="form-control" th:value="${dto.pno}" name="pno" readonly style="background-color: silver">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목코드</span>
-                            <input type="text" class="form-control" th:value="${dto.pcode}" name="pcode" readonly style="background-color: silver">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목이름</span>
-                            <input type="text" class="form-control" th:value="${dto.pname}" name="pname">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" style="width: 10%">품목분류1(대분류)</span>
-                            <input type="text" class="form-control" th:value="${dto.topDTO.tname}" name="tname" readonly style="background-color: silver">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목분류2(중분류)</span>
-                            <input type="text" class="form-control" th:value="${dto.middleDTO.mname}" name="mname" readonly style="background-color: silver">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목설명</span>
-                            <textarea class="form-control col-sm-5" rows="5" name="pcontent">[[${dto.pcontent}]]</textarea>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목비고</span>
-                            <textarea class="form-control col-sm-5" rows="3" name="pnote">[[${dto.pnote}]]</textarea>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목사진</span>
-                            <img th:src="${dto.filepath}" width="200px;" height="200px;" style="margin: auto;">
-                            <span class="input-group-text">품목사진 수정하기</span>
-                            <pre>변경할 사진을 선택해주세요.
-                            <input type="file" name="file">
-                            </pre>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목등록날짜</span>
-                            <input type="text" class="form-control" th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" name="pdate" readonly style="background-color: silver">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">품목수정날짜</span>
-                            <input type="text" class="form-control" th:value="${#temporals.format(dto.pmoddate, 'yyyy-MM-dd HH:mm:ss')}" name="pmoddate" readonly style="background-color: silver">
-                        </div>
-
-                        <div class="my-4">
-                            <div class="float-end">
-                                    <button type="button" class="btn btn-secondary listBtn">목록</button>
-                                    <button type="button" class="btn btn-primary modBtn">품목수정완료</button>
-                                    <button type="button" class="btn btn-danger removeBtn">품목삭제</button>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5><strong>조달관리</strong> | 품목수정</h5>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/product/modify.html}" method="post" id="f1" , enctype="multipart/form-data">
+                            <input type="hidden" name="filepath" id="filepath" th:value="${dto.filepath}">
+                            <input type="hidden" name="filename" id="filename" th:value="${dto.filename}">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목순번</label>
+                                <input type="text" class="form-control" th:value="${dto.pno}" name="pno" readonly
+                                       style="background-color: silver">
                             </div>
-                        </div>
-                    </form>
-                </div>      <!-- * card-body 끝 *-->
-            </div>      <!-- * card 끝 *-->
-        </div>      <!-- * col 끝 * -->
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목코드</label>
+                                <input type="text" class="form-control" th:value="${dto.pcode}" name="pcode" readonly
+                                       style="background-color: silver">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목이름</label>
+                                <input type="text" class="form-control" th:value="${dto.pname}" name="pname">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목 대분류</label>
+                                <input type="text" class="form-control" th:value="${dto.topDTO.tname}" name="tname"
+                                       readonly style="background-color: silver">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목 중분류</label>
+                                <input type="text" class="form-control" th:value="${dto.middleDTO.mname}" name="mname"
+                                       readonly style="background-color: silver">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목설명</label>
+                                <textarea class="form-control col-sm-5" rows="5"
+                                          name="pcontent">[[${dto.pcontent}]]</textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목비고</label>
+                                <textarea class="form-control col-sm-5" rows="3"
+                                          name="pnote">[[${dto.pnote}]]</textarea>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목사진</label>
+                                <img th:src="${dto.filepath}" width="200px;" height="200px;">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목사진 수정하기</label>
+
+                            <input class="form-control" type="file" name="file">
+
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목등록날짜</label>
+                                <input type="text" class="form-control"
+                                       th:value="${#temporals.format(dto.pdate, 'yyyy-MM-dd HH:mm:ss')}" name="pdate"
+                                       readonly style="background-color: silver">
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text">품목수정날짜</label>
+                                <input type="text" class="form-control"
+                                       th:value="${#temporals.format(dto.pmoddate, 'yyyy-MM-dd HH:mm:ss')}"
+                                       name="pmoddate" readonly style="background-color: silver">
+                            </div>
+
+                            <div class="my-4">
+                                <div class="float-end">
+                                    <button type="button" class="btn btn-primary listBtn">목록</button>
+                                    <button type="button" class="btn btn-dark modBtn">품목수정완료</button>
+                                    <button type="button" class="btn btn-dark removeBtn">품목삭제</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>      <!-- * card-body 끝 *-->
+                </div>      <!-- * card 끝 *-->
+            </div>      <!-- * col 끝 * -->
+        </div>
     </div>
 </div>
 <script layout:fragment="script" th:inline="javascript">
 
-    $(document).ready(function (){
+    $(document).ready(function () {
 
     });
 
@@ -98,7 +112,7 @@
         e.stopPropagation()
 
         /*get방식으로 보낸다.*/
-        location.href=`/product/list?${link}`
+        location.href = `/product/list?${link}`
     }, false)
 
     document.querySelector(".modBtn").addEventListener("click", function (e) {
@@ -120,7 +134,6 @@
         formObj.method = 'post'
         formObj.submit()
     }, false)
-
 
 
 </script>

@@ -40,6 +40,18 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
                 //STOCK
                 .antMatchers("/stock/**").hasRole("STOCK")
 
+                //CHART
+                .antMatchers("/chart/**").hasAnyRole("STOCK","ORDER","SUPPORT","ADMIN")
+
+                //CONTRACT
+                .antMatchers("/contract/**").hasRole("SUPPORT")
+
+                //SUPPORTPLAN
+                .antMatchers("/supportplan/**").hasRole("SUPPORT")
+
+                //PRODUCT
+                .antMatchers("/product/**").hasRole("SUPPORT")
+
                 //ORDER
                 .antMatchers("/order/**").hasRole("ORDER")
 
@@ -56,6 +68,8 @@ public class CustomSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.logout()
                 .logoutSuccessUrl("/");
+
+
 
     }
 
