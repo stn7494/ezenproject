@@ -77,7 +77,10 @@ public class StockController {
 
     @PostMapping("/stock/stockIn")
     @ResponseBody
-    public void stockIn(int ono, String email, int pno, int sicount){
+    public void stockIn(int ono, String email, int pno, int cno, int sicount){
+        if(stockService.checkStock(pno)==null){
+            stockService.addStock(pno, cno);
+        }
         String sidate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd")); // 날짜 포맷
         stockService.insertIn(ono, email,sidate,pno,sicount); // 입고완료시 입고테이블에 데이터추가
         stockService.updateOstate(ono); // 발주상태 입고완료로 변경
