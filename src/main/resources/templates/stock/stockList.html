@@ -42,7 +42,6 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>번호</th>
                                 <th>품목코드</th>
                                 <th>품목이름</th>
@@ -58,7 +57,6 @@
                             <tbody>
                             <tr th:each="sList,status:${responseDTO.dtoList}">
                                 <td><input type="radio" name="stockCheck" th:value="${sList.sno}"></td>
-                                <td>[[${status.index+1}]]</td>
                                 <td>[[${sList.product.pcode}]]</td>
                                 <td>[[${sList.product.pname}]]</td>
                                 <td>[[${sList.product.middle.top.tname}]]</td>

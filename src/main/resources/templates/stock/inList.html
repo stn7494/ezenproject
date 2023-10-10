@@ -52,7 +52,7 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th>번호</th>
                                 <th>품목코드</th>
                                 <th>품목이름</th>
                                 <th>품목분류1</th>
@@ -64,7 +64,8 @@
                             </thead>
                             <tbody>
                             <tr th:each="inlist,status:${inList.dtoList}">
-                                <td><input type="radio" name="orderCheck" th:value="${inlist.sino}"></td>
+<!--                                <td><input type="radio" name="orderCheck" th:value="${inlist.sino}"></td>-->
+                                <td>[[${status.index+1}]]</td>
                                 <td>[[${inlist.order.contract.product.pcode}]]</td>
                                 <td>[[${inlist.order.contract.product.pname}]]</td>
                                 <td>[[${inlist.order.contract.product.middle.mname}]]</td>
